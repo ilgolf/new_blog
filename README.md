@@ -3,7 +3,7 @@
 
 ## ERD
 
-![blog_advanced](https://user-images.githubusercontent.com/77387861/163565003-478c7164-518e-4f53-a5b5-5f648b378caa.png)
+![blog_advanced](https://user-images.githubusercontent.com/77387861/163565275-1fd81c8b-372e-47aa-ae50-e64a048665b6.png)
 
 ## Wiki
 
