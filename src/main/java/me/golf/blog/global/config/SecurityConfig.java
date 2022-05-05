@@ -5,6 +5,7 @@ import me.golf.blog.global.jwt.JwtAccessDeniedHandler;
 import me.golf.blog.global.jwt.JwtAuthenticationEntryPoint;
 import me.golf.blog.global.jwt.TokenProvider;
 import me.golf.blog.global.jwt.util.JwtSecurityConfig;
+import me.golf.blog.global.security.CustomAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String PUBLIC = "/api/public/**";
+    private static final String PUBLIC = "/api/v1/public/**";
 
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
+                .authenticationProvider(customAuthenticationProvider())
                 .authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
                 .anyRequest().authenticated();
@@ -57,5 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(new JwtSecurityConfig(tokenProvider));
 
         http.formLogin().disable();
+    }
+
+    @Bean
+    public CustomAuthenticationProvider customAuthenticationProvider() {
+        return new CustomAuthenticationProvider();
     }
 }
