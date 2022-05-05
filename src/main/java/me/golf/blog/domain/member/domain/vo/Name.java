@@ -15,6 +15,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Name {
     @Column(nullable = false, length = 13)
+    @NotBlank(message = "필수 값입니다.")
     private String name;
 
     public static Name from(final String name) {

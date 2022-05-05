@@ -17,7 +17,6 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Password {
-
     @NotBlank(message = "필수 값입니다.")
     @Column(unique = true, nullable = false, length = 120)
     private String password;
