@@ -13,10 +13,10 @@ import me.golf.blog.global.jwt.vo.RefreshToken;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TokenDTO {
 
-    @JsonProperty("refreshToken")
+    @JsonProperty("access_token")
     private AccessToken accessToken;
 
-    @JsonProperty("accessToken")
+    @JsonProperty("refresh_token")
     private RefreshToken refreshToken;
 
     public static TokenDTO of(final AccessToken accessToken, final RefreshToken refreshToken) {
