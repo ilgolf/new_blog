@@ -24,10 +24,9 @@ class MemberTest {
                 .password(Password.from("aaaa1234"))
                 .build();
 
-        Member member = toEntity();
 
         // when
-        member.update(updateMember);
+        Member member = toEntity().update(updateMember);
 
         // then
         assertAll(() -> {
