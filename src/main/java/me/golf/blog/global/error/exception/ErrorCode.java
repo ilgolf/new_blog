@@ -14,7 +14,11 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE(400, "C006", "잘못된 타입 입니다."),
 
     // Member
-    PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 없습니다.");
+    PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 없습니다."),
+    USER_NOT_FOUND(400, "M002", "없는 회원 입니다."),
+
+    // JWT
+    TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다.");
 
     private final int status;
     private final String code;

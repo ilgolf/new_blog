@@ -15,6 +15,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Nickname {
     @Column(name = "nickname", nullable = false, unique = true)
+    @NotBlank(message = "필수 값입니다.")
     private String nickname;
 
     @JsonValue

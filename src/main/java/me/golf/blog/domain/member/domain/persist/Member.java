@@ -1,29 +1,33 @@
 package me.golf.blog.domain.member.domain.persist;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.global.common.BaseTimeEntity;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@DynamicUpdate
+@Table(indexes = @Index(name = "i_email", columnList = "email"))
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id", nullable = false)
+    @Column(name = "member_id", nullable = false, updatable = false)
     private Long id;
 
     @Embedded
@@ -49,16 +53,6 @@ public class Member extends BaseTimeEntity {
     @OrderBy("title.title")
     private final List<Board> boards = new ArrayList<>();
 
-    @Builder
-    private Member(Email email, Password password, Name name, Nickname nickname, LocalDate birth, RoleType role) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.nickname = nickname;
-        this.birth = birth;
-        this.role = role;
-    }
-
     // == 연관관계 로직 == //
     public void addBoard(final Board board) {
         boards.add(board);
@@ -71,9 +65,23 @@ public class Member extends BaseTimeEntity {
         return this;
     }
 
-    public void update(final Member member) {
+    public Member update(final Member member) {
         this.email = member.getEmail();
-        this.password = member.getPassword();
         this.nickname = member.getNickname();
+        this.name = member.getName();
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
