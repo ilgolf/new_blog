@@ -2,6 +2,7 @@ package me.golf.blog.domain.member.domain.persist;
 
 import me.golf.blog.domain.member.domain.util.TestPasswordEncoder;
 import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import org.junit.jupiter.api.DisplayName;
@@ -20,10 +21,9 @@ class MemberTest {
         // given
         Member updateMember = Member.builder()
                 .email(Email.from("member@naver.com"))
-                .nickname(Nickname.from("ssar"))
-                .password(Password.from("aaaa1234"))
+                .nickname(Nickname.from("티오더"))
+                .name(Name.from("김티오"))
                 .build();
-
 
         // when
         Member member = toEntity().update(updateMember);
@@ -31,7 +31,7 @@ class MemberTest {
         // then
         assertAll(() -> {
             assertEquals(member.getEmail(), updateMember.getEmail());
-            assertEquals(member.getPassword(), updateMember.getPassword());
+            assertEquals(member.getName(), updateMember.getName());
             assertEquals(member.getNickname(), updateMember.getNickname());
         });
     }
