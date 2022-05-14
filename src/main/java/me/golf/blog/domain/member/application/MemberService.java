@@ -7,20 +7,27 @@ import me.golf.blog.domain.member.dto.JoinResponse;
 import me.golf.blog.domain.member.dto.MemberResponse;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.error.exception.ErrorCode;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-
     private final MemberRepository memberRepository;
+    private final PasswordEncoder encoder;
 
     // create
     public JoinResponse create(final Member member) {
-        return JoinResponse.of(memberRepository.save(member));
+        return JoinResponse.of(memberRepository.save(member.encode(encoder)));
     }
 
     // find
+    @Cacheable(key = "#id", value = "findOne")
     public MemberResponse findOne(final Long id) {
         return memberRepository.findById(id)
                 .map(MemberResponse::of)

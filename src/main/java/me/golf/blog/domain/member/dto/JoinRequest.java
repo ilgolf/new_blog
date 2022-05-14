@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import me.golf.blog.domain.member.domain.persist.Member;
-import me.golf.blog.domain.member.domain.persist.RoleType;
+import me.golf.blog.domain.member.domain.vo.RoleType;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Getter
@@ -18,12 +19,15 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JoinRequest {
     @JsonProperty("email")
+    @NotBlank
     private Email email;
 
     @JsonProperty("password")
+    @NotBlank
     private Password password;
 
     @JsonProperty("name")
+    @NotBlank(message = "name 필수")
     private Name name;
 
     @JsonProperty("nickname")
