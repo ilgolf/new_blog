@@ -27,9 +27,9 @@ public class MemberService {
     }
 
     // find
-    @Cacheable(key = "#id", value = "findOne")
-    public MemberResponse findOne(final Long id) {
-        return memberRepository.findById(id)
+    @Cacheable(key = "#memberId", value = "findOne")
+    public MemberResponse findOne(final Long memberId) {
+        return memberRepository.findById(memberId)
                 .map(MemberResponse::of)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
