@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.golf.blog.domain.board.domain.vo.BoardImage;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 
@@ -15,12 +16,13 @@ import java.time.LocalDateTime;
 public class BoardResponse {
     private Title title;
     private Content content;
-    private LocalDateTime createdAt;
+    private BoardImage boardImage;
+    private LocalDateTime lastModifiedAt;
     private Long createdBy;
     private int view;
 
     public static BoardResponse of(final BoardDTO board, int view) {
-        return new BoardResponse(board.getTitle(), board.getContent(),
-                board.getCreatedAt(), board.getCreatedBy(), view);
+        return new BoardResponse(board.getTitle(), board.getContent(), board.getBoardImage(),
+                board.getLastModifiedAt(), board.getCreatedBy(), view);
     }
 }

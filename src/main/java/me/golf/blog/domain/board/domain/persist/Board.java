@@ -1,7 +1,5 @@
 package me.golf.blog.domain.board.domain.persist;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import me.golf.blog.domain.board.domain.vo.BoardImage;
 import me.golf.blog.domain.board.domain.vo.Content;
