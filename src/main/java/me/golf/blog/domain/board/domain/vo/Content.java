@@ -18,7 +18,7 @@ public final class Content {
 
     @NotBlank(message = "필수 값입니다.")
     @Length(min = 20, max = 500)
-    @Column(unique = true, length = 500)
+    @Column(length = 500)
     private String content;
 
     public static Content from(final String content) {
