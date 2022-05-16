@@ -18,7 +18,11 @@ public enum ErrorCode {
     USER_NOT_FOUND(400, "M002", "없는 회원 입니다."),
 
     // JWT
-    TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다.");
+    TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다."),
+
+    // Board
+    BOARD_NOT_FOUND(400, "B001", "해당 게시판을 찾을 수 없습니다."),
+    BOARD_MISS_MATCH(400, "B002", "해당 회원의 게시판이 아닙니다");
 
     private final int status;
     private final String code;
