@@ -19,15 +19,12 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JoinRequest {
     @JsonProperty("email")
-    @NotBlank
     private Email email;
 
     @JsonProperty("password")
-    @NotBlank
     private Password password;
 
     @JsonProperty("name")
-    @NotBlank(message = "name 필수")
     private Name name;
 
     @JsonProperty("nickname")
