@@ -1,8 +1,13 @@
 package me.golf.blog.global.common;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
@@ -19,7 +24,7 @@ public class BaseTimeEntity {
     @Column(name = "create_time", updatable = false)
     private LocalDateTime createTime;
 
-    @LastModifiedBy
-    @Column(name = "deleted_time")
-    private LocalDateTime deletedTime;
+    @LastModifiedDate
+    @Column(name = "last_modified_time")
+    private LocalDateTime lastModifiedTime;
 }
