@@ -20,19 +20,14 @@ public class Like {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
-    private Like(Member member, Board board) {
-        this.member = member;
+    private Like(Board board) {
         this.board = board;
     }
 
-    public static Like createLike(final Member member, final Board board) {
-        return new Like(member, board);
+    public static Like createLike(final Board board) {
+        return new Like(board);
     }
 }
