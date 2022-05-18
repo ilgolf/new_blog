@@ -1,7 +1,7 @@
 package me.golf.blog.domain.member;
 
 import me.golf.blog.domain.member.domain.persist.Member;
-import me.golf.blog.domain.member.domain.persist.RoleType;
+import me.golf.blog.domain.member.domain.vo.RoleType;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;

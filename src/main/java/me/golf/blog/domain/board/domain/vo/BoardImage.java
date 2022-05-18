@@ -4,42 +4,40 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public final class Content {
-
-    @NotBlank(message = "필수 값입니다.")
-    @Length(min = 20, max = 500)
-    @Column(length = 500)
-    private String content;
-
-    public static Content from(final String content) {
-        return new Content(content);
-    }
+public class BoardImage {
+    @NotBlank(message = "필수 값입니다. - boardImage")
+    @Column(name = "board_image")
+    private String boardImage;
 
     @JsonValue
-    public String content() {
-        return this.content;
+    public String boardImage() {
+        return boardImage;
+    }
+
+    public static BoardImage from(final String boardImage) {
+        return new BoardImage(boardImage);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Content content = (Content) o;
-        return Objects.equals(content(), content.content());
+        BoardImage boardImage = (BoardImage) o;
+        return Objects.equals(boardImage(), boardImage.boardImage());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(content());
+        return Objects.hash(boardImage());
     }
 }

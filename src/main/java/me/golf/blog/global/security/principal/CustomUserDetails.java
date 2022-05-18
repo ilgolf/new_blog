@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import me.golf.blog.domain.member.domain.persist.Member;
-import me.golf.blog.domain.member.domain.persist.RoleType;
+import me.golf.blog.domain.member.domain.vo.RoleType;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Password;
 import org.springframework.security.core.GrantedAuthority;

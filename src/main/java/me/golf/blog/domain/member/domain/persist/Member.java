@@ -2,12 +2,8 @@ package me.golf.blog.domain.member.domain.persist;
 
 import lombok.*;
 import me.golf.blog.domain.board.domain.persist.Board;
-import me.golf.blog.domain.member.domain.vo.Email;
-import me.golf.blog.domain.member.domain.vo.Name;
-import me.golf.blog.domain.member.domain.vo.Nickname;
-import me.golf.blog.domain.member.domain.vo.Password;
+import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.global.common.BaseTimeEntity;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -56,7 +52,6 @@ public class Member extends BaseTimeEntity {
     // == 연관관계 로직 == //
     public void addBoard(final Board board) {
         boards.add(board);
-        board.addMember(this);
     }
 
     // == 비즈니스 로직 == //
