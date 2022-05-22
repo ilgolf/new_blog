@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
+import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 
 import java.time.LocalDateTime;
@@ -17,10 +18,10 @@ import java.time.LocalDateTime;
 public class BoardAllResponse {
     private Title title;
     private Content content;
-    private Nickname nickname;
+    private Email createdBy;
     private LocalDateTime createdAt;
 
     public static BoardAllResponse of(final Board board) {
-        return new BoardAllResponse(board.getTitle(), board.getContent(), board.getMember().getNickname(), board.getCreateTime());
+        return new BoardAllResponse(board.getTitle(), board.getContent(), Email.from(board.getCreatedBy()), board.getCreateTime());
     }
 }
