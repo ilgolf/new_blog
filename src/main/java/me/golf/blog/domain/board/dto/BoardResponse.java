@@ -18,7 +18,7 @@ public class BoardResponse {
     private Content content;
     private BoardImage boardImage;
     private LocalDateTime lastModifiedAt;
-    private Long createdBy;
+    private String createdBy;
     private int view;
 
     public static BoardResponse of(final BoardDTO board, int view) {

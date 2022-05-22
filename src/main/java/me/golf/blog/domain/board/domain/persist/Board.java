@@ -40,9 +40,20 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public void addMember(final Member member) {
+    private Board(final Title title, final Content content, final Member member) {
+        this.title = title;
+        this.content = content;
+        addMember(member);
+    }
+
+    public Board addMember(final Member member) {
         this.member = member;
         member.addBoard(this);
+        return this;
+    }
+
+    public static Board of(final Title title, final Content content, final Member member) {
+        return new Board(title, content, member);
     }
 
     public void updateBoard(final Board board) {

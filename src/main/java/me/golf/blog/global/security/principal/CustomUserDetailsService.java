@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
+    public static final MemberNotFoundException NOT_FOUND_EXCEPTION =
+            new MemberNotFoundException(ErrorCode.USER_NOT_FOUND);
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         return memberRepository.findById(Long.valueOf(id))
                 .map(CustomUserDetails::of)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> NOT_FOUND_EXCEPTION);
     }
 }

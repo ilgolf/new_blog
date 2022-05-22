@@ -48,12 +48,6 @@ public class BoardService {
                 .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 
-    @Transactional(readOnly = true)
-    public List<BoardAllResponse> findAll(final Pageable pageable) {
-        return boardRepository.findAll(pageable).getContent().stream()
-                .map(BoardAllResponse::of).collect(Collectors.toList());
-    }
-
     public void update(final Board updateBoard, final Long boardId, final Long memberId) {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
@@ -73,13 +67,6 @@ public class BoardService {
         }
 
         boardRepository.delete(board);
-    }
-
-    @Transactional(readOnly = true)
-    public List<BoardAllResponse> search(final String keyword, final Pageable pageable) {
-        return boardRepository.findByTitleContaining(keyword, pageable).stream()
-                .map(BoardAllResponse::of)
-                .collect(Collectors.toList());
     }
 
     private Member getMember(Long memberId) {

@@ -3,6 +3,7 @@ package me.golf.blog.domain.board.api;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
+import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardCreateRequest;
 import me.golf.blog.domain.board.dto.BoardResponse;
@@ -26,7 +27,7 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardReadService boardReadService;
 
-    @PostMapping
+    @PostMapping("/boards")
     public ResponseEntity<Long> create(@Valid @RequestBody BoardCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(boardService.create(request.toEntity(), getPrincipal().getId()));
     }
@@ -38,20 +39,14 @@ public class BoardController {
 
     @GetMapping("/public/boards")
     public ResponseEntity<List<BoardAllResponse>> findAll(
+            @ModelAttribute SearchKeywordRequest keyword,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(boardService.findAll(pageable));
-    }
-
-    @GetMapping("/public/boards/{keyword}")
-    public ResponseEntity<List<BoardAllResponse>> search(
-            @PathVariable final String keyword,
-            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(boardService.search(keyword, pageable));
+        return ResponseEntity.ok(boardReadService.findAll(keyword, pageable));
     }
 
     @PatchMapping("/boards/{boardId}")
-    public ResponseEntity<Void> update(@Valid @RequestBody BoardUpdateRequest request
-            , @PathVariable Long boardId) {
+    public ResponseEntity<Void> update(@Valid @RequestBody BoardUpdateRequest request,
+                                       @PathVariable Long boardId) {
         boardService.update(request.toEntity(), boardId, getPrincipal().getId());
         return ResponseEntity.ok().build();
     }

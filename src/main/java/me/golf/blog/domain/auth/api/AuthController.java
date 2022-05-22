@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Arrays;
 
@@ -39,17 +40,13 @@ public class AuthController {
     }
 
     @DeleteMapping("/auth/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+        Cookie myCookie = new Cookie("refreshToken", null);
+        myCookie.setMaxAge(0);
+        myCookie.setPath("/");
+        response.addCookie(myCookie);
 
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                cookie.setMaxAge(0);
-            }
-        }
-
-        String newCookie = cookies == null ? "" : Arrays.toString(cookies);
-        return ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, newCookie).build();
+        return ResponseEntity.noContent().build();
     }
 
     private ResponseCookie getCookie(RefreshToken refreshToken) {

@@ -38,6 +38,12 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-jpa'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jpa"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -48,6 +54,12 @@ tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
 }
+
+// clean task 실행시 QClass 삭제
+clean {
+    delete file('src/main/generated') // 인텔리제이 Annotation processor 생성물 생성 위치
+}
+
 
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
