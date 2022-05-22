@@ -19,7 +19,7 @@ public class BoardDTO {
     private Content content;
     private BoardImage boardImage;
     private LocalDateTime lastModifiedAt;
-    private Long createdBy;
+    private String createdBy;
     private Long boardCountId;
 
     public static BoardDTO of(final Board board) {
