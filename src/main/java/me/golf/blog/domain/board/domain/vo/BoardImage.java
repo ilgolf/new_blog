@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class BoardImage {
+public final class BoardImage {
     @NotBlank(message = "필수 값입니다. - boardImage")
     @Column(name = "board_image")
     private String boardImage;
