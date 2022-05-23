@@ -2,7 +2,9 @@ package me.golf.blog.domain.member.domain.persist;
 
 import lombok.*;
 import me.golf.blog.domain.board.domain.persist.Board;
+import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
 import me.golf.blog.domain.member.domain.vo.*;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.BaseTimeEntity;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,9 +51,16 @@ public class Member extends BaseTimeEntity {
     @OrderBy("title.title")
     private final List<Board> boards = new ArrayList<>();
 
+    @OneToOne(mappedBy = "member", fetch = FetchType.EAGER)
+    private MemberCount memberCount;
+
     // == 연관관계 로직 == //
     public void addBoard(final Board board) {
         boards.add(board);
+    }
+
+    public void addMemberCount(final MemberCount memberCount) {
+        this.memberCount = memberCount;
     }
 
     // == 비즈니스 로직 == //
