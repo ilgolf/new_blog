@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 *.yaml
 *.yml
+/src/main/generated
 
 ### STS ###
 .apt_generated
@@ -27,7 +28,6 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-/src/main/generated
 
 ### NetBeans ###
 /nbproject/private/
