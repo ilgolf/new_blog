@@ -11,7 +11,7 @@
 
 ## ERD
 
-![blog_advanced](https://user-images.githubusercontent.com/77387861/163565275-1fd81c8b-372e-47aa-ae50-e64a048665b6.png)
+![new_blog](https://user-images.githubusercontent.com/77387861/169769213-ba541ef3-7b79-4bbd-b44a-0732b19716ee.png)
 
 ## Wiki
 
