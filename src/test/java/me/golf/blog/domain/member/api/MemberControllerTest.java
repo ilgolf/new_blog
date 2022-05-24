@@ -2,14 +2,13 @@ package me.golf.blog.domain.member.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.member.WithAuthUser;
+import me.golf.blog.domain.member.application.MemberReadService;
 import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
-import me.golf.blog.domain.member.dto.JoinRequest;
-import me.golf.blog.domain.member.dto.JoinResponse;
-import me.golf.blog.domain.member.dto.MemberResponse;
-import me.golf.blog.domain.member.dto.MemberUpdateRequest;
+import me.golf.blog.domain.member.dto.*;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 @SpringBootTest
 class MemberControllerTest {
-    @Autowired
-    MockMvc mockMvc;
-
-    @MockBean
-    MemberService memberService;
-
-    @Autowired
-    ObjectMapper objectMapper;
+    @Autowired MockMvc mockMvc;
+    @MockBean MemberService memberService;
+    @Autowired ObjectMapper objectMapper;
+    @MockBean MemberReadService memberReadService;
 
     @Test
     @DisplayName("요청을 받아 정상적으로 생성 컨트롤러가 동작한다.")
@@ -70,6 +65,7 @@ class MemberControllerTest {
                                 fieldWithPath("birth").description("생년월일")
                         ),
                         responseFields(
+                                fieldWithPath("memberId").description("회원 고유 식별자"),
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름")
                         )))
@@ -80,7 +76,8 @@ class MemberControllerTest {
     @DisplayName("요청을 받아 정상적으로 조회 컨트롤러가 동작한다.")
     @WithAuthUser
     void findMemberTest() throws Exception {
-        when(memberService.findOne(any())).thenReturn(MemberResponse.of(toEntity()));
+        MemberDTO memberDTO = MemberDTO.of(toEntityWithCount());
+        when(memberReadService.findById(any())).thenReturn(MemberResponse.of(memberDTO, MemberCount.builder().build()));
 
         mockMvc.perform(get("/api/v1/members/id").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -89,7 +86,10 @@ class MemberControllerTest {
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
                                 fieldWithPath("nickname").description("닉네임"),
-                                fieldWithPath("age").description("나이")
+                                fieldWithPath("age").description("나이"),
+                                fieldWithPath("followerCount").description("팔로워 수"),
+                                fieldWithPath("followingCount").description("팔로잉 수"),
+                                fieldWithPath("boardCount").description("게시물 수")
                         )))
                 .andDo(print());
     }

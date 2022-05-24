@@ -2,6 +2,7 @@ package me.golf.blog.domain.member.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.golf.blog.domain.member.application.MemberReadService;
 import me.golf.blog.domain.member.dto.MemberUpdateRequest;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import me.golf.blog.domain.member.application.MemberService;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberReadService memberReadService;
 
     // create
     @PostMapping("/public/members")
@@ -32,7 +34,7 @@ public class MemberController {
     // read
     @GetMapping("/members/id")
     public ResponseEntity<MemberResponse> findMember() {
-        return ResponseEntity.ok().body(memberService.findOne(getPrincipal().getId()));
+        return ResponseEntity.ok().body(memberReadService.findById(getPrincipal().getId()));
     }
 
     // update

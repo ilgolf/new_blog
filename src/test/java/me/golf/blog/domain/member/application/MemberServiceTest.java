@@ -26,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MemberServiceTest {
 
-    @Autowired
-    MemberService memberService;
+    @Autowired MemberService memberService;
+    @Autowired MemberReadService memberReadService;
 
     @BeforeEach
     void setUp() {
@@ -39,7 +39,7 @@ class MemberServiceTest {
     @DisplayName("회원정보를 조회해온다.")
     void findOne() {
         // when
-        MemberResponse member = memberService.findOne(2L);
+        MemberResponse member = memberReadService.findById(2L);
 
         // then
         assertThat(member.getEmail()).isEqualTo(GIVEN_EMAIL);
@@ -54,7 +54,7 @@ class MemberServiceTest {
 
         // when
         memberService.update(updateRequest.toEntity(), 3L);
-        MemberResponse member = memberService.findOne(3L);
+        MemberResponse member = memberReadService.findById(3L);
 
         // then
         assertThat(member.getEmail()).isEqualTo(Email.from("ilgolf@naver.com"));
@@ -69,6 +69,6 @@ class MemberServiceTest {
         memberService.delete(1L);
 
         // then
-        assertThrows(MemberNotFoundException.class, () -> memberService.findOne(1L));
+        assertThrows(MemberNotFoundException.class, () -> memberReadService.findById(1L));
     }
 }

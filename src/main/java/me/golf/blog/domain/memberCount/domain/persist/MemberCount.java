@@ -1,15 +1,13 @@
 package me.golf.blog.domain.memberCount.domain.persist;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.global.common.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
 @Entity
 @Table(name = "member_count")
 @Builder
