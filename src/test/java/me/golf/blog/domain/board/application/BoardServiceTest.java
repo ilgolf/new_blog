@@ -10,9 +10,14 @@ import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.dto.BoardUpdateRequest;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.member.WithAuthUser;
+import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
+import me.golf.blog.domain.member.dto.JoinResponse;
+import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.util.GivenMember;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCountRepository;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,24 +38,26 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class BoardServiceTest {
 
-    @Autowired
-    BoardService boardService;
+    @Autowired BoardService boardService;
 
-    @Autowired
-    BoardRepository boardRepository;
+    @Autowired BoardRepository boardRepository;
 
-    @Autowired
-    MemberRepository memberRepository;
+    @Autowired MemberRepository memberRepository;
 
-    @Autowired
-    BoardReadService boardReadService;
+    @Autowired MemberService memberService;
+
+    @Autowired BoardReadService boardReadService;
 
     static Member member;
     static Long boardId;
 
     @BeforeEach
     void init() {
-        member = memberRepository.save(GivenMember.toEntity());
+        JoinResponse joinResponse = memberService.create(GivenMember.toEntity());
+        
+        member = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
         boardId = boardService.create(toEntity(), member.getId());
     }
 
@@ -110,7 +117,6 @@ class BoardServiceTest {
         // then
         assertThat(board.getTitle()).isEqualTo(Title.from("수정된 게시판 제목입니다."));
         assertThat(board.getContent()).isEqualTo(Content.from("안녕하세요 수정된 게시판 내용입니다."));
-//        assertThat(board.getLastModifiedBy()).isEqualTo();
         assertThat(board.getLastModifiedTime()).isBefore(LocalDateTime.now());
     }
 
