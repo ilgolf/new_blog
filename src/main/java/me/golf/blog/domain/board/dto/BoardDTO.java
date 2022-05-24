@@ -23,7 +23,7 @@ public class BoardDTO {
     private Long boardCountId;
 
     public static BoardDTO of(final Board board) {
-        return new BoardDTO(board.getTitle(), board.getContent(), board.getBoardImage(), board.getLastModifiedTime(), board.getCreatedBy(),
-                board.getBoardCount().getId());
+        return new BoardDTO(board.getTitle(), board.getContent(), board.getBoardImage(),
+                board.getLastModifiedTime(), board.getCreatedBy(), board.getBoardCount().getId());
     }
 }

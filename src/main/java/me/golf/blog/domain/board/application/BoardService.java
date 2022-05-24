@@ -8,11 +8,14 @@ import me.golf.blog.domain.board.dto.BoardDTO;
 import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
+import me.golf.blog.domain.boardCount.application.BoardCountService;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCountRepository;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.domain.memberCount.application.MemberCountService;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
@@ -29,14 +32,14 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    private final BoardCountRepository boardCountRepository;
+    private final BoardCountService boardCountService;
+    private final MemberCountService memberCountService;
 
     public Long create(final Board board, final Long memberId) {
         Member member = getMember(memberId);
-        board.addMember(member);
-        Board savedBoard = boardRepository.save(board);
-        BoardCount boardCount = BoardCount.createBoardCount(savedBoard);
-        boardCountRepository.save(boardCount);
+        Board savedBoard = boardRepository.save(board.addMember(member));
+        boardCountService.saveBoardCount(board);
+        memberCountService.increaseBoardCount(member);
         return savedBoard.getId();
     }
 
