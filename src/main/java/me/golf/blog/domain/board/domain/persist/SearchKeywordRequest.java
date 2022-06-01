@@ -1,17 +1,13 @@
 package me.golf.blog.domain.board.domain.persist;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class SearchKeywordRequest {
-    private final String byTitle;
-
-    private final String byContent;
-
-    private final String byEmail;
+    private String title;
+    private String content;
+    private String email;
 }
