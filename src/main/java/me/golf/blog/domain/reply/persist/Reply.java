@@ -31,7 +31,8 @@ public class Reply extends BaseTimeEntity {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    public void updateComment(final Comment comment) {
+    public Reply updateComment(final Comment comment) {
         this.comment = comment;
+        return this;
     }
 }
