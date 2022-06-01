@@ -7,6 +7,7 @@ import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
+import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 
 import static me.golf.blog.domain.member.util.GivenMember.*;
 import static org.mockito.Mockito.*;
@@ -76,7 +79,13 @@ class MemberControllerTest {
     @DisplayName("요청을 받아 정상적으로 조회 컨트롤러가 동작한다.")
     @WithAuthUser
     void findMemberTest() throws Exception {
-        MemberDTO memberDTO = MemberDTO.of(toEntityWithCount());
+        MemberDTO memberDTO = MemberDTO.builder()
+                .email(GIVEN_EMAIL)
+                .name(GIVEN_NAME)
+                .nickname(GIVEN_NICKNAME)
+                .birth(LocalDate.of(1996, 10, 25))
+                .memberCountId(1L)
+                .build();
         when(memberReadService.findById(any())).thenReturn(MemberResponse.of(memberDTO, MemberCount.builder().build()));
 
         mockMvc.perform(get("/api/v1/members/id").accept(MediaType.APPLICATION_JSON))
@@ -99,7 +108,7 @@ class MemberControllerTest {
     @WithAuthUser
     void updateTest() throws Exception {
         MemberUpdateRequest request = MemberUpdateRequest.of
-                (Email.from("ilgoll@naver.com"), Nickname.from("티오더"), Name.from("김티오"));
+                (Password.from("123456"), Nickname.from("티오더"), Name.from("김티오"));
         String body = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(patch("/api/v1/members").content(body)
@@ -107,7 +116,7 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("/member/update",
                         requestFields(
-                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("password").description("비밀번호"),
                                 fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("name").description("이름")
                         )))

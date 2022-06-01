@@ -20,17 +20,19 @@ class MemberTest {
     void update() {
         // given
         Member updateMember = Member.builder()
-                .email(Email.from("member@naver.com"))
+                .password(Password.from("123456"))
                 .nickname(Nickname.from("티오더"))
                 .name(Name.from("김티오"))
                 .build();
 
+        PasswordEncoder encoder = TestPasswordEncoder.initialize();
+
         // when
-        Member member = toEntity().update(updateMember);
+        Member member = toEntity().update(updateMember, encoder);
 
         // then
         assertAll(() -> {
-            assertEquals(member.getEmail(), updateMember.getEmail());
+            assertTrue(encoder.matches(updateMember.getPassword().password(), member.getPassword().password()));
             assertEquals(member.getName(), updateMember.getName());
             assertEquals(member.getNickname(), updateMember.getNickname());
         });

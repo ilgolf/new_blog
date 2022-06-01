@@ -79,7 +79,7 @@ class BoardControllerTest {
 
         when(boardReadService.findById(any())).thenReturn(boardResponse);
 
-        mockMvc.perform(get("/api/v1/boards/1").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/v1/public/boards/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("board/findById",
                         responseFields(
