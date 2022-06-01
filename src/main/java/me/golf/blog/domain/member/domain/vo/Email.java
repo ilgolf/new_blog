@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Email {
+public final class Email implements Serializable {
     @javax.validation.constraints.Email
     @NotBlank(message = "필수 값입니다.")
     @Column(unique = true, nullable = false)

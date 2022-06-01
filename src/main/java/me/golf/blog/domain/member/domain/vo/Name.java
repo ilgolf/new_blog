@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Name {
+public final class Name implements Serializable {
     @Column(nullable = false, length = 13)
     @NotBlank(message = "필수 값입니다.")
     private String name;

@@ -10,12 +10,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public final class Title {
+public final class Title implements Serializable {
 
     @Length(min = 6, max = 30)
     @NotBlank(message = "필수 값입니다.")
