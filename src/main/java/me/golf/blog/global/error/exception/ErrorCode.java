@@ -16,6 +16,7 @@ public enum ErrorCode {
     // Member
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 없습니다."),
     USER_NOT_FOUND(400, "M002", "없는 회원 입니다."),
+    USER_COUNT_NOT_FOUND(400, "M003", "해당 MemberCount가 존재하지 않습니다."),
 
     // JWT
     TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다."),
