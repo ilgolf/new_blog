@@ -27,7 +27,8 @@ public class MemberCount extends BaseTimeEntity {
     @Builder.Default
     private int boardCount = 0;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "member_id", unique = true, nullable = false)
     private Member member;
 
     public static MemberCount createMemberCount(final Member member) {

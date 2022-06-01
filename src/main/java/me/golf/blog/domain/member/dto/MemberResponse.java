@@ -25,7 +25,10 @@ public class MemberResponse {
     private int boardCount;
 
     public static MemberResponse of(final MemberDTO member, final MemberCount memberCount) {
-        return new MemberResponse(member.getEmail(), member.getName(), member.getNickname(), member.getAge(),
+        int memberYear = member.getBirth().getYear();
+        int now = LocalDate.now().getYear();
+
+        return new MemberResponse(member.getEmail(), member.getName(), member.getNickname(), now - memberYear,
                 memberCount.getFollowerCount(), memberCount.getFollowingCount(), memberCount.getBoardCount());
     }
 }

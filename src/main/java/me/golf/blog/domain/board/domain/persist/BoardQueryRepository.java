@@ -21,9 +21,9 @@ public class BoardQueryRepository {
     public List<BoardAllResponse> findAll(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
         return query.selectFrom(board)
                 .where(
-                        eqByTitle(searchKeyword.getByTitle()),
-                        eqByContent(searchKeyword.getByContent()),
-                        eqByNickname(searchKeyword.getByEmail())
+                        eqTitle(searchKeyword.getTitle()),
+                        eqContent(searchKeyword.getContent()),
+                        eqNickname(searchKeyword.getEmail())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -33,21 +33,21 @@ public class BoardQueryRepository {
                 .collect(Collectors.toList());
     }
 
-    private BooleanExpression eqByTitle(final String byTitle) {
+    private BooleanExpression eqTitle(final String byTitle) {
         if (!StringUtils.hasText(byTitle)) {
             return null;
         }
         return board.title.title.contains(byTitle);
     }
 
-    private BooleanExpression eqByContent(final String byContent) {
+    private BooleanExpression eqContent(final String byContent) {
         if (!StringUtils.hasText(byContent)) {
             return null;
         }
         return board.content.content.contains(byContent);
     }
 
-    private BooleanExpression eqByNickname(final String byNickname) {
+    private BooleanExpression eqNickname(final String byNickname) {
         if (!StringUtils.hasText(byNickname)) {
             return null;
         }
