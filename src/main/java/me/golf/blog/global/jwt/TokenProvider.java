@@ -5,8 +5,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.member.domain.persist.Member;
+import me.golf.blog.domain.member.domain.persist.MemberQueryRepository;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.error.exception.ErrorCode;
 import me.golf.blog.global.jwt.dto.TokenDTO;
@@ -37,6 +37,7 @@ public class TokenProvider implements InitializingBean {
     private final long accessTokenValidityInMilliseconds;
     private final long refreshTokenValidityInMilliseconds;
     private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
 
     private Key key;
 
@@ -44,11 +45,13 @@ public class TokenProvider implements InitializingBean {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.accessToken-validity-in-seconds}") long accessTokenValidityInMilliseconds,
             @Value("${jwt.refreshToken-validity-in-seconds}") long refreshTokenValidityInMilliseconds,
-            MemberRepository memberRepository) {
+            MemberRepository memberRepository,
+            MemberQueryRepository memberQueryRepository) {
         this.secret = secret;
         this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds * 1000;
         this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds * 1000;
         this.memberRepository = memberRepository;
+        this.memberQueryRepository = memberQueryRepository;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDTO createToken(String email, Authentication authentication) {
+    public TokenDTO createToken(Long memberId, Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -66,13 +69,8 @@ public class TokenProvider implements InitializingBean {
 
         long now = (new Date()).getTime();
 
-        // 회원 로직 작성 후 완성 예정
-        Member member = memberRepository.findByEmail(Email.from(email)).orElseThrow(() -> {
-            throw new MemberNotFoundException(ErrorCode.USER_NOT_FOUND);
-        });
-
         String accessToken = Jwts.builder()
-                .claim("id", member.getId().toString())
+                .claim("id", memberId.toString())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setExpiration(new Date(now + accessTokenValidityInMilliseconds))
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -80,7 +78,7 @@ public class TokenProvider implements InitializingBean {
 
         String refreshToken = Jwts.builder()
                 .claim(AUTHORITIES_KEY, authorities)
-                .claim("id", member.getId().toString())
+                .claim("id", memberId.toString())
                 .setExpiration(new Date(now + refreshTokenValidityInMilliseconds))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
@@ -106,10 +104,8 @@ public class TokenProvider implements InitializingBean {
 
         String id = String.valueOf(claims.get("id"));
 
-        Member member = memberRepository.findById(Long.valueOf(id)).orElseThrow(
+        CustomUserDetails principal = memberQueryRepository.findById(Long.valueOf(id)).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-
-        CustomUserDetails principal = CustomUserDetails.of(member);
 
         return new UsernamePasswordAuthenticationToken(principal, "password", authorities);
     }
