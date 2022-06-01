@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class CustomUserDetails implements UserDetails, Serializable {
 
     private final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
