@@ -21,7 +21,7 @@ public class SpringSecurityAuditorAware implements AuditorAware<String> {
                 .map(SecurityContext::getAuthentication)
                 .map(authentication -> {
                     Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-                    boolean isUser = authorities.contains(new SimpleGrantedAuthority("USER"));
+                    boolean isUser = authorities.contains(new SimpleGrantedAuthority("ROLE_USER"));
                     if (isUser) {
                         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
                         return principal.getUsername();
