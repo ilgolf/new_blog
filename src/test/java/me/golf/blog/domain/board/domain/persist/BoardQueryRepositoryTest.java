@@ -24,7 +24,8 @@ class BoardQueryRepositoryTest {
 
     @Autowired BoardRepository boardRepository;
 
-    @Autowired BoardQueryRepository boardQueryRepository;
+    @Autowired
+    BoardCustomRepositoryImpl boardQueryRepository;
 
     @Autowired MemberRepository memberRepository;
 
@@ -50,7 +51,7 @@ class BoardQueryRepositoryTest {
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAll(keyword, PageRequest.of(0, 10));
+                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10));
 
         assertThat(boards.size()).isEqualTo(1);
     }
@@ -65,7 +66,7 @@ class BoardQueryRepositoryTest {
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAll(keyword, PageRequest.of(0, 10));
+                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10));
 
         assertThat(boards.size()).isEqualTo(10);
     }
@@ -80,7 +81,7 @@ class BoardQueryRepositoryTest {
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAll(keyword, PageRequest.of(0, 15));
+                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 15));
 
         assertThat(boards.size()).isEqualTo(15);
     }

@@ -4,7 +4,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.member.domain.vo.Email;
-import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.MemberDTO;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.stereotype.Repository;
@@ -16,11 +15,11 @@ import static me.golf.blog.domain.memberCount.domain.persist.QMemberCount.*;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberQueryRepository {
+public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     private final JPAQueryFactory query;
 
-    public Optional<MemberDTO> findByIdWithQuery(final Long memberId) {
-        MemberDTO memberDTO = query.select(Projections.constructor(MemberDTO.class,
+    public Optional<MemberDTO> findByIdWithMemberDTO(final Long memberId) {
+        return Optional.ofNullable(query.select(Projections.constructor(MemberDTO.class,
                         memberCount.member.email,
                         memberCount.member.name,
                         memberCount.member.nickname,
@@ -28,10 +27,8 @@ public class MemberQueryRepository {
                         memberCount.id.as("memberCountId")))
                 .from(memberCount)
                 .join(memberCount.member, member)
-                .where(memberCount.member.id.eq(memberId))
-                .fetchOne();
-
-        return Optional.ofNullable(memberDTO);
+                .where(memberCount.member.id.eq(memberId), member.activated.eq(true))
+                .fetchOne());
     }
 
     public Optional<CustomUserDetails> findByEmail(final Email email) {
@@ -42,12 +39,11 @@ public class MemberQueryRepository {
                                 member.password,
                                 member.role))
                         .from(member)
-                        .where(member.email.eq(email))
-                        .fetchOne()
-        );
+                        .where(member.email.eq(email), member.activated.eq(true))
+                        .fetchOne());
     }
 
-    public Optional<CustomUserDetails> findById(Long memberId) {
+    public Optional<CustomUserDetails> findByIdWithDetails(Long memberId) {
         return Optional.ofNullable(
                 query.select(Projections.constructor(CustomUserDetails.class,
                                 member.id.as("id"),
@@ -55,8 +51,7 @@ public class MemberQueryRepository {
                                 member.password,
                                 member.role))
                         .from(member)
-                        .where(member.id.eq(memberId))
-                        .fetchOne()
-        );
+                        .where(member.id.eq(memberId), member.activated.eq(true))
+                        .fetchOne());
     }
 }

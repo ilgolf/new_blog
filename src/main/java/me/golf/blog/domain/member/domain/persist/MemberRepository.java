@@ -6,13 +6,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberCustomRepository {
     @EntityGraph(attributePaths = "memberCount")
     Optional<Member> findById(final Long id);
 
     @Modifying
-    @Query("update Member m set m.activated = false where m.id = :id")
-    void updateActivatedById(@Param("id") Long id);
+    @Query("update Member m set m.activated = false, m.deleteTime = :deleteTime where m.id = :id")
+    void updateActivatedById(@Param("id") Long id, @Param("deleteTime") LocalDateTime deleteTime);
 }

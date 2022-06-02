@@ -1,7 +1,8 @@
 package me.golf.blog.domain.board.application;
 
 import lombok.RequiredArgsConstructor;
-import me.golf.blog.domain.board.domain.persist.BoardQueryRepository;
+import me.golf.blog.domain.board.domain.persist.BoardCustomRepositoryImpl;
+import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardDTO;
@@ -19,7 +20,7 @@ import java.util.List;
 public class BoardReadService {
     private final BoardService boardService;
     private final BoardCountService boardCountService;
-    private final BoardQueryRepository boardQueryRepository;
+    private final BoardRepository boardRepository;
 
     public BoardResponse findById(final Long boardId) {
         BoardDTO board = boardService.getBoard(boardId);
@@ -28,6 +29,6 @@ public class BoardReadService {
     }
 
     public List<BoardAllResponse> findAll(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
-        return boardQueryRepository.findAll(searchKeyword, pageable);
+        return boardRepository.findAllWithQuery(searchKeyword, pageable);
     }
 }
