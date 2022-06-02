@@ -1,10 +1,10 @@
 package me.golf.blog.domain.auth.application;
 
 import lombok.RequiredArgsConstructor;
+import me.golf.blog.domain.member.domain.persist.MemberQueryRepository;
 import me.golf.blog.global.jwt.error.TokenNotFoundException;
 import me.golf.blog.global.jwt.vo.AccessToken;
 import me.golf.blog.global.security.principal.CustomUserDetails;
-import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
@@ -16,20 +16,20 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthService {
-    private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
     private final AuthenticationManagerBuilder managerBuilder;
     private final TokenProvider tokenProvider;
 
     public TokenDTO login(final Email email, final Password password) {
-        final String userEmail = email.email();
         final String userPw = password.password();
 
-        CustomUserDetails userDetails = memberRepository.findByEmail(email)
-                .map(CustomUserDetails::of)
+        CustomUserDetails userDetails = memberQueryRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         UsernamePasswordAuthenticationToken token
@@ -38,7 +38,7 @@ public class AuthService {
         Authentication authenticate = managerBuilder.getObject().authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        return tokenProvider.createToken(userEmail, authenticate);
+        return tokenProvider.createToken(userDetails.getId(), authenticate);
     }
 
     public AccessToken reissue(final String refreshToken) {
@@ -49,6 +49,6 @@ public class AuthService {
         Authentication authentication = tokenProvider.getAuthentication(refreshToken);
         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return tokenProvider.createToken(principal.getUsername(), authentication).getAccessToken();
+        return tokenProvider.createToken(principal.getId(), authentication).getAccessToken();
     }
 }

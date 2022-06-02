@@ -4,6 +4,7 @@ import lombok.*;
 import me.golf.blog.domain.board.domain.persist.Board;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -17,8 +18,10 @@ public class BoardCount {
     @Column(name = "board_count_id", nullable = false, updatable = false)
     private Long id;
 
+    @Builder.Default
     private int viewCount = 0;
 
+    @Builder.Default
     private int likeCount = 0;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -34,5 +37,18 @@ public class BoardCount {
     public void addBoard(final Board board) {
         this.board = board;
         board.addBoardCount(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BoardCount boardCount = (BoardCount) o;
+        return Objects.equals(id, boardCount.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

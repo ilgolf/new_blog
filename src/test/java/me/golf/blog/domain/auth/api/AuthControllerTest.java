@@ -58,9 +58,11 @@ class AuthControllerTest {
     @Autowired
     TokenProvider tokenProvider;
 
+    static Long memberId;
+
     @BeforeEach
     public void init() {
-        memberRepository.save(toEntity());
+        memberId = memberRepository.save(toEntity()).getId();
     }
 
     @Test
@@ -75,7 +77,7 @@ class AuthControllerTest {
 
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(GIVEN_EMAIL, GIVEN_PASSWORD, authorities);
-        TokenDTO tokenDTO = tokenProvider.createToken(GIVEN_EMAIL.email(), token);
+        TokenDTO tokenDTO = tokenProvider.createToken(memberId, token);
 
         // when
         when(authService.login(any(), any())).thenReturn(tokenDTO);
@@ -103,7 +105,7 @@ class AuthControllerTest {
 
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(GIVEN_EMAIL, GIVEN_PASSWORD, authorities);
-        TokenDTO tokenDTO = tokenProvider.createToken(GIVEN_EMAIL.email(), token);
+        TokenDTO tokenDTO = tokenProvider.createToken(memberId, token);
 
         // when
         when(authService.reissue(any())).thenReturn(tokenDTO.getAccessToken());
@@ -128,7 +130,7 @@ class AuthControllerTest {
 
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(GIVEN_EMAIL, GIVEN_PASSWORD, authorities);
-        TokenDTO tokenDTO = tokenProvider.createToken(GIVEN_EMAIL.email(), token);
+        TokenDTO tokenDTO = tokenProvider.createToken(memberId, token);
 
         // when
         mockMvc.perform(delete("/api/v1/auth/logout")

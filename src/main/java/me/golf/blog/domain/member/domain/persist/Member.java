@@ -2,9 +2,14 @@ package me.golf.blog.domain.member.domain.persist;
 
 import lombok.*;
 import me.golf.blog.domain.board.domain.persist.Board;
+import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
 import me.golf.blog.domain.member.domain.vo.*;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.BaseTimeEntity;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -13,13 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @DynamicUpdate
+@DynamicInsert
+@Where(clause = "activated = true")
 @Table(indexes = @Index(name = "i_email", columnList = "email"))
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +52,23 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private RoleType role;
 
-    @OneToMany(mappedBy = "member", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @Column(name = "activated", columnDefinition = "boolean default true")
+    private Boolean activated = true;
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @OrderBy("title.title")
     private final List<Board> boards = new ArrayList<>();
+
+    @OneToOne(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private MemberCount memberCount;
 
     // == 연관관계 로직 == //
     public void addBoard(final Board board) {
         boards.add(board);
+    }
+
+    public void addMemberCount(final MemberCount memberCount) {
+        this.memberCount = memberCount;
     }
 
     // == 비즈니스 로직 == //
@@ -60,11 +77,16 @@ public class Member extends BaseTimeEntity {
         return this;
     }
 
-    public Member update(final Member member) {
-        this.email = member.getEmail();
+    public Member update(final Member member, final PasswordEncoder encoder) {
+        this.password = Password.encode(member.getPassword().password(), encoder);
         this.nickname = member.getNickname();
         this.name = member.getName();
         return this;
+    }
+
+    public void delete() {
+        activated = false;
+        recordDeleteTime();
     }
 
     @Override

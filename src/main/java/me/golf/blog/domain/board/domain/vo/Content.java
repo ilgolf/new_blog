@@ -9,12 +9,13 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public final class Content {
+public final class Content implements Serializable {
 
     @NotBlank(message = "필수 값입니다.")
     @Length(min = 20, max = 500)

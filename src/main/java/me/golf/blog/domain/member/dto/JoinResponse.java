@@ -14,14 +14,11 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class JoinResponse {
-
-    @NotBlank(message = "필수 값입니다.")
+    private Long memberId;
     private Email email;
-
-    @NotBlank(message = "필수 값입니다.")
     private Name name;
 
     public static JoinResponse of(final Member member) {
-        return new JoinResponse(member.getEmail(), member.getName());
+        return new JoinResponse(member.getId(), member.getEmail(), member.getName());
     }
 }

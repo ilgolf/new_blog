@@ -8,6 +8,7 @@ import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 
 import java.time.LocalDate;
 
@@ -16,18 +17,18 @@ import java.time.LocalDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberResponse {
     private Email email;
-
     private Name name;
-
     private Nickname nickname;
-
     private int age;
+    private int followerCount;
+    private int followingCount;
+    private int boardCount;
 
-    public static MemberResponse of(final Member member) {
-        LocalDate birth = member.getBirth();
-        int memberYear = birth.getYear();
-        int nowYear = LocalDate.now().getYear();
+    public static MemberResponse of(final MemberDTO member, final MemberCount memberCount) {
+        int memberYear = member.getBirth().getYear();
+        int now = LocalDate.now().getYear();
 
-        return new MemberResponse(member.getEmail(), member.getName(), member.getNickname(), nowYear - memberYear);
+        return new MemberResponse(member.getEmail(), member.getName(), member.getNickname(), now - memberYear,
+                memberCount.getFollowerCount(), memberCount.getFollowingCount(), memberCount.getBoardCount());
     }
 }

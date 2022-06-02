@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccessTokenResponse {
-    @NotBlank(message = "")
     private AccessToken accessToken;
 
     public static AccessTokenResponse from(final AccessToken accessToken) {

@@ -9,12 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public final class BoardImage {
+public final class BoardImage implements Serializable {
     @NotBlank(message = "필수 값입니다. - boardImage")
     @Column(name = "board_image")
     private String boardImage;

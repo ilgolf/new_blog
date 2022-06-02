@@ -44,9 +44,9 @@ class BoardQueryRepositoryTest {
     void findAllKeyword() {
         // given
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
-                .byTitle("게시판 제목 3")
-                .byContent("게시판 내용입니다.")
-                .byEmail(GivenMember.GIVEN_NICKNAME.nickname())
+                .title("게시판 제목 3")
+                .content("게시판 내용입니다.")
+                .email(GivenMember.GIVEN_NICKNAME.nickname())
                 .build();
 
         List<BoardAllResponse> boards =
@@ -59,9 +59,9 @@ class BoardQueryRepositoryTest {
     @DisplayName("일부의 키워드만 보내면 동적으로 null에 대해 동작하지 않는다.")
     void findPartKeyword() {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
-                .byTitle("게시판 제목 1")
-                .byContent("게시판 내용입니다. 안녕하세요 1")
-                .byEmail(null)
+                .title("게시판 제목 1")
+                .content("게시판 내용입니다. 안녕하세요 1")
+                .email(null)
                 .build();
 
         List<BoardAllResponse> boards =
@@ -74,9 +74,9 @@ class BoardQueryRepositoryTest {
     @DisplayName("아예 키워드가 없으면 where절은 제외 된다.")
     void findWithout() {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
-                .byTitle(null)
-                .byContent(null)
-                .byEmail(null)
+                .title(null)
+                .content(null)
+                .email(null)
                 .build();
 
         List<BoardAllResponse> boards =

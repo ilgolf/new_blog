@@ -22,4 +22,11 @@ public class BaseTimeEntity {
     @LastModifiedDate
     @Column(name = "last_modified_time")
     private LocalDateTime lastModifiedTime;
+
+    @Column(name = "delete_time")
+    private LocalDateTime deleteTime;
+
+    public void recordDeleteTime() {
+        this.deleteTime = LocalDateTime.now();
+    }
 }

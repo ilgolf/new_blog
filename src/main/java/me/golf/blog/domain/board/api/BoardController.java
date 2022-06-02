@@ -32,7 +32,7 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(boardService.create(request.toEntity(), getPrincipal().getId()));
     }
 
-    @GetMapping("/boards/{boardId}")
+    @GetMapping("/public/boards/{boardId}")
     public ResponseEntity<BoardResponse> findById(@PathVariable Long boardId) {
         return ResponseEntity.ok(boardReadService.findById(boardId));
     }
