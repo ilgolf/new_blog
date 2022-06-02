@@ -1,7 +1,7 @@
 package me.golf.blog.domain.auth.application;
 
 import lombok.RequiredArgsConstructor;
-import me.golf.blog.domain.member.domain.persist.MemberQueryRepository;
+import me.golf.blog.domain.member.domain.persist.MemberCustomRepositoryImpl;
 import me.golf.blog.global.jwt.error.TokenNotFoundException;
 import me.golf.blog.global.jwt.vo.AccessToken;
 import me.golf.blog.global.security.principal.CustomUserDetails;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class AuthService {
-    private final MemberQueryRepository memberQueryRepository;
+    private final MemberCustomRepositoryImpl memberQueryRepository;
     private final AuthenticationManagerBuilder managerBuilder;
     private final TokenProvider tokenProvider;
 

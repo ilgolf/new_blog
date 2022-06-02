@@ -15,10 +15,10 @@ import static me.golf.blog.domain.board.domain.persist.QBoard.*;
 
 @Repository
 @RequiredArgsConstructor
-public class BoardQueryRepository {
+public class BoardCustomRepositoryImpl implements BoardCustomRepository {
     private final JPAQueryFactory query;
 
-    public List<BoardAllResponse> findAll(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
+    public List<BoardAllResponse> findAllWithQuery(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
         return query.selectFrom(board)
                 .where(
                         eqTitle(searchKeyword.getTitle()),

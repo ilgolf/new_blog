@@ -3,7 +3,6 @@ package me.golf.blog.domain.member.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.member.domain.persist.Member;
-import me.golf.blog.domain.member.domain.persist.MemberQueryRepository;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.dto.JoinResponse;
 import me.golf.blog.domain.member.dto.MemberDTO;
@@ -16,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -24,7 +25,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
     private final MemberCountService memberCountService;
-    private final MemberQueryRepository memberQueryRepository;
 
     // create
     public JoinResponse create(final Member member) {
@@ -37,7 +37,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberDTO getMember(final Long memberId) {
         log.debug("getMember");
-        return memberQueryRepository.findByIdWithQuery(memberId).orElseThrow(
+        return memberRepository.findByIdWithMemberDTO(memberId).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
@@ -50,7 +50,7 @@ public class MemberService {
     // delete
     public void delete(final Long memberId) {
         deleteCache(memberId);
-        memberRepository.updateActivatedById(memberId);
+        memberRepository.updateActivatedById(memberId, LocalDateTime.now());
     }
 
     @CacheEvict(value = "getMember", key = "#memberId")
