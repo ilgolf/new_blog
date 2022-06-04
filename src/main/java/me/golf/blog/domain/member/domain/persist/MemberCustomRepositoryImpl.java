@@ -27,7 +27,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                         memberCount.id.as("memberCountId")))
                 .from(memberCount)
                 .join(memberCount.member, member)
-                .where(memberCount.member.id.eq(memberId), member.activated.eq(true))
+                .where(memberCount.member.id.eq(memberId))
                 .fetchOne());
     }
 
@@ -36,10 +36,9 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 query.select(Projections.constructor(CustomUserDetails.class,
                                 member.id.as("id"),
                                 member.email,
-                                member.password,
                                 member.role))
                         .from(member)
-                        .where(member.email.eq(email), member.activated.eq(true))
+                        .where(member.email.eq(email))
                         .fetchOne());
     }
 
@@ -48,10 +47,9 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 query.select(Projections.constructor(CustomUserDetails.class,
                                 member.id.as("id"),
                                 member.email,
-                                member.password,
                                 member.role))
                         .from(member)
-                        .where(member.id.eq(memberId), member.activated.eq(true))
+                        .where(member.id.eq(memberId))
                         .fetchOne());
     }
 }

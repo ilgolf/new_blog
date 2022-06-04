@@ -24,7 +24,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
 
     private Long id;
     private Email email;
-    private Password password;
     private RoleType role;
 
     @Override
@@ -34,7 +33,7 @@ public class CustomUserDetails implements UserDetails, Serializable {
 
     @Override
     public String getPassword() {
-        return password.password();
+        return "password";
     }
 
     @Override
@@ -67,6 +66,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
     }
 
     public static CustomUserDetails of(final Member member) {
-        return new CustomUserDetails(member.getId(), member.getEmail(), Password.from("password"), member.getRole());
+        return new CustomUserDetails(member.getId(), member.getEmail(), member.getRole());
     }
 }

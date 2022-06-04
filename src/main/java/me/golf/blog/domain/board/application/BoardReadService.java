@@ -22,6 +22,7 @@ public class BoardReadService {
     private final BoardCountService boardCountService;
     private final BoardRepository boardRepository;
 
+    @Transactional
     public BoardResponse findById(final Long boardId) {
         BoardDTO board = boardService.getBoard(boardId);
         int viewCount = boardCountService.increaseViewCount(board);

@@ -39,6 +39,11 @@ public class BoardCount {
         board.addBoardCount(this);
     }
 
+    public synchronized BoardCount plusView() {
+        this.viewCount ++;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
