@@ -10,7 +10,9 @@ import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -18,21 +20,24 @@ import java.time.LocalDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JoinRequest {
-    @JsonProperty("email")
+    @Valid
+    @NotNull(message = "필수 값입니다. - email")
     private Email email;
 
-    @JsonProperty("password")
+    @Valid
+    @NotNull(message = "필수 값입니다. - password")
     private Password password;
 
-    @JsonProperty("name")
+    @Valid
+    @NotNull(message = "필수 값입니다. - name")
     private Name name;
 
-    @JsonProperty("nickname")
+    @Valid
+    @NotNull(message = "필수 값입니다. - nickname")
     private Nickname nickname;
 
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy")
+    @NotBlank(message = "필수 값입니다. - birth")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate birth;
 
     public Member toEntity() {

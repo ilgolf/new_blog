@@ -15,8 +15,8 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Email implements Serializable {
-    @javax.validation.constraints.Email
-    @NotBlank(message = "필수 값입니다.")
+    @javax.validation.constraints.Email(message = "이메일 형식이 아닙니다.")
+    @NotBlank(message = "필수 값입니다. - email")
     @Column(unique = true, nullable = false)
     private String email;
 

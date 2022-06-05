@@ -9,12 +9,21 @@ import me.golf.blog.domain.board.domain.vo.BoardImage;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BoardCreateRequest {
+    @Valid
+    @NotNull(message = "필수 값입니다 - title")
     private Title title;
+    @Valid
+    @NotNull(message = "필수 값입니다 - content")
     private Content content;
+    @Valid
+    @NotNull(message = "필수 값입니다 - boardImage")
     private BoardImage boardImage;
 
     public static BoardCreateRequest of(final Board board) {

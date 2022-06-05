@@ -16,7 +16,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Nickname implements Serializable {
     @Column(name = "nickname", nullable = false, unique = true)
-    @NotBlank(message = "필수 값입니다.")
+    @NotBlank(message = "필수 값입니다. - nickname")
     private String nickname;
 
     @JsonValue

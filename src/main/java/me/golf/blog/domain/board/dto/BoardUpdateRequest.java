@@ -8,11 +8,18 @@ import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BoardUpdateRequest {
+    @Valid
+    @NotNull(message = "title")
     private Title title;
+    @Valid
+    @NotNull(message = "content")
     private Content content;
 
     public Board toEntity() {

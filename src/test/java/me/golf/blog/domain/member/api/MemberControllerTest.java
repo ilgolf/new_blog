@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.application.MemberReadService;
 import me.golf.blog.domain.member.application.MemberService;
-import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
@@ -73,6 +72,28 @@ class MemberControllerTest {
                                 fieldWithPath("name").description("이름")
                         )))
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("하나라도 null이면 BindingError 발생")
+    void createBinding() throws Exception {
+        JoinRequest joinRequest = JoinRequest.builder()
+                .email(GIVEN_EMAIL)
+                .password(GIVEN_PASSWORD)
+                .name(null)
+                .nickname(GIVEN_NICKNAME)
+                .birth(GIVEN_BIRTH)
+                .build();
+
+        String body = objectMapper.writeValueAsString(joinRequest);
+
+        JoinResponse response = JoinResponse.of(joinRequest.toEntity());
+
+        when(memberService.create(any())).thenReturn(response);
+
+        mockMvc.perform(post("/api/v1/public/members").content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
