@@ -11,7 +11,6 @@ import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -36,7 +35,7 @@ public class JoinRequest {
     @NotNull(message = "필수 값입니다. - nickname")
     private Nickname nickname;
 
-    @NotBlank(message = "필수 값입니다. - birth")
+    @NotNull(message = "필수 값입니다. - birth")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate birth;
 
