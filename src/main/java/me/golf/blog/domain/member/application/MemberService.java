@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
+import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.dto.JoinResponse;
 import me.golf.blog.domain.member.dto.MemberDTO;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
@@ -33,11 +34,11 @@ public class MemberService {
     }
 
     // find
-    @Cacheable(key = "#memberId", value = "getMember")
+    @Cacheable(key = "#email.email()", value = "getMember")
     @Transactional(readOnly = true)
-    public MemberDTO getMember(final Long memberId) {
+    public MemberDTO getMember(final Email email) {
         log.debug("getMember");
-        return memberRepository.findByIdWithMemberDTO(memberId).orElseThrow(
+        return memberRepository.findByEmailWithMemberDTO(email).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
