@@ -1,13 +1,19 @@
 package me.golf.blog.domain.member.domain.persist;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.domain.member.dto.MemberAllResponse;
 import me.golf.blog.domain.member.dto.MemberDTO;
+import me.golf.blog.domain.member.dto.MemberSearch;
 import me.golf.blog.global.security.principal.CustomUserDetails;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 import static me.golf.blog.domain.member.domain.persist.QMember.*;
@@ -18,16 +24,16 @@ import static me.golf.blog.domain.memberCount.domain.persist.QMemberCount.*;
 public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     private final JPAQueryFactory query;
 
-    public Optional<MemberDTO> findByIdWithMemberDTO(final Long memberId) {
+    public Optional<MemberDTO> findByEmailWithMemberDTO(final Email email) {
         return Optional.ofNullable(query.select(Projections.constructor(MemberDTO.class,
-                        memberCount.member.email,
-                        memberCount.member.name,
-                        memberCount.member.nickname,
-                        memberCount.member.birth,
-                        memberCount.id.as("memberCountId")))
-                .from(memberCount)
-                .join(memberCount.member, member)
-                .where(memberCount.member.id.eq(memberId))
+                        member.email,
+                        member.name,
+                        member.nickname,
+                        member.birth,
+                        member.memberCount.id.as("memberCountId")))
+                .from(member)
+                .join(member.memberCount, memberCount)
+                .where(member.email.eq(email))
                 .fetchOne());
     }
 
@@ -51,5 +57,35 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                         .from(member)
                         .where(member.id.eq(memberId))
                         .fetchOne());
+    }
+
+    public List<MemberAllResponse> findAllWithSearch(final MemberSearch memberSearch, final Pageable pageable) {
+        return query.select(Projections.constructor(MemberAllResponse.class,
+                member.email,
+                member.nickname,
+                member.name))
+                .from(member)
+                .where(
+                        eqNickname(memberSearch.getNickname()),
+                        eqEmail(memberSearch.getEmail())
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+    }
+
+    private BooleanExpression eqNickname(final String nickname) {
+        if (!StringUtils.hasText(nickname)) {
+            return null;
+        }
+        return member.nickname.nickname.contains(nickname);
+    }
+
+    private BooleanExpression eqEmail(final String email) {
+        if (!StringUtils.hasText(email)) {
+            return null;
+        }
+        return member.email.email.contains(email);
     }
 }

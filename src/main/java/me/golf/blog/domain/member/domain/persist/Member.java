@@ -3,6 +3,7 @@ package me.golf.blog.domain.member.domain.persist;
 import lombok.*;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
+import me.golf.blog.domain.follower.domain.persist.Follower;
 import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.BaseTimeEntity;
@@ -82,11 +83,6 @@ public class Member extends BaseTimeEntity {
         this.nickname = member.getNickname();
         this.name = member.getName();
         return this;
-    }
-
-    public void delete() {
-        activated = false;
-        recordDeleteTime();
     }
 
     @Override

@@ -1,19 +1,25 @@
 package me.golf.blog.domain.member.application;
 
-import me.golf.blog.domain.member.domain.vo.Password;
-import me.golf.blog.domain.member.dto.MemberUpdateRequest;
+import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.domain.member.domain.vo.Password;
+import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
-import me.golf.blog.domain.member.dto.JoinResponse;
-import me.golf.blog.domain.member.dto.MemberResponse;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static me.golf.blog.domain.member.util.GivenMember.*;
 import static org.assertj.core.api.Assertions.*;
@@ -29,23 +35,56 @@ class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired MemberReadService memberReadService;
+    @Autowired MemberRepository memberRepository;
 
+    static Email email;
     static Long memberId;
 
     @BeforeEach
     void setUp() {
-        memberId = memberService.create(toEntity()).getMemberId();
+        JoinResponse joinResponse = memberService.create(toEntity());
+
+        email = joinResponse.getEmail();
+        memberId = joinResponse.getMemberId();
     }
 
     @Test
     @DisplayName("회원정보를 조회해온다.")
     void findOne() {
         // when
-        MemberResponse member = memberReadService.findById(memberId);
+        MemberResponse member = memberReadService.findByEmail(email);
 
         // then
         assertThat(member.getEmail()).isEqualTo(GIVEN_EMAIL);
         assertThat(member.getName()).isEqualTo(GIVEN_NAME);
+    }
+
+    @Test
+    @DisplayName("키워드가 없으면 회원 전체적인 정보를 들고온다.")
+    void findAll() {
+        // given
+        MemberSearch memberSearch = new MemberSearch(null, null);
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        List<MemberAllResponse> members = memberReadService.findAll(memberSearch, pageable);
+
+        // then
+        assertThat(members.size()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("키워드가 있으면 검색을 하여 조회한다.")
+    void findAllWithKeyword() {
+        // given
+        MemberSearch memberSearch = new MemberSearch(null, GIVEN_EMAIL.email());
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        List<MemberAllResponse> members = memberReadService.findAll(memberSearch, pageable);
+
+        // then
+        assertThat(members.size()).isEqualTo(1);
     }
 
     @Test
@@ -56,7 +95,8 @@ class MemberServiceTest {
 
         // when
         memberService.update(updateRequest.toEntity(), memberId);
-        MemberResponse member = memberReadService.findById(memberId);
+        MemberDTO member = memberRepository.findByEmailWithMemberDTO(email).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // then
         assertThat(member.getNickname()).isNotEqualTo(GIVEN_NICKNAME);
@@ -70,6 +110,6 @@ class MemberServiceTest {
         memberService.delete(memberId);
 
         // then
-        assertThrows(MemberNotFoundException.class, () -> memberService.getMember(memberId));
+        assertThrows(MemberNotFoundException.class, () -> memberService.getMember(email));
     }
 }

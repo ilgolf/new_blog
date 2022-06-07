@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static me.golf.blog.domain.member.util.GivenMember.*;
 import static org.mockito.Mockito.*;
@@ -98,7 +99,6 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("요청을 받아 정상적으로 조회 컨트롤러가 동작한다.")
-    @WithAuthUser
     void findMemberTest() throws Exception {
         MemberDTO memberDTO = MemberDTO.builder()
                 .email(GIVEN_EMAIL)
@@ -107,9 +107,9 @@ class MemberControllerTest {
                 .birth(LocalDate.of(1996, 10, 25))
                 .memberCountId(1L)
                 .build();
-        when(memberReadService.findById(any())).thenReturn(MemberResponse.of(memberDTO, MemberCount.builder().build()));
+        when(memberReadService.findByEmail(any())).thenReturn(MemberResponse.of(memberDTO, MemberCount.builder().build()));
 
-        mockMvc.perform(get("/api/v1/members/id").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/v1/public/members/" + GIVEN_EMAIL.email()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("/member/findById",
                         responseFields(
@@ -120,6 +120,24 @@ class MemberControllerTest {
                                 fieldWithPath("followerCount").description("팔로워 수"),
                                 fieldWithPath("followingCount").description("팔로잉 수"),
                                 fieldWithPath("boardCount").description("게시물 수")
+                        )))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("정상적으로 findAll 컨트롤러가 동작한다.")
+    void findAllTest() throws Exception {
+        List<MemberAllResponse> responses = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+
+        when(memberReadService.findAll(any(), any())).thenReturn(responses);
+
+        mockMvc.perform(get("/api/v1/public/members").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("/member/findAll",
+                        responseFields(
+                                fieldWithPath("[].email").description("회원 이메일"),
+                                fieldWithPath("[].nickname").description("회원 별칭"),
+                                fieldWithPath("[].name").description("회원 이름")
                         )))
                 .andDo(print());
     }

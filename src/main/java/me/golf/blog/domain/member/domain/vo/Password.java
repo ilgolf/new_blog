@@ -36,6 +36,7 @@ public class Password {
         }
     }
 
+    @JsonValue
     public String password() {
         return password;
     }
