@@ -1,14 +1,11 @@
-package me.golf.blog.domain.reply.vo;
+package me.golf.blog.domain.reply.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
