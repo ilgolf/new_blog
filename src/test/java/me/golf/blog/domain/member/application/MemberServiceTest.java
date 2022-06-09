@@ -1,11 +1,9 @@
 package me.golf.blog.domain.member.application;
 
+import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.domain.vo.Email;
-import me.golf.blog.domain.member.domain.vo.Password;
+import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
-import me.golf.blog.domain.member.domain.vo.Name;
-import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static me.golf.blog.domain.member.util.GivenMember.*;
@@ -65,6 +64,19 @@ class MemberServiceTest {
         // given
         MemberSearch memberSearch = new MemberSearch(null, null);
         Pageable pageable = PageRequest.of(0, 10);
+
+        for (int i = 0; i < 20; i++) {
+            final Member member = Member.builder()
+                    .email(Email.from("member" + (i + 1) + "@naver.com"))
+                    .password(Password.from("123456"))
+                    .name(Name.from("kim" + (i + 1)))
+                    .nickname(Nickname.from("kim3" + (i + 1)))
+                    .birth(LocalDate.of(2001, 10, 25))
+                    .role(RoleType.USER)
+                    .build();
+
+            memberService.create(member);
+        }
 
         // when
         List<MemberAllResponse> members = memberReadService.findAll(memberSearch, pageable);
