@@ -18,7 +18,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Password {
     @NotBlank(message = "필수 값입니다. - password")
-    @Column(unique = true, nullable = false, length = 120)
+    @Column(nullable = false, length = 120)
     private String password;
 
     public static Password from(final String password) {
