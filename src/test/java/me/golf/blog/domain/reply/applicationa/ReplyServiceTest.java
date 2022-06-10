@@ -4,7 +4,7 @@ import me.golf.blog.domain.board.application.BoardService;
 import me.golf.blog.domain.board.util.GivenBoard;
 import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.util.GivenMember;
-import me.golf.blog.domain.reply.api.ReplyUpdateRequest;
+import me.golf.blog.domain.reply.dto.ReplyUpdateRequest;
 import me.golf.blog.domain.reply.domain.persist.Reply;
 import me.golf.blog.domain.reply.domain.persist.ReplyRepository;
 import me.golf.blog.domain.reply.domain.vo.Comment;
