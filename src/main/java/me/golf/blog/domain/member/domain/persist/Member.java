@@ -53,11 +53,13 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private RoleType role;
 
-    @Column(name = "activated", columnDefinition = "boolean default true")
+    @Column(name = "activated")
+    @Builder.Default
     private Boolean activated = true;
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @OrderBy("title.title")
+    @Builder.Default
     private final List<Board> boards = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
