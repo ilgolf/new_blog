@@ -29,9 +29,14 @@ public class ReplyService {
     private final BoardRepository boardRepository;
 
     public Long create(final ReplyCreateRequest request, final Long boardId, final Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
-        return replyRepository.save(Reply.createReply(request.getComment(), member, board)).getId();
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+        Board board = boardRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        Reply reply = replyRepository.save(Reply.createReply(request.getComment(), member, board));
+        board.addReply(reply);
+
+        return reply.getId();
     }
 
     @Transactional(readOnly = true)

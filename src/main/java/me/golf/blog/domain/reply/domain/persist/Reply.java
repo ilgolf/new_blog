@@ -35,14 +35,13 @@ public class Reply extends BaseEntity {
         Reply reply = new Reply();
 
         reply.member = member;
-        reply.addBoard(board);
         reply.comment = comment;
+        reply.addBoard(board);
 
         return reply;
     }
 
     public void addBoard(final Board board) {
-        board.addReply(this);
         this.board = board;
     }
 

@@ -43,7 +43,8 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Builder.Default
     private List<Reply> replies = new ArrayList<>();
 
     private Board(final Title title, final Content content, final Member member) {
@@ -60,6 +61,7 @@ public class Board extends BaseEntity {
 
     public void addReply(final Reply reply) {
         this.replies.add(reply);
+        reply.addBoard(this);
     }
 
     public static Board of(final Title title, final Content content, final Member member) {
