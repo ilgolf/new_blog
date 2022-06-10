@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.reply.applicationa.ReplyService;
 import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.domain.reply.dto.ReplyCreateRequest;
+import me.golf.blog.domain.reply.dto.ReplyUpdateRequest;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
