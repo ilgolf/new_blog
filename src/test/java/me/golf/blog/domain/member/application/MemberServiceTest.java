@@ -4,7 +4,9 @@ import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
+import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -83,6 +85,28 @@ class MemberServiceTest {
 
         // then
         assertThat(members.size()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("본인 별칭이 아닌 다른 겹치는 별칭이 들어오면 예외 발생")
+    void updateDuplication() {
+        // given
+        Member newMember = Member.builder()
+                .email(Email.from("member1@naver.com"))
+                .password(Password.from("1234"))
+                .name(Name.from("kim23"))
+                .nickname(Nickname.from("kim3333"))
+                .role(RoleType.USER)
+                .birth(GIVEN_BIRTH)
+                .build();
+
+        MemberUpdateRequest requestMember = MemberUpdateRequest.of(GIVEN_PASSWORD, Nickname.from("kim3333"), Name.from("김티오"));
+
+        // when
+        memberService.create(newMember);
+
+        // then
+        assertThrows(DuplicateNicknameException.class, () -> memberService.update(requestMember.toEntity(), memberId));
     }
 
     @Test
