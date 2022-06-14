@@ -3,11 +3,13 @@ package me.golf.blog.domain.board.application;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
+import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardDTO;
 import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
+import me.golf.blog.domain.board.error.TitleDuplicationException;
 import me.golf.blog.domain.boardCount.application.BoardCountService;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCountRepository;
@@ -36,10 +38,10 @@ public class BoardService {
     private final MemberCountService memberCountService;
 
     public Long create(final Board board, final Long memberId) {
-        Member member = getMember(memberId);
-        Board savedBoard = boardRepository.save(board.addMember(member));
+        existTitle(board.getTitle());
+        Board savedBoard = boardRepository.save(board.addMember(getMember(memberId)));
         boardCountService.saveBoardCount(board);
-        memberCountService.increaseBoardCount(member);
+        memberCountService.increaseBoardCount(getMember(memberId));
         return savedBoard.getId();
     }
 
@@ -58,6 +60,11 @@ public class BoardService {
         if (!Objects.equals(board.getMember().getId(), memberId)) {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
+
+        if (board.getTitle().equals(updateBoard.getTitle())) {
+            existTitle(updateBoard.getTitle());
+        }
+
         board.updateBoard(updateBoard);
     }
 
@@ -70,6 +77,12 @@ public class BoardService {
         }
 
         boardRepository.delete(board);
+    }
+
+    private void existTitle(final Title title) {
+        if (boardRepository.existByTitle(title).isPresent()) {
+            throw new TitleDuplicationException(ErrorCode.DUPLICATE_TITLE);
+        }
     }
 
     private Member getMember(Long memberId) {
