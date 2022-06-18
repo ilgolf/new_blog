@@ -66,15 +66,15 @@ public class MemberService {
     }
 
     private void existEmail(final Email email) {
-        if (memberRepository.existByEmail(email).isPresent()) {
+        memberRepository.existByEmail(email).ifPresent(member -> {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
-        }
+        });
     }
 
     private void existNickname(final Nickname nickname) {
-        if (memberRepository.existByNickname(nickname).isPresent()) {
+        memberRepository.existByNickname(nickname).ifPresent(member -> {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
-        }
+        });
     }
 
     @CacheEvict(value = "getMember", key = "#memberId")
