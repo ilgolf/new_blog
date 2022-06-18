@@ -3,12 +3,14 @@ package me.golf.blog.domain.board.domain.persist;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static me.golf.blog.domain.board.domain.persist.QBoard.*;
@@ -31,6 +33,17 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .stream()
                 .map(BoardAllResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Title> existByTitle(Title title) {
+        return Optional.ofNullable(
+                query.select(board.title)
+                        .from(board)
+                        .where(eqTitle(title.title()))
+                        .limit(1)
+                        .fetchOne()
+        );
     }
 
     private BooleanExpression eqTitle(final String byTitle) {
