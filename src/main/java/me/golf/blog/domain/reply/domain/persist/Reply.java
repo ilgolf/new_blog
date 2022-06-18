@@ -31,14 +31,14 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    private Reply(Comment comment, Member member, Board board) {
+        this.comment = comment;
+        this.member = member;
+        this.addBoard(board);
+    }
+
     public static Reply createReply(final Comment comment, final Member member, final Board board) {
-        Reply reply = new Reply();
-
-        reply.member = member;
-        reply.comment = comment;
-        reply.addBoard(board);
-
-        return reply;
+        return new Reply(comment, member, board);
     }
 
     public void addBoard(final Board board) {
