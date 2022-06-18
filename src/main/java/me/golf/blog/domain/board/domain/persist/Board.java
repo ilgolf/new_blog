@@ -6,9 +6,12 @@ import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
 import me.golf.blog.domain.member.domain.persist.Member;
+import me.golf.blog.domain.reply.domain.persist.Reply;
 import me.golf.blog.global.common.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -40,6 +43,10 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Builder.Default
+    private List<Reply> replies = new ArrayList<>();
+
     private Board(final Title title, final Content content, final Member member) {
         this.title = title;
         this.content = content;
@@ -50,6 +57,11 @@ public class Board extends BaseEntity {
         this.member = member;
         member.addBoard(this);
         return this;
+    }
+
+    public void addReply(final Reply reply) {
+        this.replies.add(reply);
+        reply.addBoard(this);
     }
 
     public static Board of(final Title title, final Content content, final Member member) {
