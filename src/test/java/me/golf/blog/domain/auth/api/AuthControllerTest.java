@@ -85,7 +85,7 @@ class AuthControllerTest {
         mockMvc.perform(post("/api/v1/public/auth/login").content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("/auth/login",
+                .andDo(document("auth/login",
                         requestFields(
                                 fieldWithPath("email").description("회원 이메일"),
                                 fieldWithPath("password").description("비밀 번호")
@@ -113,7 +113,7 @@ class AuthControllerTest {
         mockMvc.perform(post("/api/v1/public/auth/reissue")
                         .cookie(new Cookie("refreshToken", tokenDTO.getRefreshToken().refreshToken())))
                 .andExpect(status().isOk())
-                .andDo(document("/auth/reissue",
+                .andDo(document("auth/reissue",
                         responseFields(
                                 fieldWithPath("accessToken").description("새로 발급된 엑세스 토큰")
                         )))

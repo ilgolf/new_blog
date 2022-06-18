@@ -59,7 +59,7 @@ class MemberControllerTest {
         mockMvc.perform(post("/api/v1/public/members").content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andDo(document("/member/create",
+                .andDo(document("member/create",
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("패스워드"),
@@ -111,7 +111,7 @@ class MemberControllerTest {
 
         mockMvc.perform(get("/api/v1/public/members/" + GIVEN_EMAIL.email()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("/member/findById",
+                .andDo(document("member/findById",
                         responseFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
@@ -133,7 +133,7 @@ class MemberControllerTest {
 
         mockMvc.perform(get("/api/v1/public/members").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("/member/findAll",
+                .andDo(document("member/findAll",
                         responseFields(
                                 fieldWithPath("[].email").description("회원 이메일"),
                                 fieldWithPath("[].nickname").description("회원 별칭"),
@@ -153,7 +153,7 @@ class MemberControllerTest {
         mockMvc.perform(patch("/api/v1/members").content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("/member/update",
+                .andDo(document("member/update",
                         requestFields(
                                 fieldWithPath("password").description("비밀번호"),
                                 fieldWithPath("nickname").description("닉네임"),
@@ -168,7 +168,7 @@ class MemberControllerTest {
     void deleteTest() throws Exception {
         mockMvc.perform(delete("/api/v1/members"))
                 .andExpect(status().isNoContent())
-                .andDo(document("/member/delete"))
+                .andDo(document("member/delete"))
                 .andDo(print());
     }
 }
