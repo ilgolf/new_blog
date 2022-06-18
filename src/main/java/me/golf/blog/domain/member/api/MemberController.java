@@ -67,26 +67,4 @@ public class MemberController {
         log.debug("principal : {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-
-    @PostConstruct
-    public void init() {
-        for (int i = 0; i < 20; i++) {
-            Email email = Email.from("member" + (i + 1) + "@naver.com");
-            Password password = Password.from("123456");
-            Name name = Name.from("kim" + (i + 1));
-            Nickname nickname = Nickname.from("kim3" + (i + 1));
-            LocalDate birth = LocalDate.of(2001, 10, 25);
-
-            Member member = Member.builder()
-                    .email(email)
-                    .password(password)
-                    .name(name)
-                    .nickname(nickname)
-                    .birth(LocalDate.of(2001, 10, 25))
-                    .role(RoleType.USER)
-                    .build();
-
-            memberService.create(member);
-        }
-    }
 }

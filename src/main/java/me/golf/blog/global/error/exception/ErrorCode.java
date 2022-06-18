@@ -23,7 +23,10 @@ public enum ErrorCode {
 
     // Board
     BOARD_NOT_FOUND(400, "B001", "해당 게시판을 찾을 수 없습니다."),
-    BOARD_MISS_MATCH(400, "B002", "해당 회원의 게시판이 아닙니다");
+    BOARD_MISS_MATCH(400, "B002", "해당 회원의 게시판이 아닙니다"),
+
+    // Reply
+    REPLY_NOT_FOUND(400, "R001", "해당 댓글은 존재하지 않습니다.");
 
     private final int status;
     private final String code;
