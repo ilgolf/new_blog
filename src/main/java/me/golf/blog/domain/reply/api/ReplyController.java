@@ -30,7 +30,7 @@ public class ReplyController {
 
     @GetMapping("/public/replies/{boardId}")
     public ResponseEntity<List<ReplyAllResponse>> findAll(
-            @PageableDefault(sort = "content", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long boardId) {
         return ResponseEntity.ok().body(replyService.findAll(pageable, boardId));
     }
