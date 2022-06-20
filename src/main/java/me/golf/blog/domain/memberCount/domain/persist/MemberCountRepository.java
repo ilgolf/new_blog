@@ -21,6 +21,5 @@ public interface MemberCountRepository extends JpaRepository<MemberCount, Long> 
     @Query("update MemberCount m set m.boardCount = m.boardCount + 1 where m.id = :id")
     void updateBoardCount(@Param("id") Long id);
 
-    @EntityGraph(attributePaths = "member")
     Optional<MemberCount> findById(Long id);
 }

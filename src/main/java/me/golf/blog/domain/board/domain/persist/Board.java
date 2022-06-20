@@ -33,7 +33,8 @@ public class Board extends BaseEntity {
     @Embedded
     private Content content;
 
-    @OneToOne(mappedBy = "board", fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_count_id")
     private BoardCount boardCount;
 
     @Embedded
@@ -43,29 +44,9 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @Builder.Default
-    private List<Reply> replies = new ArrayList<>();
-
-    private Board(final Title title, final Content content, final Member member) {
-        this.title = title;
-        this.content = content;
-        addMember(member);
-    }
-
     public Board addMember(final Member member) {
         this.member = member;
-        member.addBoard(this);
         return this;
-    }
-
-    public void addReply(final Reply reply) {
-        this.replies.add(reply);
-        reply.addBoard(this);
-    }
-
-    public static Board of(final Title title, final Content content, final Member member) {
-        return new Board(title, content, member);
     }
 
     public void updateBoard(final Board board) {

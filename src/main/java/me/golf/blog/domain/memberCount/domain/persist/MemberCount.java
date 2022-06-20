@@ -10,37 +10,15 @@ import java.util.Objects;
 @Getter
 @Entity
 @Table(name = "member_count")
-@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class MemberCount extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_count_id", nullable = false)
     private Long id;
-
-    @Builder.Default
     private int followerCount = 0;
-
-    @Builder.Default
     private int followingCount = 0;
-
-    @Builder.Default
     private int boardCount = 0;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "member_id", unique = true, nullable = false)
-    private Member member;
-
-    public static MemberCount createMemberCount(final Member member) {
-        MemberCount memberCount = new MemberCount();
-        memberCount.addMember(member);
-        return memberCount;
-    }
-
-    public void addMember(final Member member) {
-        this.member = member;
-        member.addMemberCount(this);
-    }
 
     @Override
     public boolean equals(Object o) {

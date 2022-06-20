@@ -107,7 +107,7 @@ class MemberControllerTest {
                 .birth(LocalDate.of(1996, 10, 25))
                 .memberCountId(1L)
                 .build();
-        when(memberReadService.findByEmail(any())).thenReturn(MemberResponse.of(memberDTO, MemberCount.builder().build()));
+        when(memberReadService.findByEmail(any())).thenReturn(MemberResponse.of(memberDTO, new MemberCount()));
 
         mockMvc.perform(get("/api/v1/public/members/" + GIVEN_EMAIL.email()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

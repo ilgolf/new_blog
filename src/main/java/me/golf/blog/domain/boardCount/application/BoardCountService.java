@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardCountService {
     private final BoardCountRepository boardCountRepository;
 
-    public void saveBoardCount(final Board board) {
-        BoardCount boardCount = BoardCount.createBoardCount(board);
-        boardCountRepository.save(boardCount);
+    public BoardCount saveBoardCount() {
+        BoardCount boardCount = new BoardCount();
+        return boardCountRepository.save(boardCount);
     }
 
     public int increaseViewCount(final BoardDTO board) {

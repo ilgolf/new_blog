@@ -57,19 +57,11 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private Boolean activated = true;
 
-    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @OrderBy("title.title")
-    @Builder.Default
-    private final List<Board> boards = new ArrayList<>();
-
-    @OneToOne(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_count_id")
     private MemberCount memberCount;
 
     // == 연관관계 로직 == //
-    public void addBoard(final Board board) {
-        boards.add(board);
-    }
-
     public void addMemberCount(final MemberCount memberCount) {
         this.memberCount = memberCount;
     }
@@ -98,5 +90,10 @@ public class Member extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void delete() {
+        activated = false;
+        recordDeleteTime();
     }
 }
