@@ -22,20 +22,25 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class BoardQueryRepositoryTest {
 
-    @Autowired BoardRepository boardRepository;
+    @Autowired
+    BoardRepository boardRepository;
 
     @Autowired
     BoardCustomRepositoryImpl boardQueryRepository;
 
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
     @BeforeEach
     void init() {
         Member member = memberRepository.save(GivenMember.toEntity());
 
         for (int i = 0; i < 20; i++) {
-            Board board = Board.of(Title.from("게시판 제목 " + (i + 1)),
-                    Content.from("게시판 내용입니다. 안녕하세요 " + (i + 1)), member);
+            Board board = Board.builder()
+                    .title(Title.from("게시판 제목 " + (i + 1)))
+                    .content(Content.from("게시판 내용입니다. 안녕하세요 " + (i + 1)))
+                    .member(member)
+                    .build();
             boardRepository.save(board);
         }
     }

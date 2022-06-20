@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberCountService {
     private final MemberCountRepository memberCountRepository;
 
-    public void saveMemberCount(final Member member) {
-        MemberCount memberCount = MemberCount.createMemberCount(member);
-        memberCountRepository.save(memberCount);
+    public MemberCount saveMemberCount() {
+        MemberCount memberCount = new MemberCount();
+        return memberCountRepository.save(memberCount);
     }
 
     public void increaseBoardCount(final Member member) {

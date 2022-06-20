@@ -19,8 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +32,7 @@ public class MemberService {
     public JoinResponse create(final Member member) {
         existEmail(member.getEmail());
         existNickname(member.getNickname());
-        memberCountService.saveMemberCount(member);
+        member.addMemberCount(memberCountService.saveMemberCount());
         return JoinResponse.of(memberRepository.save(member.encode(encoder)));
     }
 
@@ -62,7 +60,9 @@ public class MemberService {
     // delete
     public void delete(final Long memberId) {
         deleteCache(memberId);
-        memberRepository.updateActivatedById(memberId, LocalDateTime.now());
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
+                .delete();
     }
 
     private void existEmail(final Email email) {
