@@ -7,7 +7,10 @@ import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardDTO;
 import me.golf.blog.domain.board.dto.BoardResponse;
+import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.boardCount.application.BoardCountService;
+import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +34,10 @@ public class BoardReadService {
 
     public List<BoardAllResponse> findAll(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
         return boardRepository.findAllWithQuery(searchKeyword, pageable);
+    }
+
+    public List<BoardAllResponse> findByEmail(final Email email, final Pageable pageable) {
+        return boardRepository.findByEmail(email, pageable).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 }

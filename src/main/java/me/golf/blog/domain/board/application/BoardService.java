@@ -40,7 +40,7 @@ public class BoardService {
     public Long create(final Board board, final Long memberId) {
         existTitle(board.getTitle());
         Board savedBoard = boardRepository.save(board.addMember(getMember(memberId)));
-        boardCountService.saveBoardCount(board);
+        board.addBoardCount(boardCountService.saveBoardCount());
         memberCountService.increaseBoardCount(getMember(memberId));
         return savedBoard.getId();
     }

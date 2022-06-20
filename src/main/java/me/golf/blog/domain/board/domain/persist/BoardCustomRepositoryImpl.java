@@ -1,10 +1,12 @@
 package me.golf.blog.domain.board.domain.persist;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
+import me.golf.blog.domain.member.domain.vo.Email;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -43,6 +45,22 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                         .where(eqTitle(title.title()))
                         .limit(1)
                         .fetchOne()
+        );
+    }
+
+    @Override
+    public Optional<List<BoardAllResponse>> findByEmail(Email email, Pageable pageable) {
+        return Optional.ofNullable(
+                query.select(Projections.constructor(BoardAllResponse.class,
+                                board.title,
+                                board.content,
+                                board.member.email,
+                                board.createTime.as("createdAt"))
+                        )
+                        .from(board)
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch()
         );
     }
 

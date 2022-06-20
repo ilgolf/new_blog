@@ -8,6 +8,7 @@ import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardCreateRequest;
 import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.dto.BoardUpdateRequest;
+import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -42,6 +43,13 @@ public class BoardController {
             @ModelAttribute SearchKeywordRequest keyword,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(boardReadService.findAll(keyword, pageable));
+    }
+
+    @GetMapping("/public/boards/{email}")
+    public ResponseEntity<List<BoardAllResponse>> findByEmail(
+            @PathVariable String email,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok().body(boardReadService.findByEmail(Email.from(email), pageable));
     }
 
     @PatchMapping("/boards/{boardId}")

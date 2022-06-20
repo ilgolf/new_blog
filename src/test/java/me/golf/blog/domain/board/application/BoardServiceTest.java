@@ -36,16 +36,12 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class BoardServiceTest {
-
     @Autowired BoardService boardService;
-
     @Autowired BoardRepository boardRepository;
-
     @Autowired MemberRepository memberRepository;
-
     @Autowired MemberService memberService;
-
     @Autowired BoardReadService boardReadService;
 
     static Member member;
@@ -63,7 +59,6 @@ class BoardServiceTest {
 
     @Test
     @DisplayName("boardId로 원하는 게시판 상세 조회")
-    @WithAuthUser
     @Transactional(readOnly = true)
     void findById() {
         BoardResponse boardResponse = boardReadService.findById(boardId);
@@ -102,8 +97,6 @@ class BoardServiceTest {
 
     @Test
     @DisplayName("게시판 정보를 수정하고 수정 날짜와 수정자를 기록한다.")
-    @WithAuthUser
-    @Transactional
     void update() {
         // given
         BoardUpdateRequest request =
@@ -121,9 +114,22 @@ class BoardServiceTest {
     }
 
     @Test
+    @DisplayName("특정 회원의 게시판을 조회해온다.")
+    void findByEmail() {
+        // given
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        List<BoardAllResponse> responses = boardReadService.findByEmail(GivenMember.GIVEN_EMAIL, pageable);
+
+        // then
+        assertThat(responses.get(0).getTitle()).isEqualTo(GIVEN_TITLE);
+        assertThat(responses.size()).isEqualTo(1);
+    }
+
+
+    @Test
     @DisplayName("게시판 정보를 삭제한다.")
-    @WithAuthUser
-    @Transactional
     void delete() {
         boardService.delete(boardId, member.getId());
         assertThrows(BoardNotFoundException.class, () -> boardService.getBoard(boardId));
