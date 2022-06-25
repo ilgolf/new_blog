@@ -136,6 +136,7 @@ class AuthControllerTest {
         mockMvc.perform(delete("/api/v1/auth/logout")
                         .cookie(new Cookie("refreshToken", tokenDTO.getRefreshToken().refreshToken())))
                 .andExpect(status().isNoContent())
+                .andDo(document("auth/logout"))
                 .andDo(print());
     }
 }
