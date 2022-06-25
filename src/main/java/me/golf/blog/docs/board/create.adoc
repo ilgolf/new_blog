@@ -1,4 +1,6 @@
-= Spring REST Docs - Create
+=======================================================
+
+== Spring REST Docs - Create
 
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
@@ -23,3 +25,5 @@ include::{snippets}/board/create/response-body.adoc[]
 == Request Body (Table)
 
 include::{snippets}/board/create/request-fields.adoc[]
+
+=======================================================

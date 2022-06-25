@@ -1,4 +1,6 @@
-= Spring REST Docs login
+=======================================================
+
+== Spring REST Docs login
 
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
@@ -27,3 +29,5 @@ include::{snippets}/auth/login/request-fields.adoc[]
 == Response Body (Table)
 
 include::{snippets}/auth/login/response-fields.adoc[]
+
+=======================================================

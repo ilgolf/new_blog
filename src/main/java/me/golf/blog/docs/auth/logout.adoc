@@ -1,4 +1,6 @@
-= Spring REST Docs logout
+=======================================================
+
+== Spring REST Docs logout
 
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
@@ -11,3 +13,5 @@ include::{snippets}/auth/logout/http-request.adoc[]
 == RESPONSE
 
 include::{snippets}/auth/logout/http-response.adoc[]
+
+=======================================================

@@ -1,4 +1,6 @@
-= Spring REST Docs - reissue
+=======================================================
+
+== Spring REST Docs - reissue
 
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
@@ -19,3 +21,5 @@ include::{snippets}/auth/reissue/response-body.adoc[]
 == Response Body (Table)
 
 include::{snippets}/auth/reissue/response-fields.adoc[]
+
+=======================================================
