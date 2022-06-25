@@ -11,6 +11,8 @@ import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,12 +30,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class MemberControllerTest {
     @Autowired MockMvc mockMvc;
     @MockBean MemberService memberService;
@@ -56,8 +62,7 @@ class MemberControllerTest {
 
         when(memberService.create(any())).thenReturn(response);
 
-        mockMvc.perform(post("/api/v1/public/members").content(body)
-                .contentType(MediaType.APPLICATION_JSON))
+        getCreate(body)
                 .andExpect(status().isCreated())
                 .andDo(document("member/create",
                         requestFields(
@@ -92,9 +97,7 @@ class MemberControllerTest {
 
         when(memberService.create(any())).thenReturn(response);
 
-        mockMvc.perform(post("/api/v1/public/members").content(body)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError());
+        getCreate(body).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -143,6 +146,30 @@ class MemberControllerTest {
     }
 
     @Test
+    @DisplayName("검색 조건이 걸릴 경우의 인수테스트")
+    void findSearch() throws Exception {
+        List<MemberAllResponse> responses = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+
+        when(memberReadService.findAll(any(), any())).thenReturn(responses);
+
+        mockMvc.perform(get("/api/v1/public/members")
+                        .param("nickname", GIVEN_NICKNAME.nickname())
+                        .param("email", GIVEN_EMAIL.email())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("member/search",
+                        requestParameters(
+                                parameterWithName("nickname").description("검색 회원 닉네임 키워드"),
+                                parameterWithName("email").description("검색 회원 이메일 키워드")),
+                        responseFields(
+                                fieldWithPath("[].email").description("회원 이메일"),
+                                fieldWithPath("[].nickname").description("회원 별칭"),
+                                fieldWithPath("[].name").description("회원 이름")
+                        )))
+                .andDo(print());
+    }
+
+    @Test
     @DisplayName("요청을 받아 정상적으로 업데이트가 동작한다.")
     @WithAuthUser
     void updateTest() throws Exception {
@@ -170,5 +197,10 @@ class MemberControllerTest {
                 .andExpect(status().isNoContent())
                 .andDo(document("member/delete"))
                 .andDo(print());
+    }
+
+    private ResultActions getCreate(String body) throws Exception {
+        return mockMvc.perform(post("/api/v1/public/members").content(body)
+                .contentType(MediaType.APPLICATION_JSON));
     }
 }

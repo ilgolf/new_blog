@@ -33,7 +33,7 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(boardService.create(request.toEntity(), getPrincipal().getId()));
     }
 
-    @GetMapping("/public/boards/{boardId}")
+    @GetMapping("/public/boards/id/{boardId}")
     public ResponseEntity<BoardResponse> findById(@PathVariable Long boardId) {
         return ResponseEntity.ok(boardReadService.findById(boardId));
     }
@@ -45,7 +45,7 @@ public class BoardController {
         return ResponseEntity.ok(boardReadService.findAll(keyword, pageable));
     }
 
-    @GetMapping("/public/boards/{email}")
+    @GetMapping("/public/boards/email/{email}")
     public ResponseEntity<List<BoardAllResponse>> findByEmail(
             @PathVariable String email,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
