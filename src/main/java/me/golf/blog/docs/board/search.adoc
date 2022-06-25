@@ -1,0 +1,25 @@
+= Spring REST Docs - Search
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/board/search/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/board/search/http-response.adoc[]
+
+== Response Body
+
+include::{snippets}/board/search/response-body.adoc[]
+
+== Request Parameters (Table)
+
+include::{snippets}/board/search/request-parameters.adoc[]
+
+== Response Body (Table)
+
+include::{snippets}/board/search/response-fields.adoc[]

@@ -1,0 +1,21 @@
+= Spring REST Docs - FindAll
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/board/findAll/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/board/findAll/http-response.adoc[]
+
+== Response Body
+
+include::{snippets}/board/findAll/response-body.adoc[]
+
+== Response Body (Table)
+
+include::{snippets}/board/findAll/response-fields.adoc[]

@@ -1,0 +1,21 @@
+= Spring REST Docs - reissue
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/auth/reissue/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/auth/reissue/http-response.adoc[]
+
+== Response Body
+
+include::{snippets}/auth/reissue/response-body.adoc[]
+
+== Response Body (Table)
+
+include::{snippets}/auth/reissue/response-fields.adoc[]
