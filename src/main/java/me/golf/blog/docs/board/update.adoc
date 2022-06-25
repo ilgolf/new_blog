@@ -1,4 +1,6 @@
-= Spring REST Docs - Update
+=======================================================
+
+== Spring REST Docs - Update
 
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
@@ -19,3 +21,5 @@ include::{snippets}/board/update/request-body.adoc[]
 == Request Body (Table)
 
 include::{snippets}/board/update/request-fields.adoc[]
+
+=======================================================

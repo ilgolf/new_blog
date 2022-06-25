@@ -1,4 +1,6 @@
-= Spring REST Docs - FindById
+=======================================================
+
+== Spring REST Docs - FindById
 
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
@@ -19,3 +21,5 @@ include::{snippets}/member/findById/response-body.adoc[]
 == Response Body (Table)
 
 include::{snippets}/member/findById/response-fields.adoc[]
+
+=======================================================
