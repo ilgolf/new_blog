@@ -269,11 +269,11 @@ class BoardControllerTest {
         // given
 
         // when
-        mockMvc.perform(delete("/api/v1/board/temp-board/1"))
+        mockMvc.perform(delete("/api/v1/boards/temp-board/1"))
                 .andDo(print())
                 .andDo(document("board/temp-board"))
 
         // then
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }
