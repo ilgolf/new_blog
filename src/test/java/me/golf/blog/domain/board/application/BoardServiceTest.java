@@ -28,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -132,6 +133,8 @@ class BoardServiceTest {
     @DisplayName("게시판 정보를 삭제한다.")
     void delete() {
         boardService.delete(boardId, member.getId());
-        assertThrows(BoardNotFoundException.class, () -> boardService.getBoard(boardId));
+
+        assertThat(boardRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)).isDeleted()).isEqualTo(true);
     }
 }

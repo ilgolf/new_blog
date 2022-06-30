@@ -54,8 +54,7 @@ public class BoardService {
     }
 
     public void update(final Board updateBoard, final Long boardId, final Long memberId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        Board board = getBoardEntity(boardId);
 
         if (!Objects.equals(board.getMember().getId(), memberId)) {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
@@ -68,15 +67,24 @@ public class BoardService {
         board.updateBoard(updateBoard);
     }
 
+    public Long createTemp(final Board board, final Long memberId) {
+        // todo
+        return 1L;
+    }
+
     public void delete(final Long boardsId, final Long memberId) {
-        Board board = boardRepository.findById(boardsId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        Board board = getBoardEntity(boardsId);
 
         if (!Objects.equals(board.getMember().getId(), memberId)) {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
 
-        boardRepository.delete(board);
+        board.delete();
+    }
+
+    private Board getBoardEntity(Long boardsId) {
+        return boardRepository.findById(boardsId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 
     private void existTitle(final Title title) {

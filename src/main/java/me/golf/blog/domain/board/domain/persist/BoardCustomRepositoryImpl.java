@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.member.domain.vo.Email;
@@ -29,6 +30,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                         eqContent(searchKeyword.getContent()),
                         eqNickname(searchKeyword.getEmail())
                 )
+                .where(board.status.eq(BoardStatus.SAVE))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch()
@@ -58,6 +60,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                                 board.createTime.as("createdAt"))
                         )
                         .from(board)
+                        .where(board.status.eq(BoardStatus.SAVE))
                         .offset(pageable.getOffset())
                         .limit(pageable.getPageSize())
                         .fetch()

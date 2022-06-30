@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
-import me.golf.blog.domain.board.dto.BoardAllResponse;
-import me.golf.blog.domain.board.dto.BoardCreateRequest;
-import me.golf.blog.domain.board.dto.BoardResponse;
-import me.golf.blog.domain.board.dto.BoardUpdateRequest;
+import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
@@ -62,6 +59,28 @@ public class BoardController {
     @DeleteMapping("/boards/{boardsId}")
     public ResponseEntity<Void> delete(@PathVariable Long boardsId) {
         boardService.delete(boardsId, getPrincipal().getId());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/boards/temp-board")
+    public ResponseEntity<Long> createTemp(@Valid @RequestBody TempBoardCreateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.createTemp(request.toEntity(), getPrincipal().getId()));
+    }
+
+    @GetMapping("/boards/temp-board")
+    public ResponseEntity<TempBoardListResponse> getTempBoardList(
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok().body(boardReadService.getTempBoardList(getPrincipal().getId(), pageable));
+    }
+
+    @GetMapping("/boards/temp-board/{boardId}")
+    public ResponseEntity<TempDetailResponse> getTempBoardDetail(@PathVariable Long boardId) {
+        return ResponseEntity.ok().body(boardReadService.getTempBoard(boardId, getPrincipal().getId()));
+    }
+
+    @DeleteMapping("/boards/temp-board/{boardId}")
+    public ResponseEntity<Void> deleteTempBoard(@PathVariable Long boardId) {
+        boardReadService.deleteTempBoard(boardId, getPrincipal().getId());
         return ResponseEntity.noContent().build();
     }
 

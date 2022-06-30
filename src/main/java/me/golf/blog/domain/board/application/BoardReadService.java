@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.BoardCustomRepositoryImpl;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
-import me.golf.blog.domain.board.dto.BoardAllResponse;
-import me.golf.blog.domain.board.dto.BoardDTO;
-import me.golf.blog.domain.board.dto.BoardResponse;
+import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.boardCount.application.BoardCountService;
 import me.golf.blog.domain.member.domain.vo.Email;
@@ -39,5 +37,19 @@ public class BoardReadService {
     public List<BoardAllResponse> findByEmail(final Email email, final Pageable pageable) {
         return boardRepository.findByEmail(email, pageable).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+    }
+
+    public TempBoardListResponse getTempBoardList(final Long memberId, final Pageable pageable) {
+        // todo
+        return null;
+    }
+
+    public TempDetailResponse getTempBoard(final Long boardId, final Long memberId) {
+        // todo
+        return null;
+    }
+
+    public void deleteTempBoard(final Long boardId, final Long memberId) {
+        // todo
     }
 }
