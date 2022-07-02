@@ -441,8 +441,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Board</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
 <p>email : <a href="mailto:ilgolc@naver.com">ilgolc@naver.com</a></p>
 </div>
@@ -482,17 +480,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 </tbody>
 </table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - Create</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_create">Spring REST Docs - Create</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_request">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/boards HTTP/1.1
@@ -503,11 +498,9 @@ Host: localhost:8080
 {&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;boardImage&quot;:&quot;/test/user/image.png&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
@@ -523,35 +516,29 @@ Content-Length: 1
 1</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Request Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_request_body">Request Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>{
-    &quot;title&quot;:&quot;테스트용 게시판 제목&quot;,
-    &quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
-    &quot;boardImage&quot;:&quot;/test/user/image.png&quot;
+    &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
+    &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
+    &quot;boardImage&quot;: &quot;/test/user/image.png&quot;
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body">Response Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>1</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Request Body (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_request_body_table">Request Body (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -585,15 +572,14 @@ Content-Length: 1
 </table>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_findbyid">Spring REST Docs - FindById</h2>
-<div class="sectionbody">
-
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - FindById</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_request_2">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/public/boards/id/1 HTTP/1.1
@@ -601,11 +587,9 @@ Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_2">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
@@ -618,44 +602,34 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Length: 195
 
-{
-  &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
-  &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
-  &quot;boardImage&quot;: &quot;/test/user/image.png&quot;,
-  &quot;lastModifiedAt&quot;: &quot;yyyy-mm-dd&quot;,
-  &quot;createdBy&quot;: &quot;yyyy-mm-dd&quot;,
-  &quot;view&quot;: 0
-}</code></pre>
+{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;boardImage&quot;:&quot;/test/user/image.png&quot;,&quot;lastModifiedAt&quot;:null,&quot;createdBy&quot;:null,&quot;view&quot;:0}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_2">Response Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>{
-  &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
-  &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
-  &quot;boardImage&quot;: &quot;/test/user/image.png&quot;,
-  &quot;lastModifiedAt&quot;: &quot;yyyy-mm-dd&quot;,
-  &quot;createdBy&quot;: &quot;yyyy-mm-dd&quot;,
-  &quot;view&quot;: 0
+    &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
+    &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
+    &quot;boardImage&quot;: &quot;/test/user/image.png&quot;,
+    &quot;lastModifiedAt&quot;: null,
+    &quot;createdBy&quot;: null,
+    &quot;view&quot;: 0
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_findall">Spring REST Docs - FindAll</h2>
-<div class="sectionbody">
-
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - FindAll</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_request_3">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/public/boards HTTP/1.1
@@ -663,11 +637,9 @@ Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_3">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
@@ -678,40 +650,35 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 147
+Content-Length: 213
 
-[
-  {
-    &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
-    &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
-    &quot;createdBy&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;,
-    &quot;createdAt&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;
-  }
-]</code></pre>
+{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_3">Response Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>[
-  {
-    &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
-    &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
-    &quot;createdBy&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;,
-    &quot;createdAt&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;
-  }
-]</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+    &quot;data&quot;: [
+        {
+            &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
+            &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
+            &quot;createdBy&quot;: null,
+            &quot;createdAt&quot;: null
+        }
+    ],
+    &quot;totalPage&quot;: 1,
+    &quot;pageSize&quot;: 10,
+    &quot;totalElements&quot;: 1,
+    &quot;number&quot;: 0
+}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_table">Response Body (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -727,38 +694,57 @@ Content-Length: 147
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdBy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdBy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">목록 총 페이지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 사이즈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 총 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 넘버</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_search">Spring REST Docs - Search</h2>
-<div class="sectionbody">
-
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - Search</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_request_4">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/public/boards?title=%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9+%EA%B2%8C%EC%8B%9C%ED%8C%90+%EC%A0%9C%EB%AA%A9&amp;content=%ED%85%8C%EC%8A%A4%ED%8A%B8+%EA%B2%8C%EC%8B%9C%ED%8C%90+%EB%82%B4%EC%9A%A9+%EC%9E%85%EB%8B%88%EB%8B%A4.+%ED%85%8C%EC%8A%A4%ED%8A%B8+%ED%85%8C%EC%8A%A4%ED%8A%B8&amp;email=ilgolc%40naver.com HTTP/1.1
@@ -766,11 +752,9 @@ Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_4">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
@@ -781,40 +765,35 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 147
+Content-Length: 213
 
-[
-  {
-    &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
-    &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
-    &quot;createdBy&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;,
-    &quot;createdAt&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;
-  }
-]</code></pre>
+{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_4">Response Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>[
-  {
-    &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
-    &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
-    &quot;createdBy&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;,
-    &quot;createdAt&quot;: &quot;yyyy-mm-dd HH:mm:ss&quot;
-  }
-]</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+    &quot;data&quot;: [
+        {
+            &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
+            &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
+            &quot;createdBy&quot;: null,
+            &quot;createdAt&quot;: null
+        }
+    ],
+    &quot;totalPage&quot;: 1,
+    &quot;pageSize&quot;: 10,
+    &quot;totalElements&quot;: 1,
+    &quot;number&quot;: 0
+}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Request Parameters (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_request_parameters_table">Request Parameters (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -841,11 +820,9 @@ Content-Length: 147
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>== Response Body (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_table_2">Response Body (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -861,38 +838,57 @@ Content-Length: 147
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdBy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdBy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">목록 총 페이지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 사이즈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 총 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 넘버</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_update">Spring REST Docs - Update</h2>
-<div class="sectionbody">
-
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - Update</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_request_5">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">PATCH /api/v1/boards/1 HTTP/1.1
@@ -900,17 +896,12 @@ Content-Type: application/json;charset=UTF-8
 Content-Length: 111
 Host: localhost:8080
 
-{
-    &quot;title&quot;:&quot;테스트용 게시판 제목&quot;,
-    &quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;
-}</code></pre>
+{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_5">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
@@ -922,24 +913,17 @@ Expires: 0
 X-Frame-Options: DENY</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Request Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_request_body_2">Request Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{
-    &quot;title&quot;:&quot;테스트용 게시판 제목&quot;,
-    &quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;
-}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Request Body (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_request_body_table_2">Request Body (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -968,26 +952,23 @@ X-Frame-Options: DENY</code></pre>
 </table>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_delete">Spring REST Docs - Delete</h2>
-<div class="sectionbody">
-
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - Delete</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_request_6">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">DELETE /api/v1/boards/1 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_6">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
@@ -1001,10 +982,126 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - FindByEmail</p>
+</div>
+<div class="paragraph">
+<p>== REQUEST</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/public/boards/email/ilgolc@naver.com HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>== RESPONSE</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Content-Disposition: inline;filename=f.txt
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 213
+
+{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>== Response Body</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>{
+    &quot;data&quot;: [
+        {
+            &quot;title&quot;: &quot;테스트용 게시판 제목&quot;,
+            &quot;content&quot;: &quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,
+            &quot;createdBy&quot;: null,
+            &quot;createdAt&quot;: null
+        }
+    ],
+    &quot;totalPage&quot;: 1,
+    &quot;pageSize&quot;: 10,
+    &quot;totalElements&quot;: 1,
+    &quot;number&quot;: 0
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>== Response Body (Table)</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdBy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">목록 총 페이지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 사이즈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 총 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 넘버</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 23:32:57 +0900
+Last updated 2022-06-25 23:45:10 +0900
 </div>
 </div>
 </body>
