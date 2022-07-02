@@ -4,29 +4,21 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.vo.Title;
-import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardDTO;
-import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.board.error.TitleDuplicationException;
 import me.golf.blog.domain.boardCount.application.BoardCountService;
-import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
-import me.golf.blog.domain.boardCount.domain.persist.BoardCountRepository;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.memberCount.application.MemberCountService;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,8 +60,8 @@ public class BoardService {
     }
 
     public Long createTemp(final Board board, final Long memberId) {
-        // todo
-        return 1L;
+        board.addMember(getMember(memberId));
+        return boardRepository.save(board).getId();
     }
 
     public void delete(final Long boardsId, final Long memberId) {
