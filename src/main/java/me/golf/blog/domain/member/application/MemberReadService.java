@@ -10,6 +10,7 @@ import me.golf.blog.domain.member.dto.MemberSearch;
 import me.golf.blog.domain.member.error.MemberCountNotFoundException;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCountRepository;
+import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class MemberReadService {
         return MemberResponse.of(member, memberCount);
     }
 
-    public List<MemberAllResponse> findAll(final MemberSearch memberSearch, final Pageable pageable) {
+    public PageCustomResponse<MemberAllResponse> findAll(final MemberSearch memberSearch, final Pageable pageable) {
         return memberRepository.findAllWithSearch(memberSearch, pageable);
     }
 }
