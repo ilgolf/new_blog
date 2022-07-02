@@ -9,6 +9,7 @@ import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
+import me.golf.blog.global.common.PageCustomResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,9 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -130,17 +134,24 @@ class MemberControllerTest {
     @Test
     @DisplayName("정상적으로 findAll 컨트롤러가 동작한다.")
     void findAllTest() throws Exception {
-        List<MemberAllResponse> responses = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+        List<MemberAllResponse> members = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
 
-        when(memberReadService.findAll(any(), any())).thenReturn(responses);
+        PageCustomResponse<MemberAllResponse> response
+                = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
+
+        when(memberReadService.findAll(any(), any())).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/public/members").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("member/findAll",
                         responseFields(
-                                fieldWithPath("[].email").description("회원 이메일"),
-                                fieldWithPath("[].nickname").description("회원 별칭"),
-                                fieldWithPath("[].name").description("회원 이름")
+                                fieldWithPath("data.[].email").description("회원 이메일"),
+                                fieldWithPath("data.[].nickname").description("회원 별칭"),
+                                fieldWithPath("data.[].name").description("회원 이름"),
+                                fieldWithPath("totalPage").description("목록 총 페이지"),
+                                fieldWithPath("pageSize").description("페이지 사이즈"),
+                                fieldWithPath("totalElements").description("데이터 총 개수"),
+                                fieldWithPath("number").description("페이지 넘버")
                         )))
                 .andDo(print());
     }
@@ -148,9 +159,12 @@ class MemberControllerTest {
     @Test
     @DisplayName("검색 조건이 걸릴 경우의 인수테스트")
     void findSearch() throws Exception {
-        List<MemberAllResponse> responses = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+        List<MemberAllResponse> members = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
 
-        when(memberReadService.findAll(any(), any())).thenReturn(responses);
+        PageCustomResponse<MemberAllResponse> response
+                = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
+
+        when(memberReadService.findAll(any(), any())).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/public/members")
                         .param("nickname", GIVEN_NICKNAME.nickname())
@@ -162,9 +176,13 @@ class MemberControllerTest {
                                 parameterWithName("nickname").description("검색 회원 닉네임 키워드"),
                                 parameterWithName("email").description("검색 회원 이메일 키워드")),
                         responseFields(
-                                fieldWithPath("[].email").description("회원 이메일"),
-                                fieldWithPath("[].nickname").description("회원 별칭"),
-                                fieldWithPath("[].name").description("회원 이름")
+                                fieldWithPath("data.[].email").description("회원 이메일"),
+                                fieldWithPath("data.[].nickname").description("회원 별칭"),
+                                fieldWithPath("data.[].name").description("회원 이름"),
+                                fieldWithPath("totalPage").description("목록 총 페이지"),
+                                fieldWithPath("pageSize").description("페이지 사이즈"),
+                                fieldWithPath("totalElements").description("데이터 총 개수"),
+                                fieldWithPath("number").description("페이지 넘버")
                         )))
                 .andDo(print());
     }

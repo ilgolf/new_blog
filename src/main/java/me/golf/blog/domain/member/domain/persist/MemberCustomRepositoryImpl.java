@@ -2,6 +2,7 @@ package me.golf.blog.domain.member.domain.persist;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.member.domain.vo.Email;
@@ -9,8 +10,10 @@ import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.dto.MemberAllResponse;
 import me.golf.blog.domain.member.dto.MemberDTO;
 import me.golf.blog.domain.member.dto.MemberSearch;
+import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -60,11 +63,11 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                         .fetchOne());
     }
 
-    public List<MemberAllResponse> findAllWithSearch(final MemberSearch memberSearch, final Pageable pageable) {
-        return query.select(Projections.constructor(MemberAllResponse.class,
-                member.email,
-                member.nickname,
-                member.name))
+    public PageCustomResponse<MemberAllResponse> findAllWithSearch(final MemberSearch memberSearch, final Pageable pageable) {
+        List<MemberAllResponse> members = query.select(Projections.constructor(MemberAllResponse.class,
+                        member.email,
+                        member.nickname,
+                        member.name))
                 .from(member)
                 .where(
                         eqNickname(memberSearch.getNickname()),
@@ -74,6 +77,10 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        JPAQuery<Member> count = query.select(member)
+                .from(member);
+
+        return PageCustomResponse.of(PageableExecutionUtils.getPage(members, pageable, () -> count.fetch().size()));
     }
 
     public Optional<Email> existByEmail(final Email email) {

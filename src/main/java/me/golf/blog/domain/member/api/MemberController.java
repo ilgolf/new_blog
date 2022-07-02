@@ -6,6 +6,7 @@ import me.golf.blog.domain.member.application.MemberReadService;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
+import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import me.golf.blog.domain.member.application.MemberService;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,7 @@ public class MemberController {
 
     // findAll
     @GetMapping("/public/members")
-    public ResponseEntity<List<MemberAllResponse>> findAll(
+    public ResponseEntity<PageCustomResponse<MemberAllResponse>> findAll(
             @ModelAttribute MemberSearch memberSearch,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
         return ResponseEntity.ok().body(memberReadService.findAll(memberSearch, pageable));
