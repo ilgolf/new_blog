@@ -6,6 +6,7 @@ import me.golf.blog.domain.board.application.BoardService;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,14 +37,14 @@ public class BoardController {
     }
 
     @GetMapping("/public/boards")
-    public ResponseEntity<List<BoardAllResponse>> findAll(
+    public ResponseEntity<PageCustomResponse<BoardAllResponse>> findAll(
             @ModelAttribute SearchKeywordRequest keyword,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(boardReadService.findAll(keyword, pageable));
     }
 
     @GetMapping("/public/boards/email/{email}")
-    public ResponseEntity<List<BoardAllResponse>> findByEmail(
+    public ResponseEntity<PageCustomResponse<BoardAllResponse>> findByEmail(
             @PathVariable String email,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(boardReadService.findByEmail(Email.from(email), pageable));
@@ -68,7 +69,7 @@ public class BoardController {
     }
 
     @GetMapping("/boards/temp-board")
-    public ResponseEntity<TempBoardListResponse> getTempBoardList(
+    public ResponseEntity<PageCustomResponse<TempBoardListResponse>> getTempBoardList(
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(boardReadService.getTempBoardList(getPrincipal().getId(), pageable));
     }
