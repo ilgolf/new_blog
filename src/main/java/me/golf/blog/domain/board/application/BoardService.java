@@ -74,6 +74,14 @@ public class BoardService {
         board.delete();
     }
 
+    public void deleteTempBoard(final Long boardId, final Long memberId) {
+        // todo
+        Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+
+        board.delete();
+    }
+
     private Board getBoardEntity(Long boardsId) {
         return boardRepository.findById(boardsId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));

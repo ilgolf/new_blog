@@ -81,7 +81,7 @@ public class BoardController {
 
     @DeleteMapping("/boards/temp-board/{boardId}")
     public ResponseEntity<Void> deleteTempBoard(@PathVariable Long boardId) {
-        boardReadService.deleteTempBoard(boardId, getPrincipal().getId());
+        boardService.deleteTempBoard(boardId, getPrincipal().getId());
         return ResponseEntity.noContent().build();
     }
 

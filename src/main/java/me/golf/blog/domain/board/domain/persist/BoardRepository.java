@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardCustomRepository {
-    @Query("select b from Board as b where b.id = :boardId and b.status = 'TEMP'")
-    Optional<Board> findTempBoardById(@Param("boardId") Long boardId);
+    @Query("select b from Board as b where b.id = :boardId and b.status = 'TEMP' and b.member.id = :memberId")
+    Optional<Board> findTempBoardById(@Param("boardId") Long boardId, @Param("memberId") Long memberId);
 }

@@ -1,6 +1,7 @@
 package me.golf.blog.domain.board.application;
 
 import lombok.RequiredArgsConstructor;
+import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardCustomRepositoryImpl;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
@@ -48,10 +49,9 @@ public class BoardReadService {
 
     public TempDetailResponse getTempBoard(final Long boardId, final Long memberId) {
         // todo
-        return null;
-    }
+        Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-    public void deleteTempBoard(final Long boardId, final Long memberId) {
-        // todo
+        return new TempDetailResponse(board.getTitle(), board.getContent(), board.getBoardImage());
     }
 }
