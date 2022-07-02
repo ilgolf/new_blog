@@ -5,19 +5,14 @@ import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
-import me.golf.blog.domain.board.dto.BoardAllResponse;
-import me.golf.blog.domain.board.dto.BoardResponse;
-import me.golf.blog.domain.board.dto.BoardUpdateRequest;
+import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
-import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.dto.JoinResponse;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.util.GivenMember;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCountRepository;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +28,6 @@ import java.util.List;
 
 import static me.golf.blog.domain.board.util.GivenBoard.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -90,7 +84,7 @@ class BoardServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<BoardAllResponse> boards = boardReadService.findAll(keyword, pageable);
+        List<BoardAllResponse> boards = boardReadService.findAll(keyword, pageable).getData();
 
         assertThat(boards.size()).isEqualTo(10);
     }
@@ -120,7 +114,7 @@ class BoardServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<BoardAllResponse> responses = boardReadService.findByEmail(GivenMember.GIVEN_EMAIL, pageable);
+        List<BoardAllResponse> responses = boardReadService.findByEmail(GivenMember.GIVEN_EMAIL, pageable).getData();
 
         // then
         assertThat(responses.get(0).getTitle()).isEqualTo(GIVEN_TITLE);
@@ -132,6 +126,45 @@ class BoardServiceTest {
     @DisplayName("게시판 정보를 삭제한다.")
     void delete() {
         boardService.delete(boardId, member.getId());
-        assertThrows(BoardNotFoundException.class, () -> boardService.getBoard(boardId));
+
+        assertThat(boardRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)).isDeleted()).isEqualTo(true);
+    }
+
+    @Test
+    @DisplayName("게시판을 임시 저장한다.")
+    void createTemp() {
+        // given
+        TempBoardCreateRequest request = getTempBoardCreateRequest();
+
+        // when
+        Long tempBoard = boardService.createTemp(request.toEntity(), member.getId());
+
+        // then
+        Title title = boardRepository.findTempBoardById(tempBoard).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)).getTitle();
+
+        assertThat(title.title()).isEqualTo("임시 게시판 만드는 테스트입니다.");
+    }
+
+    @Test
+    @DisplayName("임시 저장된 게시판 목록을 불러온다.")
+    void tempBoardList() {
+        // given
+        Pageable pageable = PageRequest.of(0, 10);
+        Board board = getTempBoardCreateRequest().toEntity();
+        boardService.createTemp(board, member.getId());
+
+        // when
+        List<TempBoardListResponse> tempBoardList =
+                boardReadService.getTempBoardList(member.getId(), pageable).getData();
+
+        // then
+        assertThat(tempBoardList.size()).isEqualTo(1);
+    }
+
+    private TempBoardCreateRequest getTempBoardCreateRequest() {
+        return new TempBoardCreateRequest(
+                Title.from("임시 게시판 만드는 테스트입니다."), null, null);
     }
 }

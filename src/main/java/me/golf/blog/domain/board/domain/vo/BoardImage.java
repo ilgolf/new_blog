@@ -16,7 +16,6 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public final class BoardImage implements Serializable {
-    @NotBlank(message = "필수 값입니다. - boardImage")
     @Column(name = "board_image")
     private String boardImage;
 

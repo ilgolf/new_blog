@@ -56,7 +56,7 @@ class BoardQueryRepositoryTest {
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10));
+                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10)).getData();
 
         assertThat(boards.size()).isEqualTo(1);
     }
@@ -71,7 +71,7 @@ class BoardQueryRepositoryTest {
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10));
+                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10)).getData();
 
         assertThat(boards.size()).isEqualTo(10);
     }
@@ -86,7 +86,7 @@ class BoardQueryRepositoryTest {
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 15));
+                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 15)).getData();
 
         assertThat(boards.size()).isEqualTo(15);
     }
