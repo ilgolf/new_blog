@@ -12,7 +12,8 @@ public enum MemberExpression {
             if (!StringUtils.hasText(nickname)) {
                 return null;
             }
-            return member.nickname.nickname.contains(nickname);        }
+            return member.nickname.nickname.contains(nickname);
+        }
     },
     EQ_EMAIL {
         @Override

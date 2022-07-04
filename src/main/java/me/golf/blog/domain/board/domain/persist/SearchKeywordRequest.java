@@ -9,5 +9,5 @@ import lombok.*;
 public final class SearchKeywordRequest {
     private String title;
     private String content;
-    private String email;
+    private String nickname;
 }
