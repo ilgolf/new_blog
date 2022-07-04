@@ -13,6 +13,7 @@ import me.golf.blog.domain.reply.domain.vo.Comment;
 import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.domain.reply.dto.ReplyCreateRequest;
 import me.golf.blog.domain.reply.error.ReplyNotFoundException;
+import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class ReplyService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReplyAllResponse> findAll(final Pageable pageable, final Long boardId) {
+    public PageCustomResponse<ReplyAllResponse> findAll(final Pageable pageable, final Long boardId) {
         return replyRepository.findAllWithQuery(pageable, boardId);
     }
 
@@ -49,7 +50,10 @@ public class ReplyService {
                 .updateComment(comment);
     }
 
-    public void deleteById(final Long replyId) {
-        replyRepository.deleteById(replyId);
+    public void deleteById(final Long replyId, final Long memberId) {
+        Reply reply = replyRepository
+                .findByIdAndMemberId(replyId, memberId)
+                .orElseThrow(() -> new ReplyNotFoundException(ErrorCode.REPLY_NOT_FOUND))
+                .delete();
     }
 }

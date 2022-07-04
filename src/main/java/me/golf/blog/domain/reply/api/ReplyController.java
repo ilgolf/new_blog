@@ -5,6 +5,7 @@ import me.golf.blog.domain.reply.applicationa.ReplyService;
 import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.domain.reply.dto.ReplyCreateRequest;
 import me.golf.blog.domain.reply.dto.ReplyUpdateRequest;
+import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,7 +30,7 @@ public class ReplyController {
     }
 
     @GetMapping("/public/replies/{boardId}")
-    public ResponseEntity<List<ReplyAllResponse>> findAll(
+    public ResponseEntity<PageCustomResponse<ReplyAllResponse>> findAll(
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long boardId) {
         return ResponseEntity.ok().body(replyService.findAll(pageable, boardId));
@@ -43,7 +44,7 @@ public class ReplyController {
 
     @DeleteMapping("/replies/{replyId}")
     public ResponseEntity<Void> delete(@PathVariable final Long replyId) {
-        replyService.deleteById(replyId);
+        replyService.deleteById(replyId, getPrincipal().getId());
         return ResponseEntity.noContent().build();
     }
 

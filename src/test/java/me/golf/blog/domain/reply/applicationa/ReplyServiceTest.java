@@ -49,7 +49,6 @@ class ReplyServiceTest {
     @DisplayName("정상적으로 댓글 전체를 조회한다.")
     void findAllTest() {
         // given
-
         Pageable pageable = PageRequest.of(0, 10);
 
         for (int i = 0; i < 10; i++) {
@@ -58,7 +57,7 @@ class ReplyServiceTest {
         }
 
         // when
-        List<ReplyAllResponse> replies = replyService.findAll(pageable, boardId);
+        List<ReplyAllResponse> replies = replyService.findAll(pageable, boardId).getData();
 
         // then
         assertThat(replies.size()).isEqualTo(10);
@@ -84,10 +83,10 @@ class ReplyServiceTest {
     @DisplayName("댓글을 삭제할 수 있다.")
     void deleteTest() {
         // when
-        replyService.deleteById(replyId);
+        replyService.deleteById(replyId, memberId);
 
         // then
-        assertThrows(ReplyNotFoundException.class, () -> replyRepository.findById(replyId).orElseThrow(
-                        () -> new ReplyNotFoundException(ErrorCode.REPLY_NOT_FOUND)));
+        assertThat(replyRepository.findById(replyId).orElseThrow(
+                () -> new ReplyNotFoundException(ErrorCode.REPLY_NOT_FOUND)).isDeleted()).isEqualTo(true);
     }
 }
