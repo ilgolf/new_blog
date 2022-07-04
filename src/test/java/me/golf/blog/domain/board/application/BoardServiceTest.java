@@ -78,7 +78,7 @@ class BoardServiceTest {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
                 .title(null)
                 .content(null)
-                .email(null)
+                .nickname(null)
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10);

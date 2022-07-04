@@ -38,7 +38,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(
                         EQ_TITLE.eqBoardField(searchKeyword.getTitle()),
                         EQ_CONTENT.eqBoardField(searchKeyword.getContent()),
-                        MemberExpression.EQ_NICKNAME.eqMemberField(searchKeyword.getEmail())
+                        EQ_NICKNAME.eqBoardField(searchKeyword.getNickname())
                 )
                 .where(board.status.eq(BoardStatus.SAVE))
                 .offset(pageable.getOffset())

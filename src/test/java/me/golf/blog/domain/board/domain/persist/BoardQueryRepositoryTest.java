@@ -22,18 +22,13 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class BoardQueryRepositoryTest {
 
-    @Autowired
-    BoardRepository boardRepository;
-
-    @Autowired
-    BoardCustomRepositoryImpl boardQueryRepository;
-
-    @Autowired
-    MemberRepository memberRepository;
+    @Autowired BoardRepository boardRepository;
+    @Autowired MemberRepository memberRepository;
+    static Member member;
 
     @BeforeEach
     void init() {
-        Member member = memberRepository.save(GivenMember.toEntity());
+        member = memberRepository.save(GivenMember.toEntity());
 
         for (int i = 0; i < 20; i++) {
             Board board = Board.builder()
@@ -52,11 +47,11 @@ class BoardQueryRepositoryTest {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
                 .title("게시판 제목 3")
                 .content("게시판 내용입니다.")
-                .email(GivenMember.GIVEN_NICKNAME.nickname())
+                .nickname(member.getNickname().nickname())
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10)).getData();
+                boardRepository.findAllWithQuery(keyword, PageRequest.of(0, 10)).getData();
 
         assertThat(boards.size()).isEqualTo(1);
     }
@@ -67,11 +62,11 @@ class BoardQueryRepositoryTest {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
                 .title("게시판 제목 1")
                 .content("게시판 내용입니다. 안녕하세요 1")
-                .email(null)
+                .nickname(null)
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 10)).getData();
+                boardRepository.findAllWithQuery(keyword, PageRequest.of(0, 10)).getData();
 
         assertThat(boards.size()).isEqualTo(10);
     }
@@ -82,11 +77,11 @@ class BoardQueryRepositoryTest {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
                 .title(null)
                 .content(null)
-                .email(null)
+                .nickname(null)
                 .build();
 
         List<BoardAllResponse> boards =
-                boardQueryRepository.findAllWithQuery(keyword, PageRequest.of(0, 15)).getData();
+                boardRepository.findAllWithQuery(keyword, PageRequest.of(0, 15)).getData();
 
         assertThat(boards.size()).isEqualTo(15);
     }
