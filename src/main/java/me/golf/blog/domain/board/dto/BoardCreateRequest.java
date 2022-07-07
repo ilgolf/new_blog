@@ -22,19 +22,15 @@ public class BoardCreateRequest {
     @Valid
     @NotNull(message = "필수 값입니다 - content")
     private Content content;
-    @Valid
-    @NotNull(message = "필수 값입니다 - boardImage")
-    private BoardImage boardImage;
 
     public static BoardCreateRequest of(final Board board) {
-        return new BoardCreateRequest(board.getTitle(), board.getContent(), board.getBoardImage());
+        return new BoardCreateRequest(board.getTitle(), board.getContent());
     }
 
     public Board toEntity() {
         return Board.builder()
                 .title(title)
                 .content(content)
-                .boardImage(boardImage)
                 .build();
     }
 }

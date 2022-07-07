@@ -14,5 +14,4 @@ import me.golf.blog.domain.board.domain.vo.Title;
 public class TempDetailResponse {
     private Title title;
     private Content content;
-    private BoardImage boardImage;
 }

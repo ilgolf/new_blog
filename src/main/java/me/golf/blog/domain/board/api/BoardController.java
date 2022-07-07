@@ -28,7 +28,8 @@ public class BoardController {
 
     @PostMapping("/boards")
     public ResponseEntity<Long> create(@Valid @RequestBody BoardCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.create(request.toEntity(), getPrincipal().getId()));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(boardService.create(request.toEntity(), getPrincipal().getId()));
     }
 
     @GetMapping("/public/boards/id/{boardId}")
@@ -65,7 +66,8 @@ public class BoardController {
 
     @PostMapping("/boards/temp-board")
     public ResponseEntity<Long> createTemp(@Valid @RequestBody TempBoardCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.createTemp(request.toEntity(), getPrincipal().getId()));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(boardService.createTemp(request.toEntity(), getPrincipal().getId()));
     }
 
     @GetMapping("/boards/temp-board")

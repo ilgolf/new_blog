@@ -76,8 +76,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
     public PageCustomResponse<TempBoardListResponse> findAllTempBoard(Long memberId, Pageable pageable) {
         List<TempBoardListResponse> boards = query.select(Projections.constructor(TempBoardListResponse.class,
                         board.title,
-                        board.content,
-                        board.boardImage)
+                        board.content)
                 )
                 .from(board)
                 .where(board.status.eq(BoardStatus.TEMP))

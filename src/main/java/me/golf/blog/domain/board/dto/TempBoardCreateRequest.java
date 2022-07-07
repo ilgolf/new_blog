@@ -19,14 +19,12 @@ public class TempBoardCreateRequest {
     @Valid
     private Title title;
     private Content content;
-    private BoardImage boardImage;
 
     public Board toEntity() {
         return Board.builder()
                 .title(title)
                 .content(content)
                 .status(BoardStatus.TEMP)
-                .boardImage(boardImage)
                 .build();
     }
 }

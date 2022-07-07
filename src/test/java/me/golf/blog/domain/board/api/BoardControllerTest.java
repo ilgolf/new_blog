@@ -17,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -60,8 +59,7 @@ class BoardControllerTest {
                 .andDo(document("board/create",
                         requestFields(
                                 fieldWithPath("title").description("게시물 제목"),
-                                fieldWithPath("content").description("게시물 내용"),
-                                fieldWithPath("boardImage").description("게시물 이미지")
+                                fieldWithPath("content").description("게시물 내용")
                         )))
                 .andDo(print());
     }
@@ -81,7 +79,6 @@ class BoardControllerTest {
                         responseFields(
                                 fieldWithPath("title").description("게시물 제목"),
                                 fieldWithPath("content").description("게시물 내용"),
-                                fieldWithPath("boardImage").description("게시물 이미지"),
                                 fieldWithPath("lastModifiedAt").description("게시물 수정 이력"),
                                 fieldWithPath("createdBy").description("게시물 생성시간"),
                                 fieldWithPath("view").description("게시물 조회 수")
@@ -213,7 +210,7 @@ class BoardControllerTest {
     void createTempBoard() throws Exception {
         // given
         TempBoardCreateRequest request = new TempBoardCreateRequest(
-                GIVEN_TITLE, GIVEN_CONTENT, BOARD_IMAGE);
+                GIVEN_TITLE, GIVEN_CONTENT);
 
         String body = objectMapper.writeValueAsString(request);
 
@@ -229,8 +226,7 @@ class BoardControllerTest {
                 .andDo(document("board/tempboard",
                         requestFields(
                                 fieldWithPath("title").description("임시 저장될 제목"),
-                                fieldWithPath("content").description("임시 저장될 내용"),
-                                fieldWithPath("boardImage").description("임시 저장될 게시판 이미지")
+                                fieldWithPath("content").description("임시 저장될 내용")
                         )))
 
         // then
@@ -243,7 +239,7 @@ class BoardControllerTest {
     void getTempBoardListTest() throws Exception {
         // given
         TempBoardListResponse response = new TempBoardListResponse(
-                GIVEN_TITLE, GIVEN_CONTENT, BOARD_IMAGE);
+                GIVEN_TITLE, GIVEN_CONTENT);
 
         List<TempBoardListResponse> tempBoardList = List.of(response);
         Pageable pageable = PageRequest.of(0, 10);
@@ -261,7 +257,6 @@ class BoardControllerTest {
                         responseFields(
                                 fieldWithPath("data.[].title").description("임시 저장된 제목"),
                                 fieldWithPath("data.[].content").description("임시 저장돤 내용"),
-                                fieldWithPath("data.[].boardImage").description("임시 저장된 게시판"),
                                 fieldWithPath("totalPage").description("목록 총 페이지"),
                                 fieldWithPath("pageSize").description("페이지 사이즈"),
                                 fieldWithPath("totalElements").description("데이터 총 개수"),
@@ -279,7 +274,7 @@ class BoardControllerTest {
     void getDetailTemp() throws Exception {
         // given
         TempDetailResponse response = new TempDetailResponse(
-                GIVEN_TITLE, GIVEN_CONTENT, BOARD_IMAGE);
+                GIVEN_TITLE, GIVEN_CONTENT);
 
         when(boardReadService.getTempBoard(any(), any())).thenReturn(response);
 
@@ -293,8 +288,7 @@ class BoardControllerTest {
                 .andDo(document("board/tempBoardDetail",
                         responseFields(
                                 fieldWithPath("title").description("임시 상세 조회 제목"),
-                                fieldWithPath("content").description("임시 상세 조회 내용"),
-                                fieldWithPath("boardImage").description("임시 상세 조회 게시판 이미지")
+                                fieldWithPath("content").description("임시 상세 조회 내용")
                         )));
     }
 

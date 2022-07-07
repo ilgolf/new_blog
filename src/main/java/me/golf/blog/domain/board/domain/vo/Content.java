@@ -16,10 +16,9 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public final class Content implements Serializable {
-
     @NotBlank(message = "필수 값입니다.")
     @Length(min = 20, max = 500)
-    @Column(length = 500)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     public static Content from(final String content) {

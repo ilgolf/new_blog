@@ -16,13 +16,12 @@ import java.time.LocalDateTime;
 public class BoardResponse {
     private Title title;
     private Content content;
-    private BoardImage boardImage;
     private LocalDateTime lastModifiedAt;
     private String createdBy;
     private int view;
 
     public static BoardResponse of(final BoardDTO board, int view) {
-        return new BoardResponse(board.getTitle(), board.getContent(), board.getBoardImage(),
+        return new BoardResponse(board.getTitle(), board.getContent(),
                 board.getLastModifiedAt(), board.getCreatedBy(), view);
     }
 }
