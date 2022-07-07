@@ -52,6 +52,6 @@ public class BoardReadService {
         Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-        return new TempDetailResponse(board.getTitle(), board.getContent(), board.getBoardImage());
+        return new TempDetailResponse(board.getTitle(), board.getContent());
     }
 }

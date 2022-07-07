@@ -26,9 +26,6 @@ public class BoardDTO implements Serializable {
     @JsonProperty("content")
     private Content content;
 
-    @JsonProperty("boardImage")
-    private BoardImage boardImage;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd")
     private LocalDateTime lastModifiedAt;
 
@@ -37,7 +34,7 @@ public class BoardDTO implements Serializable {
     private Long boardCountId;
 
     public static BoardDTO of(final Board board) {
-        return new BoardDTO(board.getTitle(), board.getContent(), board.getBoardImage(),
-                board.getLastModifiedTime(), board.getCreatedBy(), board.getBoardCount().getId());
+        return new BoardDTO(board.getTitle(), board.getContent(), board.getLastModifiedTime(),
+                board.getCreatedBy(), board.getBoardCount().getId());
     }
 }

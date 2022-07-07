@@ -165,6 +165,6 @@ class BoardServiceTest {
 
     private TempBoardCreateRequest getTempBoardCreateRequest() {
         return new TempBoardCreateRequest(
-                Title.from("임시 게시판 만드는 테스트입니다."), null, null);
+                Title.from("임시 게시판 만드는 테스트입니다."), null);
     }
 }

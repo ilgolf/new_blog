@@ -1,7 +1,6 @@
 package me.golf.blog.domain.board.domain.persist;
 
 import lombok.*;
-import me.golf.blog.domain.board.domain.vo.BoardImage;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
@@ -36,9 +35,6 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "board_count_id")
     private BoardCount boardCount;
 
-    @Embedded
-    private BoardImage boardImage;
-
     @Enumerated(value = EnumType.STRING)
     @Builder.Default
     private BoardStatus status = BoardStatus.SAVE;
@@ -47,8 +43,8 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Builder.Default
     @Column(name = "is_deleted")
+    @Builder.Default
     private boolean isDeleted = false;
 
     public Board addMember(final Member member) {
