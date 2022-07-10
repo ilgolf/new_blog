@@ -19,8 +19,13 @@ public class BoardCount {
     private int viewCount = 0;
     private int likeCount = 0;
 
-    public synchronized BoardCount plusView() {
+    public BoardCount plusView() {
         this.viewCount ++;
+        return this;
+    }
+
+    public BoardCount plusLike() {
+        this.likeCount ++;
         return this;
     }
 

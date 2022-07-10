@@ -30,8 +30,10 @@ public enum ErrorCode {
     DUPLICATE_TITLE(400, "B003", "제목이 겹칩니다."),
 
     // Reply
-    REPLY_NOT_FOUND(400, "R001", "해당 댓글은 존재하지 않습니다.")
-    ;
+    REPLY_NOT_FOUND(400, "R001", "해당 댓글은 존재하지 않습니다."),
+
+    // Like
+    LIKE_NOT_FOUND(400, "L001", "해당 좋아요 기록은 존재하지 않습니다.");
 
     private final int status;
     private final String code;
