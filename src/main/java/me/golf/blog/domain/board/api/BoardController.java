@@ -9,6 +9,7 @@ import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -74,6 +75,13 @@ public class BoardController {
     public ResponseEntity<PageCustomResponse<TempBoardListResponse>> getTempBoardList(
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(boardReadService.getTempBoardList(getPrincipal().getId(), pageable));
+    }
+
+    @GetMapping("/boards/{boardId}/likes")
+    public ResponseEntity<Slice<LikeAllResponse>> getBoardLikeList(
+            @PathVariable Long boardId,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok().body(boardReadService.getBoardLikeList(boardId, pageable));
     }
 
     @GetMapping("/boards/temp-board/{boardId}")

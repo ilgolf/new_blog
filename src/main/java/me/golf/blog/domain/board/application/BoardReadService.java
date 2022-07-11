@@ -8,14 +8,16 @@ import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.boardCount.application.BoardCountService;
+import me.golf.blog.domain.like.domain.persist.Like;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,5 +55,10 @@ public class BoardReadService {
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         return new TempDetailResponse(board.getTitle(), board.getContent());
+    }
+
+    public Slice<LikeAllResponse> getBoardLikeList(final Long boardId, final Pageable pageable) {
+        // todo
+        return boardRepository.getBoardLikeList(boardId, pageable);
     }
 }

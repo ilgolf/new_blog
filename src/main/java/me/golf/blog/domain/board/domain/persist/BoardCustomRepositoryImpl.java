@@ -7,12 +7,16 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
+import me.golf.blog.domain.board.dto.LikeAllResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
+import me.golf.blog.domain.like.domain.persist.QLike;
 import me.golf.blog.domain.member.domain.persist.express.MemberExpression;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +25,8 @@ import java.util.Optional;
 
 import static me.golf.blog.domain.board.domain.persist.QBoard.*;
 import static me.golf.blog.domain.board.domain.persist.express.BoardExpression.*;
+import static me.golf.blog.domain.like.domain.persist.QLike.*;
+import static me.golf.blog.domain.member.domain.persist.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
@@ -94,6 +100,27 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
         return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable,
                 () -> count.fetch().size()));
+    }
+
+    @Override
+    public Slice<LikeAllResponse> getBoardLikeList(final Long boardId, final Pageable pageable) {
+        List<LikeAllResponse> likes = query.select(Projections.constructor(LikeAllResponse.class,
+                        like.member.id,
+                        like.member.nickname)
+                )
+                .from(like)
+                .join(like.member, member)
+                .where(like.board.id.eq(boardId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
+                .fetch();
+
+        if (likes.size() == pageable.getPageSize() + 1) {
+            likes.remove(likes.size() - 1);
+            return new SliceImpl<>(likes, pageable, true);
+        }
+
+        return new SliceImpl<>(likes, pageable, false);
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {
