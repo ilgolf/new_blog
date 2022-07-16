@@ -1,0 +1,33 @@
+=======================================================
+
+== Spring REST Docs login
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/auth/login/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/auth/login/http-response.adoc[]
+
+== Request Body
+
+include::{snippets}/auth/login/request-body.adoc[]
+
+== Response Body
+
+include::{snippets}/auth/login/response-body.adoc[]
+
+== Request Body (Table)
+
+include::{snippets}/auth/login/request-fields.adoc[]
+
+== Response Body (Table)
+
+include::{snippets}/auth/login/response-fields.adoc[]
+
+=======================================================

@@ -1,0 +1,25 @@
+=======================================================
+
+== Spring REST Docs - FindByEmail
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/board/findByEmail/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/board/findByEmail/http-response.adoc[]
+
+== Response Body
+
+include::{snippets}/board/findByEmail/response-body.adoc[]
+
+== Response Body (Table)
+
+include::{snippets}/board/findByEmail/response-fields.adoc[]
+
+=======================================================

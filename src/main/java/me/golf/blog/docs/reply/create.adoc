@@ -1,0 +1,29 @@
+=======================================================
+
+== Spring REST Docs - Create
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/reply/create/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/reply/create/http-response.adoc[]
+
+== Request Body
+
+include::{snippets}/reply/create/request-body.adoc[]
+
+== Response Body
+
+include::{snippets}/reply/create/response-body.adoc[]
+
+== Request Body (Table)
+
+include::{snippets}/reply/create/request-fields.adoc[]
+
+=======================================================
