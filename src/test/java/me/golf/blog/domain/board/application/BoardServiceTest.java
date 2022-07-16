@@ -98,8 +98,8 @@ class BoardServiceTest {
 
         // when
         boardService.update(request.toEntity(), boardId, member.getId());
-        Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        Board board = boardRepository.findById(boardId).orElseThrow
+                (() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         // then
         assertThat(board.getTitle()).isEqualTo(Title.from("수정된 게시판 제목입니다."));

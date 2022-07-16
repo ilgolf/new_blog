@@ -7,9 +7,9 @@ import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -53,8 +52,7 @@ public class BoardController {
     }
 
     @PatchMapping("/boards/{boardId}")
-    public ResponseEntity<Void> update(@Valid @RequestBody BoardUpdateRequest request,
-                                       @PathVariable Long boardId) {
+    public ResponseEntity<Void> update(@Valid @RequestBody BoardUpdateRequest request, @PathVariable Long boardId) {
         boardService.update(request.toEntity(), boardId, getPrincipal().getId());
         return ResponseEntity.ok().build();
     }
@@ -78,7 +76,7 @@ public class BoardController {
     }
 
     @GetMapping("/boards/{boardId}/likes")
-    public ResponseEntity<Slice<LikeAllResponse>> getBoardLikeList(
+    public ResponseEntity<SliceCustomResponse<LikeAllResponse>> getBoardLikeList(
             @PathVariable Long boardId,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(boardReadService.getBoardLikeList(boardId, pageable));

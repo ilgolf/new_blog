@@ -20,6 +20,4 @@ public interface BoardCustomRepository {
     PageCustomResponse<BoardAllResponse> findByEmail(final Email email, final Pageable pageable);
 
     PageCustomResponse<TempBoardListResponse> findAllTempBoard(final Long memberId, final Pageable pageable);
-
-    Slice<LikeAllResponse> getBoardLikeList(final Long boardId, final Pageable pageable);
 }

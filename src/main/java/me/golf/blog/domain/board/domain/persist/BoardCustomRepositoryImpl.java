@@ -58,7 +58,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
         return Optional.ofNullable(
                 query.select(board.title)
                         .from(board)
-                        .where(EQ_TITLE.eqBoardField(title.title()))
+                        .where(board.title.eq(title))
                         .limit(1)
                         .fetchOne());
     }
@@ -100,27 +100,6 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
         return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable,
                 () -> count.fetch().size()));
-    }
-
-    @Override
-    public Slice<LikeAllResponse> getBoardLikeList(final Long boardId, final Pageable pageable) {
-        List<LikeAllResponse> likes = query.select(Projections.constructor(LikeAllResponse.class,
-                        like.member.id,
-                        like.member.nickname)
-                )
-                .from(like)
-                .join(like.member, member)
-                .where(like.board.id.eq(boardId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
-                .fetch();
-
-        if (likes.size() == pageable.getPageSize() + 1) {
-            likes.remove(likes.size() - 1);
-            return new SliceImpl<>(likes, pageable, true);
-        }
-
-        return new SliceImpl<>(likes, pageable, false);
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {

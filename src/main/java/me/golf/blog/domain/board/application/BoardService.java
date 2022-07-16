@@ -3,8 +3,9 @@ package me.golf.blog.domain.board.application;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
 import me.golf.blog.domain.board.domain.vo.Title;
-import me.golf.blog.domain.board.dto.BoardDTO;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.board.error.TitleDuplicationException;
@@ -14,7 +15,6 @@ import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.memberCount.application.MemberCountService;
 import me.golf.blog.global.error.exception.ErrorCode;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,29 +22,24 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final BoardCountService boardCountService;
     private final MemberCountService memberCountService;
+    private final BoardRedisRepository boardRedisRepository;
 
+    @Transactional
     public Long create(final Board board, final Long memberId) {
         existTitle(board.getTitle());
         Board savedBoard = boardRepository.save(board.addMember(getMember(memberId)));
         board.addBoardCount(boardCountService.saveBoardCount());
         memberCountService.increaseBoardCount(getMember(memberId));
+        boardRedisRepository.save(new BoardRedisEntity(savedBoard));
         return savedBoard.getId();
     }
 
-    @Transactional(readOnly = true)
-    @Cacheable(key = "#boardId", value = "getBoard")
-    public BoardDTO getBoard(final Long boardId) {
-        return boardRepository.findById(boardId)
-                .map(BoardDTO::of)
-                .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
-    }
-
+    @Transactional
     public void update(final Board updateBoard, final Long boardId, final Long memberId) {
         Board board = getBoardEntity(boardId);
 
@@ -57,13 +52,16 @@ public class BoardService {
         }
 
         board.updateBoard(updateBoard);
+        boardRedisRepository.save(new BoardRedisEntity(board));
     }
 
+    @Transactional
     public Long createTemp(final Board board, final Long memberId) {
         board.addMember(getMember(memberId));
         return boardRepository.save(board).getId();
     }
 
+    @Transactional
     public void delete(final Long boardsId, final Long memberId) {
         Board board = getBoardEntity(boardsId);
 
@@ -74,6 +72,7 @@ public class BoardService {
         board.delete();
     }
 
+    @Transactional
     public void deleteTempBoard(final Long boardId, final Long memberId) {
         // todo
         Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
@@ -83,7 +82,7 @@ public class BoardService {
     }
 
     private Board getBoardEntity(Long boardsId) {
-        return boardRepository.findById(boardsId).orElseThrow(
+        return boardRepository.findWithMemberById(boardsId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 

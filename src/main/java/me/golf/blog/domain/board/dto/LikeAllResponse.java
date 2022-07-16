@@ -12,8 +12,8 @@ public class LikeAllResponse {
     private Long memberId;
     private Nickname nickname;
 
-    public LikeAllResponse(final Member member) {
-        this.memberId = member.getId();
-        this.nickname = member.getNickname();
+    public LikeAllResponse(final Long memberId, final Nickname nickname) {
+        this.memberId = memberId;
+        this.nickname = nickname;
     }
 }

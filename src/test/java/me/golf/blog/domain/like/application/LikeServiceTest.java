@@ -18,7 +18,7 @@ class LikeServiceTest {
     void setUp() {
         likeRepository = mock(LikeRepository.class);
         memberRepository = mock(MemberRepository.class);
-     트   likeService = new LikeService(likeRepository, boardRepository, memberRepository);
+        likeService = new LikeService(likeRepository, boardRepository, memberRepository);
     }
 
     // todo : 좋아요 및 좋아요 취소 기능 mock 테스
