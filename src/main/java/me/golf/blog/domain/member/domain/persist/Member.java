@@ -35,13 +35,13 @@ public class Member extends BaseTimeEntity {
     private Long id;
 
     @Embedded
-    private Email email;
+    private Email email; // prefix : ex) ilgolc, suffix : ex) naver.com
 
     @Embedded
     private Password password;
 
     @Embedded
-    private Name name;
+    private Name name; // firstName LastName
 
     @Embedded
     private Nickname nickname;

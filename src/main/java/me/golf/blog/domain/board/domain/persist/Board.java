@@ -5,11 +5,14 @@ import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
+import me.golf.blog.domain.like.domain.persist.Like;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.global.common.BaseEntity;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -47,22 +50,22 @@ public class Board extends BaseEntity {
     @Builder.Default
     private boolean isDeleted = false;
 
-    public Board addMember(final Member member) {
-        this.member = member;
-        return this;
-    }
-
     public void updateBoard(final Board board) {
         this.title = board.getTitle();
         this.content = board.getContent();
     }
 
-    public void addBoardCount(final BoardCount boardCount) {
-        this.boardCount = boardCount;
-    }
-
     public void delete() {
         this.isDeleted = true;
         recordDeleteTime();
+    }
+
+    public Board addMember(final Member member) {
+        this.member = member;
+        return this;
+    }
+
+    public void addBoardCount(final BoardCount boardCount) {
+        this.boardCount = boardCount;
     }
 }

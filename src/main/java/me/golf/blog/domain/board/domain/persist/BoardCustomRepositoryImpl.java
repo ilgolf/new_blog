@@ -7,12 +7,16 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
+import me.golf.blog.domain.board.dto.LikeAllResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
+import me.golf.blog.domain.like.domain.persist.QLike;
 import me.golf.blog.domain.member.domain.persist.express.MemberExpression;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +25,8 @@ import java.util.Optional;
 
 import static me.golf.blog.domain.board.domain.persist.QBoard.*;
 import static me.golf.blog.domain.board.domain.persist.express.BoardExpression.*;
+import static me.golf.blog.domain.like.domain.persist.QLike.*;
+import static me.golf.blog.domain.member.domain.persist.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,7 +58,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
         return Optional.ofNullable(
                 query.select(board.title)
                         .from(board)
-                        .where(EQ_TITLE.eqBoardField(title.title()))
+                        .where(board.title.eq(title))
                         .limit(1)
                         .fetchOne());
     }

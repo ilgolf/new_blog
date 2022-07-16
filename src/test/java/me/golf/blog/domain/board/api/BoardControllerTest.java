@@ -3,12 +3,15 @@ package me.golf.blog.domain.board.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
 import me.golf.blog.domain.board.dto.*;
+import me.golf.blog.domain.board.util.GivenBoard;
 import me.golf.blog.domain.board.util.GivenBoardCount;
 import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.common.SliceCustomResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +72,8 @@ class BoardControllerTest {
     @WithAuthUser
     void findById() throws Exception {
         BoardCount boardCount = GivenBoardCount.toEntityWithId();
-        BoardResponse boardResponse = BoardResponse.of(BoardDTO.of(toEntityWithBoardCount(boardCount)), 0);
+        BoardResponse boardResponse = BoardResponse.of
+                (new BoardRedisEntity(GivenBoard.toEntityWithBoardCount(boardCount)), 0);
 
         when(boardReadService.findById(any())).thenReturn(boardResponse);
 
@@ -305,5 +309,34 @@ class BoardControllerTest {
 
         // then
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("게시물을 좋아요한 회원들의 목록을 조회한다.")
+    @WithAuthUser
+    void getBoardLikeList() throws Exception {
+        // given
+        List<LikeAllResponse> responses = List.of(new LikeAllResponse(1L, GivenMember.GIVEN_NICKNAME));
+        Slice<LikeAllResponse> likeAllResponses =
+                new SliceImpl<>(responses, PageRequest.of(0, 10), true);
+
+        when(boardReadService.getBoardLikeList(anyLong(), any()))
+                .thenReturn(SliceCustomResponse.of(likeAllResponses));
+
+        // when
+        mockMvc.perform(get("/api/v1/boards/1/likes")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+
+        // then
+                .andExpect(status().isOk())
+                .andDo(document("board/likeList",
+                        responseFields(
+                                fieldWithPath("data.[].memberId").description("회원 고유 식별자"),
+                                fieldWithPath("data.[].nickname").description("회원 닉네임"),
+                                fieldWithPath("pageSize").description("페이지 크기"),
+                                fieldWithPath("number").description("페이지 번호")
+                        )));
+
     }
 }

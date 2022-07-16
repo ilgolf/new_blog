@@ -2,35 +2,41 @@ package me.golf.blog.domain.board.application;
 
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
-import me.golf.blog.domain.board.domain.persist.BoardCustomRepositoryImpl;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.boardCount.application.BoardCountService;
+import me.golf.blog.domain.like.application.LikeService;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BoardReadService {
-    private final BoardService boardService;
     private final BoardCountService boardCountService;
     private final BoardRepository boardRepository;
+    private final BoardRedisRepository boardRedisRepository;
+    private final LikeService likeService;
 
     @Transactional
     public BoardResponse findById(final Long boardId) {
-        BoardDTO board = boardService.getBoard(boardId);
-        int viewCount = boardCountService.increaseViewCount(board);
-        return BoardResponse.of(board, viewCount);
+        BoardRedisEntity boardRedisEntity = boardRedisRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+
+        int viewCount = boardCountService.increaseViewCount(boardRedisEntity.getBoardCountId());
+
+        return BoardResponse.of(boardRedisEntity, viewCount);
     }
 
     public PageCustomResponse<BoardAllResponse> findAll(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
@@ -53,5 +59,10 @@ public class BoardReadService {
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         return new TempDetailResponse(board.getTitle(), board.getContent());
+    }
+
+    public SliceCustomResponse<LikeAllResponse> getBoardLikeList(final Long boardId, final Pageable pageable) {
+        // todo
+        return SliceCustomResponse.of(likeService.getBoardLikeMembers(boardId, pageable));
     }
 }
