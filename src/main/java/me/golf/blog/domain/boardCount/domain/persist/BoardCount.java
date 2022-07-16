@@ -5,6 +5,7 @@ import me.golf.blog.domain.board.domain.persist.Board;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Entity
@@ -19,8 +20,9 @@ public class BoardCount {
     private int viewCount = 0;
     private int likeCount = 0;
 
-    public BoardCount plusView() {
-        this.viewCount ++;
+    public  BoardCount plusView() {
+        AtomicInteger atomicViewCount = new AtomicInteger(this.viewCount);
+        this.viewCount = atomicViewCount.incrementAndGet();
         return this;
     }
 
