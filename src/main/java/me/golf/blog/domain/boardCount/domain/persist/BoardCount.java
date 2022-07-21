@@ -5,6 +5,7 @@ import me.golf.blog.domain.board.domain.persist.Board;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Entity
@@ -12,8 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class BoardCount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_count_id", nullable = false, updatable = false)
     private Long id;
     private int viewCount = 0;

@@ -4,11 +4,13 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.LikeAllResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
+import me.golf.blog.domain.boardCount.domain.persist.QBoardCount;
 import me.golf.blog.domain.like.domain.persist.QLike;
 import me.golf.blog.domain.member.domain.persist.express.MemberExpression;
 import me.golf.blog.domain.member.domain.vo.Email;
@@ -25,6 +27,7 @@ import java.util.Optional;
 
 import static me.golf.blog.domain.board.domain.persist.QBoard.*;
 import static me.golf.blog.domain.board.domain.persist.express.BoardExpression.*;
+import static me.golf.blog.domain.boardCount.domain.persist.QBoardCount.*;
 import static me.golf.blog.domain.like.domain.persist.QLike.*;
 import static me.golf.blog.domain.member.domain.persist.QMember.member;
 
@@ -100,6 +103,19 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
         return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable,
                 () -> count.fetch().size()));
+    }
+
+    @Override
+    public Optional<BoardRedisEntity> findRedisEntity(Long boardId) {
+        return Optional.ofNullable(query.select(Projections.constructor(BoardRedisEntity.class,
+                board.id,
+                board.title,
+                board.content,
+                board.lastModifiedBy,
+                board.createdBy,
+                board.boardCount.id))
+                .from(board).join(board.boardCount, boardCount)
+                .where(board.id.eq(boardId)).fetchOne());
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {

@@ -69,6 +69,8 @@ public class BoardService {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
 
+        boardRedisRepository.delete(new BoardRedisEntity(board));
+
         board.delete();
     }
 
