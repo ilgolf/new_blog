@@ -31,8 +31,9 @@ public class BoardReadService {
 
     @Transactional
     public BoardResponse findById(final Long boardId) {
-        BoardRedisEntity boardRedisEntity = boardRedisRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        BoardRedisEntity boardRedisEntity = boardRedisRepository.findById(boardId)
+                .orElseGet(() -> boardRepository.findRedisEntity(boardId).orElseThrow(
+                        () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)));
 
         int viewCount = boardCountService.increaseViewCount(boardRedisEntity.getBoardCountId());
 

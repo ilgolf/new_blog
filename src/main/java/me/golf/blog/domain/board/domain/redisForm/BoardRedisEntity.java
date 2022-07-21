@@ -2,6 +2,7 @@ package me.golf.blog.domain.board.domain.redisForm;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @RedisHash("board")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class BoardRedisEntity implements Serializable {
     private static final long serialVersionUID = 123123124L;
     @Id

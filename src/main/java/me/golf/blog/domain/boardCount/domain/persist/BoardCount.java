@@ -13,16 +13,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class BoardCount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_count_id", nullable = false, updatable = false)
     private Long id;
     private int viewCount = 0;
     private int likeCount = 0;
 
-    public  BoardCount plusView() {
-        AtomicInteger atomicViewCount = new AtomicInteger(this.viewCount);
-        this.viewCount = atomicViewCount.incrementAndGet();
+    public BoardCount plusView() {
+        this.viewCount ++;
         return this;
     }
 

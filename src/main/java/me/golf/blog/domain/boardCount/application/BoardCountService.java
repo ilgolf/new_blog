@@ -22,7 +22,6 @@ public class BoardCountService {
         return boardCountRepository.save(boardCount);
     }
 
-    @Transactional
     public int increaseViewCount(final Long boardCountId) {
         return boardCountRepository.findById(boardCountId)
                 .orElseThrow(() -> new MemberCountNotFoundException(ErrorCode.USER_COUNT_NOT_FOUND))
