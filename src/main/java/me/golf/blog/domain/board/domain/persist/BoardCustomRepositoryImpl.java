@@ -4,21 +4,14 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
-import me.golf.blog.domain.board.dto.LikeAllResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
-import me.golf.blog.domain.boardCount.domain.persist.QBoardCount;
-import me.golf.blog.domain.like.domain.persist.QLike;
-import me.golf.blog.domain.member.domain.persist.express.MemberExpression;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
@@ -27,8 +20,6 @@ import java.util.Optional;
 
 import static me.golf.blog.domain.board.domain.persist.QBoard.*;
 import static me.golf.blog.domain.board.domain.persist.express.BoardExpression.*;
-import static me.golf.blog.domain.boardCount.domain.persist.QBoardCount.*;
-import static me.golf.blog.domain.like.domain.persist.QLike.*;
 import static me.golf.blog.domain.member.domain.persist.QMember.member;
 
 @Repository
@@ -40,10 +31,11 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
                         board.title,
                         board.content,
-                        board.member.email,
+                        member.email,
                         board.createTime.as("createdAt"))
                 )
                 .from(board)
+                .innerJoin(member).on(member.id.eq(board.memberId))
                 .where(
                         EQ_TITLE.eqBoardField(searchKeyword.getTitle()),
                         EQ_CONTENT.eqBoardField(searchKeyword.getContent()),
@@ -70,10 +62,11 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
                         board.title,
                         board.content,
-                        board.member.email,
+                        member.email,
                         board.createTime.as("createdAt"))
                 )
                 .from(board)
+                .innerJoin(member).on(member.id.eq(board.memberId))
                 .where(board.status.eq(BoardStatus.SAVE))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -106,15 +99,20 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
     }
 
     @Override
-    public Optional<BoardRedisEntity> findRedisEntity(Long boardId) {
-        return Optional.ofNullable(query.select(Projections.constructor(BoardRedisEntity.class,
-                board.id,
-                board.title,
-                board.content,
-                board.lastModifiedBy,
-                board.createdBy,
-                board.boardCount.id))
-                .from(board).join(board.boardCount, boardCount)
+    public Optional<Board> findByIdWithBoardCount(Long boardId) {
+        return Optional.ofNullable(
+                query.select(board)
+                        .from(board)
+                        .where(board.id.eq(boardId))
+                        .fetchOne());
+    }
+
+    @Override
+    public Optional<Integer> increaseViewCount(Long boardId) {
+        query.update(board).set(board.boardCount.viewCount, board.boardCount.viewCount.add(1))
+                .where(board.id.eq(boardId)).execute();
+
+        return Optional.ofNullable(query.select(board.boardCount.viewCount).from(board)
                 .where(board.id.eq(boardId)).fetchOne());
     }
 

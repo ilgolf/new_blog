@@ -1,6 +1,8 @@
 package me.golf.blog.domain.like.application;
 
 import lombok.RequiredArgsConstructor;
+import me.golf.blog.domain.board.application.BoardReadService;
+import me.golf.blog.domain.board.application.BoardService;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.dto.LikeAllResponse;
@@ -11,10 +13,12 @@ import me.golf.blog.domain.like.error.LikeNotFoundException;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,20 +27,14 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class LikeService {
     private final LikeRepository likeRepository;
-    private final BoardRepository boardRepository;
-    private final MemberRepository memberRepository;
+    private final BoardReadService boardReadService;
 
     public Long likeBoard(final Long boardId, final Long memberId) {
         // todo
-        Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
-
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-
+        Board board = boardReadService.getBoardOne(boardId);
         board.getBoardCount().plusLike();
 
-        return likeRepository.save(Like.createLike(member, board)).getId();
+        return likeRepository.save(Like.createLike(memberId, boardId)).getId();
     }
 
     public void unLikeBoard(final Long likeId) {
@@ -46,7 +44,9 @@ public class LikeService {
                 .delete();
     }
 
-    public Slice<LikeAllResponse> getBoardLikeMembers(final Long boardId, final Pageable pageable) {
-        return likeRepository.getBoardLikeList(boardId, pageable);
+    @Transactional(readOnly = true)
+    public SliceCustomResponse<LikeAllResponse> getBoardLikeList(final Long boardId, final Pageable pageable) {
+        // todo
+        return SliceCustomResponse.of(likeRepository.getBoardLikeList(boardId, pageable));
     }
 }

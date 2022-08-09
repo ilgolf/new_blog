@@ -24,21 +24,19 @@ public class Like extends BaseTimeEntity {
 
     private boolean deleted = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @Column(name = "board_id")
+    private Long boardId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id")
+    private Long memberId;
 
-    private Like(Member member, Board board) {
-        this.member = member;
-        this.board = board;
+    private Like(final Long memberId, final Long boardId) {
+        this.memberId = memberId;
+        this.boardId = boardId;
     }
 
-    public static Like createLike(final Member member, final Board board) {
-        return new Like(member, board);
+    public static Like createLike(final Long memberId, final Long boardId) {
+        return new Like(memberId, boardId);
     }
 
     public Like delete() {

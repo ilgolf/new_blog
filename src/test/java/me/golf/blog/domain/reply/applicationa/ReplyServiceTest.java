@@ -1,6 +1,8 @@
 package me.golf.blog.domain.reply.applicationa;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import me.golf.blog.domain.board.application.BoardService;
+import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.util.GivenBoard;
 import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.util.GivenMember;
@@ -39,9 +41,9 @@ class ReplyServiceTest {
     static Long replyId;
 
     @BeforeEach
-    void init() {
-        memberId = memberService.create(GivenMember.toEntity()).getMemberId();
-        boardId = boardService.create(GivenBoard.toEntity(), memberId);
+    void init() throws JsonProcessingException {
+        memberId = memberService.create(GivenMember.toEntityWithCount()).getMemberId();
+        boardId = boardService.create(GivenBoard.toEntityWithBoardCount(new BoardCount()), memberId);
         replyId = replyService.create(new ReplyCreateRequest(Comment.from("안녕하세요, 테스트입니다. 반가워요")), boardId, memberId);
     }
 

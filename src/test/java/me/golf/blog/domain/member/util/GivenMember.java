@@ -37,7 +37,6 @@ public class GivenMember {
                 .nickname(GIVEN_NICKNAME)
                 .name(GIVEN_NAME)
                 .role(RoleType.USER)
-                .memberCount(new MemberCount())
                 .birth(GIVEN_BIRTH)
                 .build();
     }

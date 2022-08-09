@@ -1,27 +1,23 @@
 package me.golf.blog.domain.board.domain.persist;
 
 import lombok.*;
+import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
-import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
-import me.golf.blog.domain.like.domain.persist.Like;
-import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.global.common.BaseEntity;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Builder
 @Where(clause = "is_deleted = false")
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "Board", indexes = {
-        @Index(name = "index_title", columnList = "title")
+        @Index(name = "index_title", columnList = "title"),
+        @Index(name = "index_idx", columnList = "member_id")
 })
 public class Board extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,21 +30,34 @@ public class Board extends BaseEntity {
     @Embedded
     private Content content;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_count_id")
+    @Embedded
     private BoardCount boardCount;
 
     @Enumerated(value = EnumType.STRING)
-    @Builder.Default
-    private BoardStatus status = BoardStatus.SAVE;
+    @Column(nullable = false)
+    private BoardStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id")
+    private Long memberId;
 
     @Column(name = "is_deleted")
-    @Builder.Default
     private boolean isDeleted = false;
+
+    @Builder
+    private Board(Long id, Title title, Content content, BoardStatus status, Long memberId) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.boardCount = new BoardCount();
+        this.status = status;
+        this.memberId = memberId;
+        this.isDeleted = false;
+    }
+
+    public Board addMember(final Long memberId) {
+        this.memberId = memberId;
+        return this;
+    }
 
     public void updateBoard(final Board board) {
         this.title = board.getTitle();
@@ -58,14 +67,5 @@ public class Board extends BaseEntity {
     public void delete() {
         this.isDeleted = true;
         recordDeleteTime();
-    }
-
-    public Board addMember(final Member member) {
-        this.member = member;
-        return this;
-    }
-
-    public void addBoardCount(final BoardCount boardCount) {
-        this.boardCount = boardCount;
     }
 }

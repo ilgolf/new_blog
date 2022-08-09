@@ -22,12 +22,12 @@ public class LikeCustomRepositoryImpl implements LikeCustomRepository {
     @Override
     public Slice<LikeAllResponse> getBoardLikeList(Long boardId, Pageable pageable) {
         List<LikeAllResponse> likes = query.select(Projections.constructor(LikeAllResponse.class,
-                        like.member.id,
-                        like.member.nickname)
+                        member.id,
+                        member.nickname)
                 )
                 .from(like)
-                .join(like.member, member)
-                .where(like.board.id.eq(boardId))
+                .innerJoin(member).on(member.id.eq(like.memberId))
+                .where(like.boardId.eq(boardId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();

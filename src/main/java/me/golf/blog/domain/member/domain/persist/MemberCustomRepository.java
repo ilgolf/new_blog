@@ -20,4 +20,6 @@ public interface MemberCustomRepository {
     PageCustomResponse<MemberAllResponse> findAllWithSearch(final MemberSearch memberSearch, final Pageable pageable);
     Optional<Email> existByEmail(final Email email);
     Optional<Nickname> existByNickname(final Nickname nickname);
+
+    void increaseBoardCount(final Long memberId);
 }
