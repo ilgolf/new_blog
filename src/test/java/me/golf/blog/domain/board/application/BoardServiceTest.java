@@ -1,8 +1,11 @@
 package me.golf.blog.domain.board.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
+import me.golf.blog.domain.board.domain.vo.BoardCount;
+import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.*;
@@ -42,19 +45,19 @@ class BoardServiceTest {
     static Long boardId;
 
     @BeforeEach
-    void init() {
-        JoinResponse joinResponse = memberService.create(GivenMember.toEntity());
+    void init() throws JsonProcessingException {
+        JoinResponse joinResponse = memberService.create(GivenMember.toEntityWithCount());
         
         member = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        boardId = boardService.create(toEntity(), member.getId());
+        boardId = boardService.create(toEntityWithBoardCount(new BoardCount()), member.getId());
     }
 
     @Test
     @DisplayName("boardId로 원하는 게시판 상세 조회")
     @Transactional(readOnly = true)
-    void findById() {
+    void findById() throws JsonProcessingException {
         BoardResponse boardResponse = boardReadService.findById(boardId);
 
         assertThat(boardResponse.getTitle()).isEqualTo(GIVEN_TITLE);
@@ -65,12 +68,13 @@ class BoardServiceTest {
     @Test
     @DisplayName("데이터베이스에 존재하는 게시판을 10개 조회해온다.")
     @Transactional(readOnly = true)
-    void findAll() {
+    void findAll() throws JsonProcessingException {
         // given
         for (int i = 0; i < 10; i++) {
             Board board = Board.builder()
                     .title(Title.from("테스트 용입니다. " + i))
                     .content(Content.from("테스트용 Content 입니다. 재미있다아앙"))
+                    .status(BoardStatus.SAVE)
                     .build();
             boardService.create(board, member.getId());
         }
@@ -91,7 +95,7 @@ class BoardServiceTest {
 
     @Test
     @DisplayName("게시판 정보를 수정하고 수정 날짜와 수정자를 기록한다.")
-    void update() {
+    void update() throws JsonProcessingException {
         // given
         BoardUpdateRequest request =
                 BoardUpdateRequest.of(Title.from("수정된 게시판 제목입니다."), Content.from("안녕하세요 수정된 게시판 내용입니다."));

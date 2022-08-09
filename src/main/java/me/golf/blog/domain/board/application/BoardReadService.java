@@ -1,6 +1,8 @@
 package me.golf.blog.domain.board.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
@@ -8,7 +10,6 @@ import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
 import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
-import me.golf.blog.domain.boardCount.application.BoardCountService;
 import me.golf.blog.domain.like.application.LikeService;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
@@ -18,42 +19,54 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 @Service
+@Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BoardReadService {
-    private final BoardCountService boardCountService;
     private final BoardRepository boardRepository;
     private final BoardRedisRepository boardRedisRepository;
-    private final LikeService likeService;
 
     @Transactional
-    public BoardResponse findById(final Long boardId) {
-        BoardRedisEntity boardRedisEntity = boardRedisRepository.findById(boardId)
-                .orElseGet(() -> boardRepository.findRedisEntity(boardId).orElseThrow(
-                        () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)));
+    public BoardResponse findById(final Long boardId) throws JsonProcessingException {
+        BoardRedisEntity boardRedisEntity = boardRedisRepository.findById(boardId).orElseGet(() -> {
+                    Board board = boardRepository.findByIdWithBoardCount(boardId).orElseThrow(
+                            () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-        int viewCount = boardCountService.increaseViewCount(boardRedisEntity.getBoardCountId());
+                    BoardRedisEntity boardRedis = new BoardRedisEntity(board);
+
+                    try {
+                        boardRedisRepository.save(boardRedis);
+                    } catch (JsonProcessingException e) {
+                        throw new IllegalArgumentException("파싱 실패!");
+                    }
+
+                    return boardRedis;
+        });
+
+        int viewCount = boardRepository.increaseViewCount(boardId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         return BoardResponse.of(boardRedisEntity, viewCount);
     }
 
+    @Transactional(readOnly = true)
     public PageCustomResponse<BoardAllResponse> findAll(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
         return boardRepository.findAllWithQuery(searchKeyword, pageable);
     }
 
+    @Transactional(readOnly = true)
     public PageCustomResponse<BoardAllResponse> findByEmail(final Email email, final Pageable pageable) {
         return boardRepository.findByEmail(email, pageable);
     }
 
+    @Transactional(readOnly = true)
     // 회원이 소유한 모든 임시 게시물 조회
     public PageCustomResponse<TempBoardListResponse> getTempBoardList(final Long memberId, final Pageable pageable) {
         // todo
         return boardRepository.findAllTempBoard(memberId, pageable);
     }
 
+    @Transactional(readOnly = true)
     public TempDetailResponse getTempBoard(final Long boardId, final Long memberId) {
         // todo
         Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
@@ -62,8 +75,8 @@ public class BoardReadService {
         return new TempDetailResponse(board.getTitle(), board.getContent());
     }
 
-    public SliceCustomResponse<LikeAllResponse> getBoardLikeList(final Long boardId, final Pageable pageable) {
-        // todo
-        return SliceCustomResponse.of(likeService.getBoardLikeMembers(boardId, pageable));
+    public Board getBoardOne(final Long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 }

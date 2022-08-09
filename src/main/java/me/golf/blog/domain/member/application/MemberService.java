@@ -11,7 +11,6 @@ import me.golf.blog.domain.member.dto.MemberDTO;
 import me.golf.blog.domain.member.error.DuplicateEmailException;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
-import me.golf.blog.domain.memberCount.application.MemberCountService;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,13 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
-    private final MemberCountService memberCountService;
 
     // create
     public JoinResponse create(final Member member) {
         existEmail(member.getEmail());
         existNickname(member.getNickname());
-        member.addMemberCount(memberCountService.saveMemberCount());
+
         return JoinResponse.of(memberRepository.save(member.encode(encoder)));
     }
 

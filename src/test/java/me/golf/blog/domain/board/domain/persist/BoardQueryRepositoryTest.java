@@ -1,5 +1,7 @@
 package me.golf.blog.domain.board.domain.persist;
 
+import me.golf.blog.domain.board.domain.vo.BoardCount;
+import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
@@ -19,7 +21,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 class BoardQueryRepositoryTest {
 
     @Autowired BoardRepository boardRepository;
@@ -28,13 +29,14 @@ class BoardQueryRepositoryTest {
 
     @BeforeEach
     void init() {
-        member = memberRepository.save(GivenMember.toEntity());
+        member = memberRepository.save(GivenMember.toEntityWithCount());
 
         for (int i = 0; i < 20; i++) {
             Board board = Board.builder()
                     .title(Title.from("게시판 제목 " + (i + 1)))
                     .content(Content.from("게시판 내용입니다. 안녕하세요 " + (i + 1)))
-                    .member(member)
+                    .memberId(member.getId())
+                    .status(BoardStatus.SAVE)
                     .build();
             boardRepository.save(board);
         }
@@ -42,6 +44,7 @@ class BoardQueryRepositoryTest {
 
     @Test
     @DisplayName("모든 조건을 다 받아오면 모든 조건문이 나간다.")
+    @Transactional
     void findAllKeyword() {
         // given
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
@@ -58,6 +61,7 @@ class BoardQueryRepositoryTest {
 
     @Test
     @DisplayName("일부의 키워드만 보내면 동적으로 null에 대해 동작하지 않는다.")
+    @Transactional
     void findPartKeyword() {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
                 .title("게시판 제목 1")
@@ -73,6 +77,7 @@ class BoardQueryRepositoryTest {
 
     @Test
     @DisplayName("아예 키워드가 없으면 where절은 제외 된다.")
+    @Transactional
     void findWithout() {
         SearchKeywordRequest keyword = SearchKeywordRequest.builder()
                 .title(null)

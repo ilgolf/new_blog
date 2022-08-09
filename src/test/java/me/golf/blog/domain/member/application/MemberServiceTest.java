@@ -7,6 +7,7 @@ import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.util.GivenMember;
+import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +44,7 @@ class MemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        JoinResponse joinResponse = memberService.create(toEntity());
+        JoinResponse joinResponse = memberService.create(toEntityWithCount());
 
         email = joinResponse.getEmail();
         memberId = joinResponse.getMemberId();

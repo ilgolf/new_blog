@@ -8,33 +8,26 @@ import lombok.NoArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@RedisHash("board")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class BoardRedisEntity implements Serializable {
-    private static final long serialVersionUID = 123123124L;
-    @Id
-    private Long id;
+public class BoardRedisEntity {
+    private String id;
     private Title title;
     private Content content;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime lastModifiedAt;
     private String createdBy;
-    private Long boardCountId;
+    private String viewCount;
 
     public BoardRedisEntity(final Board board) {
-        this.id = board.getId();
+        this.id = board.getId().toString();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.lastModifiedAt = board.getLastModifiedTime();
         this.createdBy = board.getCreatedBy();
-        this.boardCountId = board.getBoardCount().getId();
+        this.viewCount = String.valueOf(board.getBoardCount().getViewCount());
     }
 }
