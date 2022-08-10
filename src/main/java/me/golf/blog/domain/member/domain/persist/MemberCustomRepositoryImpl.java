@@ -37,9 +37,10 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                         member.name,
                         member.nickname,
                         member.birth,
-                        member.memberCount.id.as("memberCountId")))
+                        member.memberCount.followerCount,
+                        member.memberCount.boardCount,
+                        member.memberCount.followingCount))
                 .from(member)
-                .join(member.memberCount, memberCount)
                 .where(member.email.eq(email))
                 .fetchOne());
     }
@@ -104,5 +105,11 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 .where(member.nickname.eq(nickname))
                 .limit(1)
                 .fetchOne());
+    }
+
+    @Override
+    public void increaseBoardCount(final Long memberId) {
+        query.update(member).set(member.memberCount.boardCount, member.memberCount.boardCount.add(1))
+                .where(member.id.eq(memberId)).execute();
     }
 }

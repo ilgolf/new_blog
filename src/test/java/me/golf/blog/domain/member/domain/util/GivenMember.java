@@ -19,6 +19,7 @@ public class GivenMember {
 
     public static Member toEntity() {
         return Member.builder()
+                .id(1L)
                 .email(EMAIL)
                 .password(PASSWORD)
                 .name(NAME)

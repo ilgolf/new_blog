@@ -62,7 +62,7 @@ class AuthControllerTest {
 
     @BeforeEach
     public void init() {
-        memberId = memberRepository.save(toEntity()).getId();
+        memberId = memberRepository.save(toEntityWithCount()).getId();
     }
 
     @Test

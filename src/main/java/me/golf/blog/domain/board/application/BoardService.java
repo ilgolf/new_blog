@@ -1,5 +1,6 @@
 package me.golf.blog.domain.board.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
@@ -9,11 +10,9 @@ import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.board.error.TitleDuplicationException;
-import me.golf.blog.domain.boardCount.application.BoardCountService;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
-import me.golf.blog.domain.memberCount.application.MemberCountService;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,25 +24,23 @@ import java.util.Objects;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    private final BoardCountService boardCountService;
-    private final MemberCountService memberCountService;
     private final BoardRedisRepository boardRedisRepository;
 
     @Transactional
-    public Long create(final Board board, final Long memberId) {
+    public Long create(final Board board, final Long memberId) throws JsonProcessingException {
         existTitle(board.getTitle());
-        Board savedBoard = boardRepository.save(board.addMember(getMember(memberId)));
-        board.addBoardCount(boardCountService.saveBoardCount());
-        memberCountService.increaseBoardCount(getMember(memberId));
+        Board savedBoard = boardRepository.save(board.addMember(memberId));
+        memberRepository.increaseBoardCount(memberId);
         boardRedisRepository.save(new BoardRedisEntity(savedBoard));
         return savedBoard.getId();
     }
 
     @Transactional
-    public void update(final Board updateBoard, final Long boardId, final Long memberId) {
+    public void update(final Board updateBoard,
+                       final Long boardId, final Long memberId) throws JsonProcessingException {
         Board board = getBoardEntity(boardId);
 
-        if (!Objects.equals(board.getMember().getId(), memberId)) {
+        if (!Objects.equals(board.getMemberId(), memberId)) {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
 
@@ -57,7 +54,7 @@ public class BoardService {
 
     @Transactional
     public Long createTemp(final Board board, final Long memberId) {
-        board.addMember(getMember(memberId));
+        board.addMember(memberId);
         return boardRepository.save(board).getId();
     }
 
@@ -65,9 +62,11 @@ public class BoardService {
     public void delete(final Long boardsId, final Long memberId) {
         Board board = getBoardEntity(boardsId);
 
-        if (!Objects.equals(board.getMember().getId(), memberId)) {
+        if (!Objects.equals(board.getMemberId(), memberId)) {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
+
+        boardRedisRepository.delete(new BoardRedisEntity(board));
 
         board.delete();
     }

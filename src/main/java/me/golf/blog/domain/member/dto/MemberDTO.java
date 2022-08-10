@@ -33,5 +33,9 @@ public class MemberDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate birth;
 
-    private Long memberCountId;
+    private int followerCount = 0;
+
+    private int followingCount = 0;
+
+    private int boardCount = 0;
 }

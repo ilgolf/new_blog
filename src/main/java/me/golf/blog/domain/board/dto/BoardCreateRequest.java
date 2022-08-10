@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.vo.BoardImage;
+import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
 
@@ -31,6 +32,7 @@ public class BoardCreateRequest {
         return Board.builder()
                 .title(title)
                 .content(content)
+                .status(BoardStatus.SAVE)
                 .build();
     }
 }

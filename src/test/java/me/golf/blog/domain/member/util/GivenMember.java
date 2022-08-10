@@ -19,6 +19,7 @@ public class GivenMember {
 
     public static Member toEntity() {
         return Member.builder()
+                .id(1L)
                 .email(GIVEN_EMAIL)
                 .password(GIVEN_PASSWORD)
                 .nickname(GIVEN_NICKNAME)
@@ -30,12 +31,12 @@ public class GivenMember {
 
     public static Member toEntityWithCount() {
         return Member.builder()
+                .id(1L)
                 .email(GIVEN_EMAIL)
                 .password(GIVEN_PASSWORD)
                 .nickname(GIVEN_NICKNAME)
                 .name(GIVEN_NAME)
                 .role(RoleType.USER)
-                .memberCount(new MemberCount())
                 .birth(GIVEN_BIRTH)
                 .build();
     }

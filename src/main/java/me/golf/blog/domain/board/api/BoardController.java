@@ -1,5 +1,6 @@
 package me.golf.blog.domain.board.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
@@ -27,13 +28,13 @@ public class BoardController {
     private final BoardReadService boardReadService;
 
     @PostMapping("/boards")
-    public ResponseEntity<Long> create(@Valid @RequestBody BoardCreateRequest request) {
+    public ResponseEntity<Long> create(@Valid @RequestBody BoardCreateRequest request) throws JsonProcessingException {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(boardService.create(request.toEntity(), getPrincipal().getId()));
     }
 
     @GetMapping("/public/boards/id/{boardId}")
-    public ResponseEntity<BoardResponse> findById(@PathVariable Long boardId) {
+    public ResponseEntity<BoardResponse> findById(@PathVariable Long boardId) throws JsonProcessingException {
         return ResponseEntity.ok(boardReadService.findById(boardId));
     }
 
@@ -52,7 +53,8 @@ public class BoardController {
     }
 
     @PatchMapping("/boards/{boardId}")
-    public ResponseEntity<Void> update(@Valid @RequestBody BoardUpdateRequest request, @PathVariable Long boardId) {
+    public ResponseEntity<Void> update(@Valid @RequestBody BoardUpdateRequest request,
+                                       @PathVariable Long boardId) throws JsonProcessingException {
         boardService.update(request.toEntity(), boardId, getPrincipal().getId());
         return ResponseEntity.ok().build();
     }
@@ -73,13 +75,6 @@ public class BoardController {
     public ResponseEntity<PageCustomResponse<TempBoardListResponse>> getTempBoardList(
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(boardReadService.getTempBoardList(getPrincipal().getId(), pageable));
-    }
-
-    @GetMapping("/boards/{boardId}/likes")
-    public ResponseEntity<SliceCustomResponse<LikeAllResponse>> getBoardLikeList(
-            @PathVariable Long boardId,
-            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok().body(boardReadService.getBoardLikeList(boardId, pageable));
     }
 
     @GetMapping("/boards/temp-board/{boardId}")

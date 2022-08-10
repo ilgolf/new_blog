@@ -1,13 +1,9 @@
 package me.golf.blog.domain.member.domain.persist;
 
 import lombok.*;
-import me.golf.blog.domain.board.domain.persist.Board;
-import me.golf.blog.domain.boardCount.domain.persist.BoardCount;
-import me.golf.blog.domain.follower.domain.persist.Follower;
 import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.BaseTimeEntity;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
@@ -15,8 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -25,8 +19,6 @@ import java.util.Objects;
 @DynamicInsert
 @Where(clause = "activated = true")
 @Table(indexes = @Index(name = "i_email", columnList = "email"))
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
@@ -54,16 +46,23 @@ public class Member extends BaseTimeEntity {
     private RoleType role;
 
     @Column(name = "activated")
-    @Builder.Default
     private Boolean activated = true;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_count_id")
+    @Embedded
     private MemberCount memberCount;
 
-    // == 연관관계 로직 == //
-    public void addMemberCount(final MemberCount memberCount) {
-        this.memberCount = memberCount;
+    @Builder
+    private Member(Long id, Email email, Password password, Name name, Nickname nickname,
+                   LocalDate birth, RoleType role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.birth = birth;
+        this.role = role;
+        this.activated = true;
+        this.memberCount = new MemberCount();
     }
 
     // == 비즈니스 로직 == //

@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.util.StringUtils;
 
 import static me.golf.blog.domain.board.domain.persist.QBoard.board;
+import static me.golf.blog.domain.member.domain.persist.QMember.member;
 
 public enum BoardExpression {
     EQ_NICKNAME {
@@ -12,7 +13,7 @@ public enum BoardExpression {
             if (!StringUtils.hasText(nickname)) {
                 return null;
             }
-            return board.member.nickname.nickname.contains(nickname);
+            return member.nickname.nickname.contains(nickname);
         }
     },
     EQ_TITLE {
