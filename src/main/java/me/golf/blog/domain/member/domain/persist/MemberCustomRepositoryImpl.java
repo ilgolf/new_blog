@@ -110,6 +110,6 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     @Override
     public void increaseBoardCount(final Long memberId) {
         query.update(member).set(member.memberCount.boardCount, member.memberCount.boardCount.add(1))
-                .where(member.id.eq(memberId));
+                .where(member.id.eq(memberId)).execute();
     }
 }
