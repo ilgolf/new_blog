@@ -145,8 +145,8 @@ class BoardServiceTest {
         Long tempBoard = boardService.createTemp(request.toEntity(), member.getId());
 
         // then
-        Title title = boardRepository.findTempBoardById(tempBoard, member.getId()).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)).getTitle();
+        Title title = boardRepository.findByIdAndStatusAndMemberId(tempBoard, BoardStatus.TEMP, member.getId())
+                .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)).getTitle();
 
         assertThat(title.title()).isEqualTo("임시 게시판 만드는 테스트입니다.");
     }

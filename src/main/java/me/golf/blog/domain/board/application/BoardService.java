@@ -6,6 +6,7 @@ import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
 import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
+import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
@@ -73,15 +74,14 @@ public class BoardService {
 
     @Transactional
     public void deleteTempBoard(final Long boardId, final Long memberId) {
-        // todo
-        Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
+        Board board = boardRepository.findByIdAndStatusAndMemberId(boardId, BoardStatus.TEMP, memberId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         board.delete();
     }
 
-    private Board getBoardEntity(Long boardsId) {
-        return boardRepository.findWithMemberById(boardsId).orElseThrow(
+    private Board getBoardEntity(final Long boardsId) {
+        return boardRepository.findById(boardsId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 
@@ -89,10 +89,5 @@ public class BoardService {
         if (boardRepository.existByTitle(title).isPresent()) {
             throw new TitleDuplicationException(ErrorCode.DUPLICATE_TITLE);
         }
-    }
-
-    private Member getMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 }
