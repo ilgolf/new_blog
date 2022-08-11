@@ -8,6 +8,7 @@ import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
 import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
+import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.like.application.LikeService;
@@ -60,16 +61,13 @@ public class BoardReadService {
     }
 
     @Transactional(readOnly = true)
-    // 회원이 소유한 모든 임시 게시물 조회
     public PageCustomResponse<TempBoardListResponse> getTempBoardList(final Long memberId, final Pageable pageable) {
-        // todo
         return boardRepository.findAllTempBoard(memberId, pageable);
     }
 
     @Transactional(readOnly = true)
     public TempDetailResponse getTempBoard(final Long boardId, final Long memberId) {
-        // todo
-        Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
+        Board board = boardRepository.findByIdAndStatusAndMemberId(boardId, BoardStatus.TEMP, memberId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         return new TempDetailResponse(board.getTitle(), board.getContent());
