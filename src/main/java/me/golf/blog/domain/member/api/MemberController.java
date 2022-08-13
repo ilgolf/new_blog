@@ -3,7 +3,6 @@ package me.golf.blog.domain.member.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.member.application.MemberReadService;
-import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.global.common.PageCustomResponse;
@@ -17,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

@@ -8,6 +8,7 @@ import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
+import me.golf.blog.domain.member.redisform.MemberRedisDto;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -107,15 +108,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("요청을 받아 정상적으로 조회 컨트롤러가 동작한다.")
     void findMemberTest() throws Exception {
-        MemberDTO memberDTO = MemberDTO.builder()
-                .email(GIVEN_EMAIL)
-                .name(GIVEN_NAME)
-                .nickname(GIVEN_NICKNAME)
-                .birth(LocalDate.of(1996, 10, 25))
-                .followerCount(1)
-                .followingCount(1)
-                .boardCount(1)
-                .build();
+        MemberRedisDto memberDTO = MemberRedisDto.of(toEntityWithCount());
         when(memberReadService.findByEmail(any())).thenReturn(MemberResponse.of(memberDTO));
 
         mockMvc.perform(get("/api/v1/public/members/" + GIVEN_EMAIL.email()).accept(MediaType.APPLICATION_JSON))
