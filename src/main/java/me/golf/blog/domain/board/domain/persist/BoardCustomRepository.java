@@ -14,8 +14,5 @@ public interface BoardCustomRepository {
     Optional<Title> existByTitle(final Title title);
     PageCustomResponse<BoardAllResponse> findByEmail(final Email email, final Pageable pageable);
     PageCustomResponse<TempBoardListResponse> findAllTempBoard(final Long memberId, final Pageable pageable);
-
-    Optional<Board> findByIdWithBoardCount(final Long boardId);
-
     Optional<Integer> increaseViewCount(final Long boardId);
 }

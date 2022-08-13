@@ -45,7 +45,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 .fetchOne());
     }
 
-    public Optional<CustomUserDetails> findByEmail(final Email email) {
+    public Optional<CustomUserDetails> findUserDetailsByEmail(final Email email) {
         return Optional.ofNullable(
                 query.select(Projections.constructor(CustomUserDetails.class,
                                 member.id.as("id"),
@@ -85,10 +85,10 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
             return PageCustomResponse.of(Page.empty());
         }
 
-        JPAQuery<Member> count = query.select(member)
+        JPAQuery<Long> count = query.select(member.count())
                 .from(member);
 
-        return PageCustomResponse.of(PageableExecutionUtils.getPage(members, pageable, () -> count.fetch().size()));
+        return PageCustomResponse.of(PageableExecutionUtils.getPage(members, pageable, count::fetchFirst));
     }
 
     public Optional<Email> existByEmail(final Email email) {

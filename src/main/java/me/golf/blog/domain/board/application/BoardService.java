@@ -4,16 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisDto;
 import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.board.error.TitleDuplicationException;
-import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +30,7 @@ public class BoardService {
         existTitle(board.getTitle());
         Board savedBoard = boardRepository.save(board.addMember(memberId));
         memberRepository.increaseBoardCount(memberId);
-        boardRedisRepository.save(new BoardRedisEntity(savedBoard));
+        boardRedisRepository.save(new BoardRedisDto(savedBoard));
         return savedBoard.getId();
     }
 
@@ -50,7 +48,7 @@ public class BoardService {
         }
 
         board.updateBoard(updateBoard);
-        boardRedisRepository.save(new BoardRedisEntity(board));
+        boardRedisRepository.save(new BoardRedisDto(board));
     }
 
     @Transactional
@@ -67,7 +65,7 @@ public class BoardService {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
 
-        boardRedisRepository.delete(new BoardRedisEntity(board));
+        boardRedisRepository.delete(new BoardRedisDto(board));
 
         board.delete();
     }

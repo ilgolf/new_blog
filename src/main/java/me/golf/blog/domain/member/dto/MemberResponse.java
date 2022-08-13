@@ -8,6 +8,7 @@ import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
+import me.golf.blog.domain.member.redisform.MemberRedisDto;
 import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 
 import java.time.LocalDate;
@@ -24,11 +25,16 @@ public class MemberResponse {
     private int followingCount;
     private int boardCount;
 
-    public static MemberResponse of(final MemberDTO member) {
+    public static MemberResponse of(final MemberRedisDto member) {
         int memberYear = member.getBirth().getYear();
         int now = LocalDate.now().getYear();
+        int age = now - memberYear;
 
-        return new MemberResponse(member.getEmail(), member.getName(), member.getNickname(), now - memberYear,
-                member.getFollowerCount(), member.getFollowingCount(), member.getBoardCount());
+        return new MemberResponse(Email.from(member.getEmail()),
+                Name.from(member.getName()),
+                Nickname.from(member.getNickname()),
+                age,
+                member.getFollowerCount(),
+                member.getFollowingCount(), member.getBoardCount());
     }
 }

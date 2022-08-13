@@ -6,15 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisDto;
 import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
-import me.golf.blog.domain.like.application.LikeService;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
-import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -29,11 +27,11 @@ public class BoardReadService {
 
     @Transactional
     public BoardResponse findById(final Long boardId) throws JsonProcessingException {
-        BoardRedisEntity boardRedisEntity = boardRedisRepository.findById(boardId).orElseGet(() -> {
-                    Board board = boardRepository.findByIdWithBoardCount(boardId).orElseThrow(
+        BoardRedisDto boardRedisDto = boardRedisRepository.findById(boardId).orElseGet(() -> {
+                    Board board = boardRepository.findById(boardId).orElseThrow(
                             () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-                    BoardRedisEntity boardRedis = new BoardRedisEntity(board);
+                    BoardRedisDto boardRedis = new BoardRedisDto(board);
 
                     try {
                         boardRedisRepository.save(boardRedis);
@@ -47,7 +45,7 @@ public class BoardReadService {
         int viewCount = boardRepository.increaseViewCount(boardId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-        return BoardResponse.of(boardRedisEntity, viewCount);
+        return BoardResponse.of(boardRedisDto, viewCount);
     }
 
     @Transactional(readOnly = true)
