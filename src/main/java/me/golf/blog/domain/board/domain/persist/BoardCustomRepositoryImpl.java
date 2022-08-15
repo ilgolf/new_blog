@@ -90,21 +90,11 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
             return PageCustomResponse.of(Page.empty());
         }
 
-        JPAQuery<Board> count = query.select(board)
+        JPAQuery<Long> count = query.select(board.count())
                 .from(board)
                 .where(board.status.eq(BoardStatus.TEMP));
 
-        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable,
-                () -> count.fetch().size()));
-    }
-
-    @Override
-    public Optional<Board> findByIdWithBoardCount(Long boardId) {
-        return Optional.ofNullable(
-                query.select(board)
-                        .from(board)
-                        .where(board.id.eq(boardId))
-                        .fetchOne());
+        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable, count::fetchFirst));
     }
 
     @Override
@@ -121,11 +111,10 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
             return PageCustomResponse.of(Page.empty());
         }
 
-        JPAQuery<Board> count = query.select(board)
+        JPAQuery<Long> count = query.select(board.count())
                 .from(board)
                 .where(board.status.eq(BoardStatus.SAVE));
 
-        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable,
-                () -> count.fetch().size()));
+        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable, count::fetchFirst));
     }
 }

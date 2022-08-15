@@ -6,16 +6,12 @@ import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
-import me.golf.blog.domain.member.util.GivenMember;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +50,7 @@ class MemberServiceTest {
     @DisplayName("회원정보를 조회해온다.")
     void findOne() {
         // when
-        MemberResponse member = memberReadService.findByEmail(email);
+        MemberResponse member = memberReadService.getDetailBy(memberId);
 
         // then
         assertThat(member.getEmail()).isEqualTo(GIVEN_EMAIL);
@@ -132,7 +128,7 @@ class MemberServiceTest {
 
         // when
         memberService.update(updateRequest.toEntity(), memberId);
-        MemberDTO member = memberRepository.findByEmailWithMemberDTO(email).orElseThrow(
+        Member member = memberRepository.findByEmail(email).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // then

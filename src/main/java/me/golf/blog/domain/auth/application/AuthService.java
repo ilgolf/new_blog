@@ -29,7 +29,7 @@ public class AuthService {
     public TokenDTO login(final Email email, final Password password) {
         final String userPw = password.password();
 
-        CustomUserDetails userDetails = memberQueryRepository.findByEmail(email)
+        CustomUserDetails userDetails = memberQueryRepository.findUserDetailsByEmail(email)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         UsernamePasswordAuthenticationToken token

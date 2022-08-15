@@ -3,11 +3,9 @@ package me.golf.blog.domain.board.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
-import me.golf.blog.domain.board.domain.persist.Board;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
+import me.golf.blog.domain.board.domain.redisForm.BoardRedisDto;
 import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.dto.*;
-import me.golf.blog.domain.board.util.GivenBoard;
 import me.golf.blog.domain.board.util.GivenBoardCount;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
@@ -71,8 +69,8 @@ class BoardControllerTest {
     @DisplayName("id 값을 이용해 게시판을 상세히 조회해온다.")
     @WithAuthUser
     void findById() throws Exception {
-        BoardRedisEntity boardRedisEntity = new BoardRedisEntity(toEntityWithBoardCount(new BoardCount()));
-        BoardResponse boardResponse = BoardResponse.of(boardRedisEntity, 0);
+        BoardRedisDto boardRedisDto = new BoardRedisDto(toEntityWithBoardCount(new BoardCount()));
+        BoardResponse boardResponse = BoardResponse.of(boardRedisDto, 0);
 
         when(boardReadService.findById(any())).thenReturn(boardResponse);
 

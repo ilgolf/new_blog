@@ -14,17 +14,17 @@ public class BoardRedisRepository {
     private final RedisTemplate<String, String> redisTemplate;
     private final ObjectMapper objectMapper;
 
-    public void save(final BoardRedisEntity board) throws JsonProcessingException {
+    public void save(final BoardRedisDto board) throws JsonProcessingException {
         String boardJson = objectMapper.writeValueAsString(board);
         redisTemplate.opsForValue().set(board.getId(), boardJson);
     }
 
-    public Optional<BoardRedisEntity> findById(final Long boardId) throws JsonProcessingException {
+    public Optional<BoardRedisDto> findById(final Long boardId) throws JsonProcessingException {
         String boardJson = redisTemplate.opsForValue().get(boardId.toString());
-        return Optional.ofNullable(objectMapper.readValue(boardJson, BoardRedisEntity.class));
+        return Optional.ofNullable(objectMapper.readValue(boardJson, BoardRedisDto.class));
     }
 
-    public void delete(final BoardRedisEntity board) {
+    public void delete(final BoardRedisDto board) {
         redisTemplate.delete(board.getId());
     }
 }
