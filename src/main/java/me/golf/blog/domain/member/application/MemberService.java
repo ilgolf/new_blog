@@ -10,7 +10,7 @@ import me.golf.blog.domain.member.dto.JoinResponse;
 import me.golf.blog.domain.member.error.DuplicateEmailException;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
-import me.golf.blog.domain.member.redisform.MemberRedisDto;
+import me.golf.blog.domain.member.domain.redisform.MemberRedisDto;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

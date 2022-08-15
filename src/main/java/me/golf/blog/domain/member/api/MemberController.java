@@ -3,7 +3,6 @@ package me.golf.blog.domain.member.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.member.application.MemberReadService;
-import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
@@ -33,9 +32,9 @@ public class MemberController {
     }
 
     // read
-    @GetMapping("/public/members/{email}")
-    public ResponseEntity<MemberResponse> findMember(@PathVariable String email) {
-        return ResponseEntity.ok().body(memberReadService.findByEmail(Email.from(email)));
+    @GetMapping("/public/members/{memberId}")
+    public ResponseEntity<MemberResponse> findMember(@PathVariable Long memberId) {
+        return ResponseEntity.ok().body(memberReadService.getDetailBy(memberId));
     }
 
     // findAll
