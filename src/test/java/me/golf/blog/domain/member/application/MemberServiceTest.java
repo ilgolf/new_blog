@@ -82,7 +82,7 @@ class MemberServiceTest {
         }
 
         // when
-        List<MemberAllResponse> members = memberReadService.findAll(memberSearch, pageable).getData();
+        List<MemberAllResponse> members = memberReadService.getMembers(memberSearch, pageable).getData();
 
         // then
         assertThat(members.size()).isEqualTo(10);
@@ -118,7 +118,7 @@ class MemberServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<MemberAllResponse> members = memberReadService.findAll(memberSearch, pageable).getData();
+        List<MemberAllResponse> members = memberReadService.getMembers(memberSearch, pageable).getData();
 
         // then
         assertThat(members.size()).isEqualTo(1);

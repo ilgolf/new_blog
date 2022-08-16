@@ -2,7 +2,6 @@ package me.golf.blog.domain.member.domain.persist;
 
 import lombok.*;
 import me.golf.blog.domain.member.domain.vo.*;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.BaseTimeEntity;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
