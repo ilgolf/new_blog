@@ -8,8 +8,7 @@ import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
-import me.golf.blog.domain.member.redisform.MemberRedisDto;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
+import me.golf.blog.domain.member.domain.redisform.MemberRedisDto;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,12 +21,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static me.golf.blog.domain.member.util.GivenMember.*;
@@ -110,7 +107,7 @@ class MemberControllerTest {
     @WithAuthUser
     void findMemberTest() throws Exception {
         MemberRedisDto memberDTO = MemberRedisDto.of(toEntityWithCount());
-        when(memberReadService.findByEmail(any())).thenReturn(MemberResponse.of(memberDTO));
+        when(memberReadService.getDetailBy(any())).thenReturn(MemberResponse.of(memberDTO));
 
         mockMvc.perform(get("/api/v1/members/detail").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -1,4 +1,4 @@
-package me.golf.blog.domain.member.redisform;
+package me.golf.blog.domain.member.domain.redisform;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
