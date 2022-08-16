@@ -34,7 +34,7 @@ public class MemberReadService {
     }
 
     @Transactional(readOnly = true)
-    public PageCustomResponse<MemberAllResponse> findAll(final MemberSearch memberSearch, final Pageable pageable) {
+    public PageCustomResponse<MemberAllResponse> getMembers(final MemberSearch memberSearch, final Pageable pageable) {
         return memberRepository.findAllWithSearch(memberSearch, pageable);
     }
 }

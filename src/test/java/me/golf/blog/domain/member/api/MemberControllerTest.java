@@ -104,11 +104,12 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("요청을 받아 정상적으로 조회 컨트롤러가 동작한다.")
+    @WithAuthUser
     void findMemberTest() throws Exception {
         MemberRedisDto memberDTO = MemberRedisDto.of(toEntityWithCount());
         when(memberReadService.getDetailBy(any())).thenReturn(MemberResponse.of(memberDTO));
 
-        mockMvc.perform(get("/api/v1/public/members/" + GIVEN_EMAIL.email()).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/v1/members/detail").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("member/findById",
                         responseFields(
@@ -131,7 +132,7 @@ class MemberControllerTest {
         PageCustomResponse<MemberAllResponse> response
                 = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
 
-        when(memberReadService.findAll(any(), any())).thenReturn(response);
+        when(memberReadService.getMembers(any(), any())).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/public/members").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -156,7 +157,7 @@ class MemberControllerTest {
         PageCustomResponse<MemberAllResponse> response
                 = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
 
-        when(memberReadService.findAll(any(), any())).thenReturn(response);
+        when(memberReadService.getMembers(any(), any())).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/public/members")
                         .param("nickname", GIVEN_NICKNAME.nickname())
