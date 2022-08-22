@@ -21,6 +21,11 @@ public class BoardRedisRepository {
 
     public Optional<BoardRedisDto> findById(final Long boardId) throws JsonProcessingException {
         String boardJson = redisTemplate.opsForValue().get(boardId.toString());
+
+        if (boardJson == null) {
+            return Optional.empty();
+        }
+
         return Optional.ofNullable(objectMapper.readValue(boardJson, BoardRedisDto.class));
     }
 

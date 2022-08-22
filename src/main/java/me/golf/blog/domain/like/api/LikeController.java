@@ -21,7 +21,7 @@ public class LikeController {
 
     @PostMapping("/{boardId}")
     public ResponseEntity<Long> likeBoard(@PathVariable Long boardId) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.likeBoard(boardId, getPrincipal().getId()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.likeBoard(boardId, getMemberId()));
     }
 
     @GetMapping("/boards/{boardId}/likes")
@@ -37,7 +37,10 @@ public class LikeController {
         return ResponseEntity.noContent().build();
     }
 
-    private CustomUserDetails getPrincipal() {
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private Long getMemberId() {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        return principal.getId();
     }
 }

@@ -12,6 +12,7 @@ import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.data.domain.*;
@@ -27,20 +28,14 @@ public class BoardReadService {
 
     @Transactional
     public BoardResponse findById(final Long boardId) throws JsonProcessingException {
-        BoardRedisDto boardRedisDto = boardRedisRepository.findById(boardId).orElseGet(() -> {
-                    Board board = boardRepository.findById(boardId).orElseThrow(
-                            () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        BoardRedisDto boardRedisDto = boardRedisRepository.findById(boardId).orElse(null);
 
-                    BoardRedisDto boardRedis = new BoardRedisDto(board);
+        if (boardRedisDto == null) {
+            Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                    new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-                    try {
-                        boardRedisRepository.save(boardRedis);
-                    } catch (JsonProcessingException e) {
-                        throw new IllegalArgumentException("파싱 실패!");
-                    }
-
-                    return boardRedis;
-        });
+            boardRedisDto = new BoardRedisDto(board);
+        }
 
         int viewCount = boardRepository.increaseViewCount(boardId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
