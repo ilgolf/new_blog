@@ -29,6 +29,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
     public PageCustomResponse<BoardAllResponse> findAllWithQuery(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
+                        board.id,
                         board.title,
                         board.content,
                         member.email,
@@ -60,6 +61,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
     public PageCustomResponse<BoardAllResponse> findByEmail(Email email, Pageable pageable) {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
+                        board.id,
                         board.title,
                         board.content,
                         member.email,
