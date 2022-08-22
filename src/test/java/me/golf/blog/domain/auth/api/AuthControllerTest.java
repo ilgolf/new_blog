@@ -43,20 +43,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @Transactional
 class AuthControllerTest {
-    @Autowired
-    MemberRepository memberRepository;
+    @Autowired MemberRepository memberRepository;
 
-    @MockBean
-    AuthService authService;
+    @MockBean AuthService authService;
 
-    @Autowired
-    MockMvc mockMvc;
+    @Autowired MockMvc mockMvc;
 
-    @Autowired
-    ObjectMapper objectMapper;
+    @Autowired ObjectMapper objectMapper;
 
-    @Autowired
-    TokenProvider tokenProvider;
+    @Autowired TokenProvider tokenProvider;
 
     static Long memberId;
 

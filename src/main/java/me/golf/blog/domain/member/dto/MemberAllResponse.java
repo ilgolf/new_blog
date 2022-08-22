@@ -12,6 +12,7 @@ import me.golf.blog.domain.member.domain.vo.Nickname;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberAllResponse {
+    private Long memberId;
     private Email email;
     private Nickname nickname;
     private Name name;

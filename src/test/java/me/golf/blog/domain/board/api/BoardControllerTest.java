@@ -104,6 +104,7 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("board/findAll",
                         responseFields(
+                                fieldWithPath("data.[].boardId").description("게시판 고유식별자"),
                                 fieldWithPath("data.[].title").description("게시물 제목"),
                                 fieldWithPath("data.[].content").description("게시물 내용"),
                                 fieldWithPath("data.[].createdBy").description("게시물 작성자"),
@@ -140,6 +141,7 @@ class BoardControllerTest {
                                 parameterWithName("content").description("검색 내용 키워드"),
                                 parameterWithName("email").description("검색 이메일 키워드")),
                         responseFields(
+                                fieldWithPath("data.[].boardId").description("게시물 고유식별자"),
                                 fieldWithPath("data.[].title").description("게시물 제목"),
                                 fieldWithPath("data.[].content").description("게시물 내용"),
                                 fieldWithPath("data.[].createdBy").description("게시물 작성자"),
@@ -167,6 +169,7 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("board/findByEmail",
                         responseFields(
+                                fieldWithPath("data.[].boardId").description("게시물 고유식별자"),
                                 fieldWithPath("data.[].title").description("게시물 제목"),
                                 fieldWithPath("data.[].content").description("게시물 내용"),
                                 fieldWithPath("data.[].createdBy").description("게시물 작성자"),

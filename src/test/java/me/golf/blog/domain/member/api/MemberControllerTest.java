@@ -127,7 +127,8 @@ class MemberControllerTest {
     @Test
     @DisplayName("정상적으로 findAll 컨트롤러가 동작한다.")
     void findAllTest() throws Exception {
-        List<MemberAllResponse> members = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+        List<MemberAllResponse> members = List.of(new
+                MemberAllResponse(1L, GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
 
         PageCustomResponse<MemberAllResponse> response
                 = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
@@ -138,6 +139,7 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("member/findAll",
                         responseFields(
+                                fieldWithPath("data.[].memberId").description("회원 고유식별자"),
                                 fieldWithPath("data.[].email").description("회원 이메일"),
                                 fieldWithPath("data.[].nickname").description("회원 별칭"),
                                 fieldWithPath("data.[].name").description("회원 이름"),
@@ -152,7 +154,8 @@ class MemberControllerTest {
     @Test
     @DisplayName("검색 조건이 걸릴 경우의 인수테스트")
     void findSearch() throws Exception {
-        List<MemberAllResponse> members = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+        List<MemberAllResponse> members = List.of(
+                new MemberAllResponse(1L, GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
 
         PageCustomResponse<MemberAllResponse> response
                 = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
@@ -169,6 +172,7 @@ class MemberControllerTest {
                                 parameterWithName("nickname").description("검색 회원 닉네임 키워드"),
                                 parameterWithName("email").description("검색 회원 이메일 키워드")),
                         responseFields(
+                                fieldWithPath("data.[].memberId").description("회원 고유식별자"),
                                 fieldWithPath("data.[].email").description("회원 이메일"),
                                 fieldWithPath("data.[].nickname").description("회원 별칭"),
                                 fieldWithPath("data.[].name").description("회원 이름"),

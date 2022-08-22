@@ -50,6 +50,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 
     public PageCustomResponse<MemberAllResponse> findAllWithSearch(final MemberSearch memberSearch, final Pageable pageable) {
         List<MemberAllResponse> members = query.select(Projections.constructor(MemberAllResponse.class,
+                        member.id,
                         member.email,
                         member.nickname,
                         member.name))
