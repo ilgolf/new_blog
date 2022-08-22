@@ -143,6 +143,9 @@ class MemberServiceTest {
         memberService.delete(memberId);
 
         // then
-        assertThrows(MemberNotFoundException.class, () -> memberService.getMember(email));
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        assertThat(member.getActivated()).isFalse();
     }
 }

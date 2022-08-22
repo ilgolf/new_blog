@@ -441,8 +441,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Auth</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
 <p>email : <a href="mailto:ilgolc@naver.com">ilgolc@naver.com</a></p>
 </div>
@@ -482,17 +480,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 </tbody>
 </table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs login</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_login">Spring REST Docs login</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_request">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/public/auth/login HTTP/1.1
@@ -503,15 +498,13 @@ Host: localhost:8080
 {&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;password&quot;:&quot;123456789&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIyIiwiZXhwIjoxNjU2MTU1MDA5fQ.31BluKyT8UAo0Wpycgy8ZJYkDIyekk43ln3qLqHlCkalf2dVKrUz4mrgkerEhi9y1Na0W2AA5lwdX8Z6i7rTNg; Path=/; Max-Age=18000; Expires=Sat, 25 Jun 2022 11:03:29 GMT; Secure; HttpOnly
+Set-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIyIiwiZXhwIjoxNjYwNjc4NTUzfQ.Uw51xnQmd-jMuB-2GQyYr2dn5L3K16fAbUDVkYeJp7ML39O_ivPIPkTNaC_kmve8TpSqxlcdjNdSVaF1zt89Mw; Path=/; Max-Age=18000; Expires=Tue, 16 Aug 2022 19:35:54 GMT; Secure; HttpOnly
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -521,34 +514,28 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Length: 188
 
-{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjU2MTQwNjA5fQ.Of-k7KAgEkCG4etnoCytm3Ii55yUZC86nPMNF8K2GoS9_MGQJHlA4KOnjL9SgmK3qVNl_iCuCwu-nHP1BBnKMA&quot;}</code></pre>
+{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTUzfQ.cQQ6vP41y1HXjorPBXJ0BZ2Qe_yYixOoNGf-WTwSMEHiidU2jxY53SOxa5lqnCDb0AU0pgg57iHIJT8fQruQ3Q&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Request Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_request_body">Request Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;password&quot;:&quot;123456789&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body">Response Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjU2MTQwNjA5fQ.Of-k7KAgEkCG4etnoCytm3Ii55yUZC86nPMNF8K2GoS9_MGQJHlA4KOnjL9SgmK3qVNl_iCuCwu-nHP1BBnKMA&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTUzfQ.cQQ6vP41y1HXjorPBXJ0BZ2Qe_yYixOoNGf-WTwSMEHiidU2jxY53SOxa5lqnCDb0AU0pgg57iHIJT8fQruQ3Q&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Request Body (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_request_body_table">Request Body (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -575,11 +562,9 @@ Content-Length: 188
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>== Response Body (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_table">Response Body (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -603,27 +588,24 @@ Content-Length: 188
 </table>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_logout">Spring REST Docs logout</h2>
-<div class="sectionbody">
-
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs logout</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_request_2">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">DELETE /api/v1/auth/logout HTTP/1.1
 Host: localhost:8080
-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIxIiwiZXhwIjoxNjU2MTU1MDA5fQ.eEGIpFDw3XcjqGi4j2G_8D2GLllCbD762mHAjNCiETjjFoEakhakkpXKTgWd2uMHnxb8MgKTiAomyQHEgm3zBA</code></pre>
+Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIxIiwiZXhwIjoxNjYwNjc4NTUzfQ.GWeJZejMIXuiHJDcttrcymBqRTHfIJUZhNKq__fNw58oaU-ENP1VvcW764aHrurDiKyv0HInXUpAvL4A_bxVLA</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_2">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
@@ -638,27 +620,24 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_spring_rest_docs_reissue">Spring REST Docs - reissue</h2>
-<div class="sectionbody">
-
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>== Spring REST Docs - reissue</p>
 </div>
+<div class="paragraph">
+<p>== REQUEST</p>
 </div>
-<div class="sect1">
-<h2 id="_request_3">REQUEST</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/public/auth/reissue HTTP/1.1
 Host: localhost:8080
-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIzIiwiZXhwIjoxNjU2MTU1MDA5fQ.TA0y1RCJSEmridNVz33_bmastRaFBkl2EacooMsOczDyKlZxmHR0HhoF62J7-A3LfHfDWZowk2OzyTTp-lLI9w</code></pre>
+Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIzIiwiZXhwIjoxNjYwNjc4NTU0fQ.qYUHiDCPRnwqOhiYO5FCiRgvkohOmbbjUUfqWOZWZSEk7XnU8b0hjaAAlOzuqxaxfxOXc0xPBX6Jh50y5d8XAQ</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== RESPONSE</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_3">RESPONSE</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
@@ -671,24 +650,20 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Length: 188
 
-{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjU2MTQwNjA5fQ.VeWjwZ2FAjBGioJiAS0T9LiRl2jUbMv1wm7qvkvxFRE7mKV8TwWjtfJ22EUFjTPoHjmYOr8TvCbpUarS7H20pA&quot;}</code></pre>
+{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTU0fQ.AAOWnWp0LjBHSiV_-ACCoI8T5U2vKp8RzYJ14QogEefR0o_hshU66kz5y1UahnpbJD9XPVv1vPcefBLf18zPaQ&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_2">Response Body</h2>
-<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjU2MTQwNjA5fQ.VeWjwZ2FAjBGioJiAS0T9LiRl2jUbMv1wm7qvkvxFRE7mKV8TwWjtfJ22EUFjTPoHjmYOr8TvCbpUarS7H20pA&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTU0fQ.AAOWnWp0LjBHSiV_-ACCoI8T5U2vKp8RzYJ14QogEefR0o_hshU66kz5y1UahnpbJD9XPVv1vPcefBLf18zPaQ&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== Response Body (Table)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_response_body_table_2">Response Body (Table)</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -715,7 +690,7 @@ Content-Length: 188
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 23:35:20 +0900
+Last updated 2022-07-02 16:54:12 +0900
 </div>
 </div>
 </body>
