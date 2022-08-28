@@ -25,4 +25,14 @@ public class Follower extends BaseTimeEntity {
 
     @Column(name = "from_member", nullable = false)
     private Long fromMember;
+
+    @Builder.Default
+    private boolean deleted = false;
+
+    public Follower delete() {
+        this.deleted = false;
+        this.recordDeleteTime();
+
+        return this;
+    }
 }
