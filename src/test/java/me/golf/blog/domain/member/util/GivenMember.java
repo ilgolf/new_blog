@@ -6,7 +6,6 @@ import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 
 import java.time.LocalDate;
 
