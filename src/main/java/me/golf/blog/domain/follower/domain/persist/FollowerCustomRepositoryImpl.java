@@ -11,6 +11,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static me.golf.blog.domain.follower.domain.persist.QFollower.*;
 import static me.golf.blog.domain.member.domain.persist.QMember.*;
@@ -41,5 +42,17 @@ public class FollowerCustomRepositoryImpl implements FollowerCustomRepository {
         }
 
         return new SliceImpl<>(followers, pageable, false);
+    }
+
+    @Override
+    public Optional<Long> getIdBy(Long fromMemberId, Long toMemberId) {
+        return Optional.ofNullable(
+                query.select(follower.id)
+                        .from(follower)
+                        .where(follower.toMember.eq(toMemberId)
+                                .and(follower.fromMember.eq(fromMemberId)))
+                        .limit(1)
+                        .fetchOne()
+        );
     }
 }

@@ -31,14 +31,6 @@ public class MemberService {
         return JoinResponse.of(memberRepository.save(member.encode(encoder)));
     }
 
-    @Transactional(readOnly = true)
-    public MemberRedisDto getMember(final Email email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-
-        return MemberRedisDto.of(member);
-    }
-
     public void update(final Member updateMember, final Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));

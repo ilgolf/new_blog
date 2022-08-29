@@ -12,4 +12,8 @@ public class FollowerCreateResponse {
 
     private Long memberId;
     private boolean result;
+
+    public static FollowerCreateResponse empty() {
+        return new FollowerCreateResponse();
+    }
 }

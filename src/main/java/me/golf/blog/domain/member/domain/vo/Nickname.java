@@ -18,7 +18,7 @@ import java.util.Objects;
 public final class Nickname implements Serializable {
     @Column(name = "nickname", nullable = false, unique = true)
     @NotBlank(message = "필수 값입니다. - nickname")
-    @Pattern(regexp = "^[a-zA-Z]*$\n", message = "영어만 입력이 가능합니다.")
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "영어만 입력이 가능합니다.")
     private String nickname;
 
     @JsonValue

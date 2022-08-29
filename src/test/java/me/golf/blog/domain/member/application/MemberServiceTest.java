@@ -31,8 +31,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MemberServiceTest {
 
-    @Autowired MemberService memberService;
-    @Autowired MemberReadService memberReadService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    MemberReadService memberReadService;
     @Autowired MemberRepository memberRepository;
 
     static Email email;
@@ -143,6 +145,6 @@ class MemberServiceTest {
         memberService.delete(memberId);
 
         // then
-        assertThrows(MemberNotFoundException.class, () -> memberService.getMember(email));
+        assertThrows(MemberNotFoundException.class, () -> memberReadService.getDetailBy(memberId));
     }
 }
