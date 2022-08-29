@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
+import me.golf.blog.domain.member.domain.redisform.MemberRedisRepository;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.dto.JoinResponse;
@@ -23,12 +24,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
+    private final MemberRedisRepository memberRedisRepository;
 
     public JoinResponse create(final Member member) {
         existEmail(member.getEmail());
         existNickname(member.getNickname());
 
-        return JoinResponse.of(memberRepository.save(member.encode(encoder)));
+        Member savedMember = memberRepository.save(member.encode(encoder));
+
+        memberRedisRepository.saveMember(MemberRedisDto.of(savedMember));
+
+        return JoinResponse.of(savedMember);
     }
 
     public void update(final Member updateMember, final Long memberId) {
@@ -46,6 +52,8 @@ public class MemberService {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
                 .delete();
+
+        memberRedisRepository.deleteBy(memberId);
     }
 
     private void existEmail(final Email email) {

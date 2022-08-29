@@ -32,35 +32,38 @@ public class MemberController {
     }
 
     // read
-    @GetMapping("/public/members/{memberId}")
-    public ResponseEntity<MemberResponse> findMember(@PathVariable Long memberId) {
-        return ResponseEntity.ok().body(memberReadService.getDetailBy(memberId));
+    @GetMapping("/members/detail")
+    public ResponseEntity<MemberResponse> getDetailById() {
+        return ResponseEntity.ok().body(memberReadService.getDetailBy(this.getMemberId()));
     }
 
     // findAll
     @GetMapping("/public/members")
-    public ResponseEntity<PageCustomResponse<MemberAllResponse>> findAll(
+    public ResponseEntity<PageCustomResponse<MemberAllResponse>> getMembers(
             @ModelAttribute MemberSearch memberSearch,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
-        return ResponseEntity.ok().body(memberReadService.findAll(memberSearch, pageable));
+        return ResponseEntity.ok().body(memberReadService.getMembers(memberSearch, pageable));
     }
 
     // update
     @PatchMapping("/members")
     public ResponseEntity<Void> update(@Valid @RequestBody MemberUpdateRequest request) {
-        memberService.update(request.toEntity(), getPrincipal().getId());
+        memberService.update(request.toEntity(), this.getMemberId());
         return ResponseEntity.ok().build();
     }
 
     // delete
     @DeleteMapping("/members")
     public ResponseEntity<Void> delete() {
-        memberService.delete(getPrincipal().getId());
+        memberService.delete(this.getMemberId());
         return ResponseEntity.noContent().build();
     }
 
-    private CustomUserDetails getPrincipal() {
+    private Long getMemberId() {
         log.debug("principal : {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        return principal.getId();
     }
 }
