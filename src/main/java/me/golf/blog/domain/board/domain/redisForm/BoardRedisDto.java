@@ -18,7 +18,7 @@ public class BoardRedisDto {
     private Title title;
     private Content content;
     private LocalDateTime lastModifiedAt;
-    private String createdBy;
+    private Long createdBy;
     private String viewCount;
 
     public BoardRedisDto(final Board board) {

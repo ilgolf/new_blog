@@ -34,7 +34,7 @@ public class MemberController {
     // read
     @GetMapping("/members/detail")
     public ResponseEntity<MemberResponse> getDetailById() {
-        return ResponseEntity.ok().body(memberReadService.getDetailBy(this.getMemberId()));
+        return ResponseEntity.ok().body(memberReadService.getDetailBy(this.getPrincipal()));
     }
 
     // findAll
@@ -48,22 +48,21 @@ public class MemberController {
     // update
     @PatchMapping("/members")
     public ResponseEntity<Void> update(@Valid @RequestBody MemberUpdateRequest request) {
-        memberService.update(request.toEntity(), this.getMemberId());
+        memberService.update(request.toEntity(), this.getPrincipal().getId());
         return ResponseEntity.ok().build();
     }
 
     // delete
     @DeleteMapping("/members")
     public ResponseEntity<Void> delete() {
-        memberService.delete(this.getMemberId());
+        memberService.delete(this.getPrincipal().getId());
         return ResponseEntity.noContent().build();
     }
 
-    private Long getMemberId() {
+    private CustomUserDetails getPrincipal() {
         log.debug("principal : {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
 
-        return principal.getId();
+        return (CustomUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
     }
 }

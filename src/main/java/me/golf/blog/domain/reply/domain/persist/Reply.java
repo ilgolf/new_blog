@@ -28,32 +28,26 @@ public class Reply extends BaseEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id")
+    private Long memberId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @Column(name = "board_id")
+    private Long boardId;
 
-    private Reply(Comment comment, Member member, Board board) {
+    private Reply(Comment comment, Long memberId, Long boardId) {
         this.comment = comment;
-        this.member = member;
-        this.addBoard(board);
+        this.memberId = memberId;
+        this.boardId = boardId;
     }
 
-    public static Reply createReply(final Comment comment, final Member member, final Board board) {
-        return new Reply(comment, member, board);
+    public static Reply createReply(final Comment comment, final Long memberId, final Long boardId) {
+        return new Reply(comment, memberId, boardId);
     }
 
     public Reply delete() {
         this.isDeleted = true;
         this.recordDeleteTime();
         return this;
-    }
-
-    public void addBoard(final Board board) {
-        this.board = board;
     }
 
     public void updateComment(final Comment comment) {

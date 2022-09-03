@@ -28,14 +28,14 @@ public class BoardController {
     private final BoardReadService boardReadService;
 
     @PostMapping("/boards")
-    public ResponseEntity<Long> create(@Valid @RequestBody BoardCreateRequest request) throws JsonProcessingException {
+    public ResponseEntity<Long> create(@Valid @RequestBody BoardCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(boardService.create(request.toEntity(), getPrincipal().getId()));
     }
 
     @GetMapping("/public/boards/id/{boardId}")
     public ResponseEntity<BoardResponse> findById(@PathVariable Long boardId) throws JsonProcessingException {
-        return ResponseEntity.ok(boardReadService.findById(boardId));
+        return ResponseEntity.ok(boardReadService.findById(boardId, this.getPrincipal().getUsername()));
     }
 
     @GetMapping("/public/boards")
@@ -54,7 +54,7 @@ public class BoardController {
 
     @PatchMapping("/boards/{boardId}")
     public ResponseEntity<Void> update(@Valid @RequestBody BoardUpdateRequest request,
-                                       @PathVariable Long boardId) throws JsonProcessingException {
+                                       @PathVariable Long boardId) {
         boardService.update(request.toEntity(), boardId, getPrincipal().getId());
         return ResponseEntity.ok().build();
     }

@@ -13,6 +13,8 @@ import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.board.error.TitleDuplicationException;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.global.error.exception.ErrorCode;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,20 +25,20 @@ import java.util.Objects;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    private final BoardRedisRepository boardRedisRepository;
 
     @Transactional
-    public Long create(final Board board, final Long memberId) throws JsonProcessingException {
+    public Long create(final Board board, final Long memberId) {
+
         existTitle(board.getTitle());
         Board savedBoard = boardRepository.save(board.addMember(memberId));
         memberRepository.increaseBoardCount(memberId);
-        boardRedisRepository.save(new BoardRedisDto(savedBoard));
         return savedBoard.getId();
     }
 
     @Transactional
+    @CachePut(key = "#boardId", value = "board")
     public void update(final Board updateBoard,
-                       final Long boardId, final Long memberId) throws JsonProcessingException {
+                       final Long boardId, final Long memberId) {
         Board board = getBoardEntity(boardId);
 
         if (!Objects.equals(board.getMemberId(), memberId)) {
@@ -48,7 +50,6 @@ public class BoardService {
         }
 
         board.updateBoard(updateBoard);
-        boardRedisRepository.save(new BoardRedisDto(board));
     }
 
     @Transactional
@@ -58,14 +59,13 @@ public class BoardService {
     }
 
     @Transactional
-    public void delete(final Long boardsId, final Long memberId) {
-        Board board = getBoardEntity(boardsId);
+    @CacheEvict(key = "#boardId", value = "board")
+    public void delete(final Long boardId, final Long memberId) {
+        Board board = getBoardEntity(boardId);
 
         if (!Objects.equals(board.getMemberId(), memberId)) {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
-
-        boardRedisRepository.delete(new BoardRedisDto(board));
 
         board.delete();
     }

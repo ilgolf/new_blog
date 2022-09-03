@@ -5,6 +5,7 @@ import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
+import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.BaseEntity;
 import org.hibernate.annotations.Where;
 

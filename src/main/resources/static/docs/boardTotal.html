@@ -591,9 +591,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 159
+Content-Length: 164
 
-{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;lastModifiedAt&quot;:null,&quot;createdBy&quot;:null,&quot;view&quot;:0}</code></pre>
+{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;lastModifiedAt&quot;:null,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -601,7 +601,7 @@ Content-Length: 159
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;lastModifiedAt&quot;:null,&quot;createdBy&quot;:null,&quot;view&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;lastModifiedAt&quot;:null,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;}</code></pre>
 </div>
 </div>
 </div>
@@ -634,9 +634,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 213
+Content-Length: 239
 
-{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+{&quot;data&quot;:[{&quot;boardId&quot;:1,&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -644,7 +644,7 @@ Content-Length: 213
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;boardId&quot;:1,&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -665,6 +665,11 @@ Content-Length: 213
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].boardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 고유식별자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
@@ -676,7 +681,7 @@ Content-Length: 213
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdBy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자</p></td>
 </tr>
 <tr>
@@ -736,9 +741,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 213
+Content-Length: 239
 
-{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+{&quot;data&quot;:[{&quot;boardId&quot;:1,&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -746,7 +751,7 @@ Content-Length: 213
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;boardId&quot;:1,&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -796,6 +801,11 @@ Content-Length: 213
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].boardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 고유식별자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
@@ -807,7 +817,7 @@ Content-Length: 213
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdBy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자</p></td>
 </tr>
 <tr>
@@ -969,9 +979,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 213
+Content-Length: 239
 
-{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+{&quot;data&quot;:[{&quot;boardId&quot;:1,&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -979,7 +989,7 @@ Content-Length: 213
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:null,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;boardId&quot;:1,&quot;title&quot;:&quot;테스트용 게시판 제목&quot;,&quot;content&quot;:&quot;테스트 게시판 내용 입니다. 테스트 테스트&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;,&quot;createdAt&quot;:null}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1000,6 +1010,11 @@ Content-Length: 213
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].boardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 고유식별자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
@@ -1011,7 +1026,7 @@ Content-Length: 213
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdBy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자</p></td>
 </tr>
 <tr>

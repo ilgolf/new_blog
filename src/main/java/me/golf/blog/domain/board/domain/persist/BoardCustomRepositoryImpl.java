@@ -32,7 +32,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                         board.id,
                         board.title,
                         board.content,
-                        member.email,
+                        member.email.as("createdBy"),
                         board.createTime.as("createdAt"))
                 )
                 .from(board)
@@ -97,15 +97,6 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(board.status.eq(BoardStatus.TEMP));
 
         return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable, count::fetchFirst));
-    }
-
-    @Override
-    public Optional<Integer> increaseViewCount(Long boardId) {
-        query.update(board).set(board.boardCount.viewCount, board.boardCount.viewCount.add(1))
-                .where(board.id.eq(boardId)).execute();
-
-        return Optional.ofNullable(query.select(board.boardCount.viewCount).from(board)
-                .where(board.id.eq(boardId)).fetchOne());
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {

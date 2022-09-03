@@ -13,6 +13,8 @@ import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.domain.redisform.MemberRedisDto;
 import me.golf.blog.global.error.exception.ErrorCode;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
-    private final MemberRedisRepository memberRedisRepository;
 
     public JoinResponse create(final Member member) {
         existEmail(member.getEmail());
@@ -32,11 +33,10 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member.encode(encoder));
 
-        memberRedisRepository.saveMember(MemberRedisDto.of(savedMember));
-
         return JoinResponse.of(savedMember);
     }
 
+    @CachePut(key = "#memberId", value = "member")
     public void update(final Member updateMember, final Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -48,12 +48,11 @@ public class MemberService {
         member.update(updateMember, encoder);
     }
 
+    @CacheEvict(key = "#memberId", value = "member")
     public void delete(final Long memberId) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
                 .delete();
-
-        memberRedisRepository.deleteBy(memberId);
     }
 
     private void existEmail(final Email email) {

@@ -106,8 +106,7 @@ class MemberControllerTest {
     @DisplayName("요청을 받아 정상적으로 조회 컨트롤러가 동작한다.")
     @WithAuthUser
     void findMemberTest() throws Exception {
-        MemberRedisDto memberDTO = MemberRedisDto.of(toEntityWithCount());
-        when(memberReadService.getDetailBy(any())).thenReturn(MemberResponse.of(memberDTO));
+        when(memberReadService.getDetailBy(any())).thenReturn(MemberResponse.of(toEntityWithCount()));
 
         mockMvc.perform(get("/api/v1/members/detail").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

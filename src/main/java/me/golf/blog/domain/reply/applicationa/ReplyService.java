@@ -26,17 +26,9 @@ import java.util.List;
 @Transactional
 public class ReplyService {
     private final ReplyRepository replyRepository;
-    private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
 
     public Long create(final ReplyCreateRequest request, final Long boardId, final Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-        Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
-        Reply reply = replyRepository.save(Reply.createReply(request.getComment(), member, board));
-
-        return reply.getId();
+        return replyRepository.save(Reply.createReply(request.getComment(), memberId, boardId)).getId();
     }
 
     @Transactional(readOnly = true)
