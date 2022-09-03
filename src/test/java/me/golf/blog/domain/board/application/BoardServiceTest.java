@@ -51,18 +51,17 @@ class BoardServiceTest {
         member = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        boardId = boardService.create(toEntityWithBoardCount(new BoardCount()), member.getId());
+        boardId = boardService.create(toEntityWithBoardCount(), member.getId());
     }
 
     @Test
     @DisplayName("boardId로 원하는 게시판 상세 조회")
     @Transactional(readOnly = true)
-    void findById() throws JsonProcessingException {
-        BoardResponse boardResponse = boardReadService.findById(boardId);
+    void findById() {
+        BoardResponse boardResponse = boardReadService.findById(boardId, GivenMember.GIVEN_EMAIL.email());
 
         assertThat(boardResponse.getTitle()).isEqualTo(GIVEN_TITLE);
         assertThat(boardResponse.getContent()).isEqualTo(GIVEN_CONTENT);
-        assertThat(boardResponse.getView()).isEqualTo(1);
     }
 
     @Test

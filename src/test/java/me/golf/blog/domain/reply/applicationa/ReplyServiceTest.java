@@ -42,7 +42,7 @@ class ReplyServiceTest {
     @BeforeEach
     void init() throws JsonProcessingException {
         memberId = memberService.create(GivenMember.toEntityWithCount()).getMemberId();
-        boardId = boardService.create(GivenBoard.toEntityWithBoardCount(new BoardCount()), memberId);
+        boardId = boardService.create(GivenBoard.toEntityWithBoardCount(), memberId);
         replyId = replyService.create(new ReplyCreateRequest(Comment.from("안녕하세요, 테스트입니다. 반가워요")), boardId, memberId);
     }
 

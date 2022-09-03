@@ -69,10 +69,9 @@ class BoardControllerTest {
     @DisplayName("id 값을 이용해 게시판을 상세히 조회해온다.")
     @WithAuthUser
     void findById() throws Exception {
-        BoardRedisDto boardRedisDto = new BoardRedisDto(toEntityWithBoardCount(new BoardCount()));
-        BoardResponse boardResponse = BoardResponse.of(boardRedisDto, 0);
+        BoardResponse boardResponse = BoardResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL.email());
 
-        when(boardReadService.findById(any())).thenReturn(boardResponse);
+        when(boardReadService.findById(any(), any())).thenReturn(boardResponse);
 
 
         mockMvc.perform(get("/api/v1/public/boards/id/1").accept(MediaType.APPLICATION_JSON))
@@ -82,8 +81,7 @@ class BoardControllerTest {
                                 fieldWithPath("title").description("게시물 제목"),
                                 fieldWithPath("content").description("게시물 내용"),
                                 fieldWithPath("lastModifiedAt").description("게시물 수정 이력"),
-                                fieldWithPath("createdBy").description("게시물 생성시간"),
-                                fieldWithPath("view").description("게시물 조회 수")
+                                fieldWithPath("createdBy").description("게시물 생성시간")
                         )))
                 .andDo(print());
     }
@@ -91,8 +89,7 @@ class BoardControllerTest {
     @Test
     @DisplayName("전체 조회 테스트")
     void findAll() throws Exception {
-        BoardCount boardCount = new BoardCount();
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(boardCount)));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
         Pageable pageable = PageRequest.of(0, 10);
 
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));
@@ -120,8 +117,7 @@ class BoardControllerTest {
     @Test
     @DisplayName("검색 조회 테스트")
     void findSearch() throws Exception {
-        BoardCount boardCount = GivenBoardCount.toEntityWithId();
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(boardCount)));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
 
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -156,7 +152,7 @@ class BoardControllerTest {
 
     @Test
     void findByEmail() throws Exception {
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(new BoardCount())));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
         Pageable pageable = PageRequest.of(0, 10);
 
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));

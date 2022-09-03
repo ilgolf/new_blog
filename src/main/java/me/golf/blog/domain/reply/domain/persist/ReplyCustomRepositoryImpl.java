@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import me.golf.blog.domain.member.domain.persist.QMember;
 import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static me.golf.blog.domain.member.domain.persist.QMember.*;
 import static me.golf.blog.domain.reply.domain.persist.QReply.*;
 
 @Repository
@@ -22,11 +24,13 @@ public class ReplyCustomRepositoryImpl implements ReplyCustomRepository {
 
     public PageCustomResponse<ReplyAllResponse> findAllWithQuery(final Pageable pageable, final Long boardId) {
         List<ReplyAllResponse> replies = query.select(Projections.constructor(ReplyAllResponse.class,
-                        reply.createdBy,
                         reply.comment,
-                        reply.createTime))
+                        reply.createTime,
+                        member.email.as("createdBy")
+                        ))
                 .from(reply)
-                .where(reply.board.id.eq(boardId))
+                .innerJoin(member).on(member.id.eq(reply.memberId))
+                .where(reply.boardId.eq(boardId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

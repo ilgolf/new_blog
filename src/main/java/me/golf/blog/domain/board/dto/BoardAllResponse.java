@@ -22,8 +22,8 @@ public class BoardAllResponse {
     private Email createdBy;
     private LocalDateTime createdAt;
 
-    public static BoardAllResponse of(final Board board) {
+    public static BoardAllResponse of(final Board board, final Email email) {
         return new BoardAllResponse(board.getId(),
-                board.getTitle(), board.getContent(), Email.from(board.getCreatedBy()), board.getCreateTime());
+                board.getTitle(), board.getContent(), email, board.getCreateTime());
     }
 }

@@ -7,6 +7,7 @@ import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.error.exception.ErrorCode;
+import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,8 @@ class MemberServiceTest {
     @DisplayName("회원정보를 조회해온다.")
     void findOne() {
         // when
-        MemberResponse member = memberReadService.getDetailBy(memberId);
+        CustomUserDetails userDetails = new CustomUserDetails(memberId, GIVEN_EMAIL, RoleType.USER);
+        MemberResponse member = memberReadService.getDetailBy(userDetails);
 
         // then
         assertThat(member.getEmail()).isEqualTo(GIVEN_EMAIL);

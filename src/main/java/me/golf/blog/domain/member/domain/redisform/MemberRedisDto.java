@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.golf.blog.domain.member.domain.persist.Member;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter

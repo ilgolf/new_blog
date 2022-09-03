@@ -15,6 +15,7 @@ import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,23 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BoardReadService {
     private final BoardRepository boardRepository;
-    private final BoardRedisRepository boardRedisRepository;
 
-    @Transactional
-    public BoardResponse findById(final Long boardId) throws JsonProcessingException {
-        BoardRedisDto boardRedisDto = boardRedisRepository.findById(boardId).orElse(null);
+    @Transactional(readOnly = true)
+    @Cacheable(key = "#boardId", value = "board")
+    public BoardResponse findById(final Long boardId, final String email) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-        if (boardRedisDto == null) {
-            Board board = boardRepository.findById(boardId).orElseThrow(() ->
-                    new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
-
-            boardRedisDto = new BoardRedisDto(board);
-        }
-
-        int viewCount = boardRepository.increaseViewCount(boardId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
-
-        return BoardResponse.of(boardRedisDto, viewCount);
+        return BoardResponse.of(board, email);
     }
 
     @Transactional(readOnly = true)
