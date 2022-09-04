@@ -1,0 +1,25 @@
+=======================================================
+
+== Spring REST Docs - getList
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/like/likeList/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/like/likeList/http-response.adoc[]
+
+== Response Body
+
+include::{snippets}/like/likeList/response-body.adoc[]
+
+== Response Body (Table)
+
+include::{snippets}/like/likeList/response-fields.adoc[]
+
+=======================================================

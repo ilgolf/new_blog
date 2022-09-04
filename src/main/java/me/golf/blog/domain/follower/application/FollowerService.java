@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.follower.domain.persist.Follower;
 import me.golf.blog.domain.follower.domain.persist.FollowerRepository;
 import me.golf.blog.domain.follower.dto.FollowerAllResponse;
-import me.golf.blog.domain.follower.dto.FollowerCreateResponse;
+import me.golf.blog.domain.follower.dto.SimpleFollowerResponse;
 import me.golf.blog.domain.follower.error.FollowNotFoundException;
 import me.golf.blog.domain.follower.error.NotSameFollowerId;
-import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -25,14 +23,14 @@ public class FollowerService {
     private final FollowerRepository followerRepository;
 
     @Transactional
-    public FollowerCreateResponse from(final Long fromMemberId, final Long toMemberId) {
+    public SimpleFollowerResponse follow(final Long fromMemberId, final Long toMemberId) {
 
         if (Objects.equals(fromMemberId, toMemberId)) {
             throw new NotSameFollowerId(ErrorCode.SAME_ID_DENIED);
         }
 
         if (existFollower(fromMemberId, toMemberId)) {
-            return FollowerCreateResponse.empty();
+            return SimpleFollowerResponse.empty();
         }
 
         Follower follower = Follower.builder()
@@ -42,7 +40,7 @@ public class FollowerService {
 
         Follower savedFollower = followerRepository.save(follower);
 
-        return new FollowerCreateResponse(savedFollower.getId(), true);
+        return new SimpleFollowerResponse(savedFollower.getId(), true);
     }
 
     @Transactional

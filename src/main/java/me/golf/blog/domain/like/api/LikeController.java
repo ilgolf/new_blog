@@ -24,7 +24,7 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(likeService.likeBoard(boardId, getMemberId()));
     }
 
-    @GetMapping("/boards/{boardId}/likes")
+    @GetMapping("/boards/{boardId}")
     public ResponseEntity<SliceCustomResponse<LikeAllResponse>> getBoardLikeList(
             @PathVariable Long boardId,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
