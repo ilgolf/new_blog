@@ -1,0 +1,17 @@
+=======================================================
+
+== Spring REST Docs - Follower
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/follower/unFollow/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/follower/unFollow/http-response.adoc[]
+
+=======================================================

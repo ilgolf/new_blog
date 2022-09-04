@@ -1,4 +1,4 @@
-= Like
+= Follower
 
 email : ilgolc@naver.com
 
@@ -22,8 +22,8 @@ releaseDate : 2022.06.25
 | 삭제
 |===
 
-include::{docdir}/create.adoc[]
+include::{docdir}/follow.adoc[]
 
-include::{docdir}/likeList.adoc[]
+include::{docdir}/followerList.adoc[]
 
-include::{docdir}/delete.adoc[]
+include::{docdir}/unfollow.adoc[]
