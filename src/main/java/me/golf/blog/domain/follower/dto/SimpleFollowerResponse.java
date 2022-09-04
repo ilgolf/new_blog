@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class FollowerCreateResponse {
+public class SimpleFollowerResponse {
 
-    private Long memberId;
+    private Long followId;
     private boolean result;
 
-    public static FollowerCreateResponse empty() {
-        return new FollowerCreateResponse();
+    public static SimpleFollowerResponse empty() {
+        return new SimpleFollowerResponse();
     }
 }

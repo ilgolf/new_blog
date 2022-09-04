@@ -3,8 +3,7 @@ package me.golf.blog.domain.follower.api;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.follower.application.FollowerService;
 import me.golf.blog.domain.follower.dto.FollowerAllResponse;
-import me.golf.blog.domain.follower.dto.FollowerCreateResponse;
-import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.domain.follower.dto.SimpleFollowerResponse;
 import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
@@ -24,12 +23,12 @@ public class FollowerController {
 
     // from
     @PostMapping("/{toMemberId}")
-    public ResponseEntity<FollowerCreateResponse> from(
+    public ResponseEntity<SimpleFollowerResponse> follow(
             @PathVariable Long toMemberId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(followerService.from(customUserDetails.getId(), toMemberId));
+                .body(followerService.follow(customUserDetails.getId(), toMemberId));
     }
 
     @GetMapping("/memberId")

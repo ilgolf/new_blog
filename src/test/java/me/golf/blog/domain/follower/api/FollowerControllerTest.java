@@ -2,21 +2,18 @@ package me.golf.blog.domain.follower.api;
 
 import me.golf.blog.domain.follower.application.FollowerService;
 import me.golf.blog.domain.follower.dto.FollowerAllResponse;
-import me.golf.blog.domain.follower.dto.FollowerCreateResponse;
+import me.golf.blog.domain.follower.dto.SimpleFollowerResponse;
 import me.golf.blog.domain.member.domain.vo.RoleType;
 import me.golf.blog.global.security.principal.CustomUserDetails;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static me.golf.blog.domain.member.util.GivenMember.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -40,15 +37,15 @@ class FollowerControllerTest {
     @DisplayName("원하는 회원을 팔로우한다.")
     void fromTest() {
         // given
-        FollowerCreateResponse response = new FollowerCreateResponse(1L, true);
-        given(followerService.from(anyLong(), anyLong())).willReturn(response);
+        SimpleFollowerResponse response = new SimpleFollowerResponse(1L, true);
+        given(followerService.follow(anyLong(), anyLong())).willReturn(response);
 
         // when
-        boolean result = followerController.from(1L, customUserDetails).getBody().isResult();
+        boolean result = followerController.follow(1L, customUserDetails).getBody().isResult();
 
         // then
         assertThat(result).isTrue();
-        verify(followerService).from(1L, 1L);
+        verify(followerService).follow(1L, 1L);
     }
 
     @Test
