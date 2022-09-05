@@ -1,18 +1,14 @@
 package me.golf.blog.domain.board.application;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisDto;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.member.domain.vo.Email;
-import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,11 +24,11 @@ public class BoardReadService {
 
     @Transactional(readOnly = true)
     @Cacheable(key = "#boardId", value = "board")
-    public BoardResponse findById(final Long boardId, final String email) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+    public BoardResponse findById(final Long boardId) {
+        BoardResponse board = boardRepository.getBoardDetail(boardId).orElseThrow(() ->
                 new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-        return BoardResponse.of(board, email);
+        return board;
     }
 
     @Transactional(readOnly = true)

@@ -1,11 +1,8 @@
 package me.golf.blog.domain.board.application;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisDto;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
@@ -84,7 +81,7 @@ public class BoardService {
     }
 
     private void existTitle(final Title title) {
-        if (boardRepository.existByTitle(title).isPresent()) {
+        if (boardRepository.existsByTitle(title)) {
             throw new TitleDuplicationException(ErrorCode.DUPLICATE_TITLE);
         }
     }

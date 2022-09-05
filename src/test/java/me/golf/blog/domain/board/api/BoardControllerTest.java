@@ -3,10 +3,7 @@ package me.golf.blog.domain.board.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisDto;
-import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.dto.*;
-import me.golf.blog.domain.board.util.GivenBoardCount;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.PageCustomResponse;
@@ -69,9 +66,9 @@ class BoardControllerTest {
     @DisplayName("id 값을 이용해 게시판을 상세히 조회해온다.")
     @WithAuthUser
     void findById() throws Exception {
-        BoardResponse boardResponse = BoardResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL.email());
+        BoardResponse boardResponse = BoardResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_NICKNAME);
 
-        when(boardReadService.findById(any(), any())).thenReturn(boardResponse);
+        when(boardReadService.findById(any())).thenReturn(boardResponse);
 
 
         mockMvc.perform(get("/api/v1/public/boards/id/1").accept(MediaType.APPLICATION_JSON))

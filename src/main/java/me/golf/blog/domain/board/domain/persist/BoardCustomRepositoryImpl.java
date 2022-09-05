@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
+import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
@@ -50,15 +51,6 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
         return getPageResponse(pageable, boards);
     }
 
-    public Optional<Title> existByTitle(Title title) {
-        return Optional.ofNullable(
-                query.select(board.title)
-                        .from(board)
-                        .where(board.title.eq(title))
-                        .limit(1)
-                        .fetchOne());
-    }
-
     public PageCustomResponse<BoardAllResponse> findByEmail(Email email, Pageable pageable) {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
                         board.id,
@@ -97,6 +89,19 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(board.status.eq(BoardStatus.TEMP));
 
         return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable, count::fetchFirst));
+    }
+
+    public Optional<BoardResponse> getBoardDetail(final Long boardId) {
+
+        return Optional.ofNullable(query.select(Projections.constructor(BoardResponse.class,
+                        board.title,
+                        board.content,
+                        board.lastModifiedTime.as("lastModifiedAt"),
+                        member.nickname))
+                .from(board)
+                .innerJoin(member).on(member.id.eq(board.memberId))
+                .where(board.id.eq(boardId))
+                .fetchOne());
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {
