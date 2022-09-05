@@ -34,8 +34,8 @@ public class BoardController {
     }
 
     @GetMapping("/public/boards/id/{boardId}")
-    public ResponseEntity<BoardResponse> findById(@PathVariable Long boardId) throws JsonProcessingException {
-        return ResponseEntity.ok(boardReadService.findById(boardId, this.getPrincipal().getUsername()));
+    public ResponseEntity<BoardResponse> findById(@PathVariable Long boardId) {
+        return ResponseEntity.ok(boardReadService.findById(boardId));
     }
 
     @GetMapping("/public/boards")

@@ -58,7 +58,7 @@ class BoardServiceTest {
     @DisplayName("boardId로 원하는 게시판 상세 조회")
     @Transactional(readOnly = true)
     void findById() {
-        BoardResponse boardResponse = boardReadService.findById(boardId, GivenMember.GIVEN_EMAIL.email());
+        BoardResponse boardResponse = boardReadService.findById(boardId);
 
         assertThat(boardResponse.getTitle()).isEqualTo(GIVEN_TITLE);
         assertThat(boardResponse.getContent()).isEqualTo(GIVEN_CONTENT);
