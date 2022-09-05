@@ -18,4 +18,8 @@ include::{snippets}/follower/follow/http-response.adoc[]
 
 include::{snippets}/follower/follow/response-body.adoc[]
 
+== Response Body (Table)
+
+include::{snippets}/follower/follow/response-fields.adoc[]
+
 =======================================================
