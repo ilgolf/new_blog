@@ -31,7 +31,7 @@ public class FollowerCustomRepositoryImpl implements FollowerCustomRepository {
                         follower.createTime))
                 .from(follower)
                 .innerJoin(member).on(member.id.eq(follower.toMember))
-                .where(follower.toMember.eq(memberId))
+                .where(follower.fromMember.eq(memberId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
