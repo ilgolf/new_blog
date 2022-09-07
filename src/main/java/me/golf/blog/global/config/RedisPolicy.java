@@ -1,15 +1,11 @@
 package me.golf.blog.global.config;
 
-public enum RedisPolicy {
+public class RedisPolicy {
+    public static final String MEMBER_KEY = "M_KEY";
+    public static final String BOARD_KEY = "B_KEY";
+    public static final String AUTH_KEY = "A_KEY";
 
-    MEMBER_POLICY("M_KEY", 30),
-    BOARD_POLICY("B_KEY", 30);
-
-    final String keyValue;
-    final long ttlMinutes;
-
-    RedisPolicy(String keyValue, long ttlMinutes) {
-        this.keyValue = keyValue;
-        this.ttlMinutes = ttlMinutes;
-    }
+    public static final int MEMBER_TTL = 30;
+    public static final int BOARD_TTL = 30;
+    public static final int AUTH_TTL = 180;
 }

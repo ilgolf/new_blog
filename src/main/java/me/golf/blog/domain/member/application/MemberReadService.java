@@ -10,6 +10,7 @@ import me.golf.blog.domain.member.dto.MemberResponse;
 import me.golf.blog.domain.member.dto.MemberSearch;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.config.RedisPolicy;
 import me.golf.blog.global.error.exception.ErrorCode;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,7 +24,7 @@ public class MemberReadService {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    @Cacheable(key = "#userDetails.getId()", value = "member")
+    @Cacheable(key = "#userDetails.getId()", value = RedisPolicy.MEMBER_KEY)
     public MemberResponse getDetailBy(final CustomUserDetails userDetails) {
 
         Member member = memberRepository.findById(userDetails.getId()).orElseThrow(

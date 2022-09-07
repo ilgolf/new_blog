@@ -9,8 +9,10 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import static me.golf.blog.global.config.RedisPolicy.*;
 
 @Configuration
 @EnableCaching
+@EnableRedisRepositories
 public class RedisConfig {
 
     private final String host;
@@ -47,15 +50,17 @@ public class RedisConfig {
                 .disableCachingNullValues()
                 .entryTtl(Duration.ofMinutes(30))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
-                        new GenericJackson2JsonRedisSerializer(objectMapper)));
+                        new StringRedisSerializer()));
 
         Map<String, RedisCacheConfiguration> config = new HashMap<>();
 
-        config.put(MEMBER_POLICY.keyValue, configuration.entryTtl(Duration.ofMinutes(MEMBER_POLICY.ttlMinutes)));
-        config.put(BOARD_POLICY.keyValue, configuration.entryTtl(Duration.ofMinutes(BOARD_POLICY.ttlMinutes)));
+        config.put(MEMBER_KEY, RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(MEMBER_TTL)));
+        config.put(BOARD_KEY, RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(BOARD_TTL)));
+        config.put(AUTH_KEY, RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(AUTH_TTL)));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory())
+                .cacheDefaults(configuration)
                 .withInitialCacheConfigurations(config)
                 .build();
     }
