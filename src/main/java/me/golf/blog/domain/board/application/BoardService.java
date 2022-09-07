@@ -9,9 +9,11 @@ import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.board.error.TitleDuplicationException;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
+import me.golf.blog.global.config.RedisPolicy;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +35,7 @@ public class BoardService {
     }
 
     @Transactional
-    @CachePut(key = "#boardId", value = "board")
+    @CachePut(key = "#boardId", value = RedisPolicy.BOARD_KEY)
     public void update(final Board updateBoard,
                        final Long boardId, final Long memberId) {
         Board board = getBoardEntity(boardId);
@@ -56,7 +58,7 @@ public class BoardService {
     }
 
     @Transactional
-    @CacheEvict(key = "#boardId", value = "board")
+    @CacheEvict(key = "#boardId", value = RedisPolicy.BOARD_KEY)
     public void delete(final Long boardId, final Long memberId) {
         Board board = getBoardEntity(boardId);
 

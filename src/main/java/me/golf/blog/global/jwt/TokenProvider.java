@@ -11,6 +11,7 @@ import me.golf.blog.global.jwt.dto.TokenDTO;
 import me.golf.blog.global.jwt.vo.AccessToken;
 import me.golf.blog.global.jwt.vo.RefreshToken;
 import me.golf.blog.global.security.principal.CustomUserDetails;
+import me.golf.blog.global.security.principal.CustomUserDetailsService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +35,7 @@ public class TokenProvider implements InitializingBean {
     private final String secret;
     private final long accessTokenValidityInMilliseconds;
     private final long refreshTokenValidityInMilliseconds;
-    private final MemberRepository memberRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     private Key key;
 
@@ -42,11 +43,11 @@ public class TokenProvider implements InitializingBean {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.accessToken-validity-in-seconds}") long accessTokenValidityInMilliseconds,
             @Value("${jwt.refreshToken-validity-in-seconds}") long refreshTokenValidityInMilliseconds,
-            MemberRepository memberRepository) {
+            CustomUserDetailsService customUserDetailsService) {
         this.secret = secret;
         this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds * 1000;
         this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds * 1000;
-        this.memberRepository = memberRepository;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Override
@@ -99,8 +100,7 @@ public class TokenProvider implements InitializingBean {
 
         String id = String.valueOf(claims.get("id"));
 
-        CustomUserDetails principal = memberRepository.findByIdWithDetails(Long.valueOf(id)).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+        CustomUserDetails principal = customUserDetailsService.loadUserByUsername(id);
 
         return new UsernamePasswordAuthenticationToken(principal, "password", authorities);
     }
