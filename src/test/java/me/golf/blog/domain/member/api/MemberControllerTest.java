@@ -8,7 +8,6 @@ import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
-import me.golf.blog.domain.member.domain.redisform.MemberRedisDto;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +59,7 @@ class MemberControllerTest {
 
         String body = objectMapper.writeValueAsString(joinRequest);
 
-        JoinResponse response = JoinResponse.of(joinRequest.toEntity());
+        SimpleMemberResponse response = SimpleMemberResponse.of(joinRequest.toEntity());
 
         when(memberService.create(any())).thenReturn(response);
 
@@ -95,7 +94,7 @@ class MemberControllerTest {
 
         String body = objectMapper.writeValueAsString(joinRequest);
 
-        JoinResponse response = JoinResponse.of(joinRequest.toEntity());
+        SimpleMemberResponse response = SimpleMemberResponse.of(joinRequest.toEntity());
 
         when(memberService.create(any())).thenReturn(response);
 

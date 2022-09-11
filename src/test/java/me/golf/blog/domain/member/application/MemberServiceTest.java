@@ -43,7 +43,7 @@ class MemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        JoinResponse joinResponse = memberService.create(toEntityWithCount());
+        SimpleMemberResponse joinResponse = memberService.create(toEntityWithCount());
 
         email = joinResponse.getEmail();
         memberId = joinResponse.getMemberId();

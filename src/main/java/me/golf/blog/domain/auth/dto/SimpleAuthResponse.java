@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.golf.blog.global.jwt.vo.AccessToken;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccessTokenResponse {
-    private AccessToken accessToken;
+public class SimpleAuthResponse {
 
-    public static AccessTokenResponse from(final AccessToken accessToken) {
-        return new AccessTokenResponse(accessToken);
+    private AccessToken accessToken;
+    private boolean result;
+
+    public static SimpleAuthResponse from(final AccessToken accessToken, final boolean result) {
+        return new SimpleAuthResponse(accessToken, result);
     }
 }

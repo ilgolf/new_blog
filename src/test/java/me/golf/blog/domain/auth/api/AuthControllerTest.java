@@ -1,17 +1,13 @@
 package me.golf.blog.domain.auth.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.auth.application.AuthService;
-import me.golf.blog.domain.auth.dto.AccessTokenResponse;
 import me.golf.blog.domain.auth.dto.LoginRequest;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.domain.vo.RoleType;
-import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.jwt.TokenProvider;
 import me.golf.blog.global.jwt.dto.TokenDTO;
-import me.golf.blog.global.jwt.vo.AccessToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,7 +82,8 @@ class AuthControllerTest {
                                 fieldWithPath("password").description("비밀 번호")
                         ),
                         responseFields(
-                                fieldWithPath("accessToken").description("엑세스 토큰")
+                                fieldWithPath("accessToken").description("엑세스 토큰"),
+                                fieldWithPath("result").description("응답 성공 여부")
                         )))
                 .andDo(print());
     }
@@ -110,7 +107,8 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("auth/reissue",
                         responseFields(
-                                fieldWithPath("accessToken").description("새로 발급된 엑세스 토큰")
+                                fieldWithPath("accessToken").description("새로 발급된 엑세스 토큰"),
+                                fieldWithPath("result").description("응답 성공 여부")
                         )))
                 .andDo(print());
     }
