@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
-import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
@@ -13,7 +12,7 @@ import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.dto.JoinResponse;
+import me.golf.blog.domain.member.dto.SimpleMemberResponse;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.error.exception.ErrorCode;
@@ -45,8 +44,8 @@ class BoardServiceTest {
     static Long boardId;
 
     @BeforeEach
-    void init() throws JsonProcessingException {
-        JoinResponse joinResponse = memberService.create(GivenMember.toEntityWithCount());
+    void init() {
+        SimpleMemberResponse joinResponse = memberService.create(GivenMember.toEntityWithCount());
         
         member = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));

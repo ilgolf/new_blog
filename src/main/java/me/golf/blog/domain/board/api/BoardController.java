@@ -1,6 +1,5 @@
 package me.golf.blog.domain.board.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
@@ -8,7 +7,6 @@ import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
-import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,9 +26,11 @@ public class BoardController {
     private final BoardReadService boardReadService;
 
     @PostMapping("/boards")
-    public ResponseEntity<Long> create(@Valid @RequestBody BoardCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(boardService.create(request.toEntity(), getPrincipal().getId()));
+    public ResponseEntity<SimpleBoardResponse> create(@Valid @RequestBody BoardCreateRequest request) {
+
+        Long boardId = boardService.create(request.toEntity(), getPrincipal().getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SimpleBoardResponse(boardId, true));
     }
 
     @GetMapping("/public/boards/id/{boardId}")

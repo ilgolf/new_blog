@@ -4,14 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.domain.redisform.MemberRedisRepository;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Nickname;
-import me.golf.blog.domain.member.dto.JoinResponse;
+import me.golf.blog.domain.member.dto.SimpleMemberResponse;
 import me.golf.blog.domain.member.error.DuplicateEmailException;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
-import me.golf.blog.domain.member.domain.redisform.MemberRedisDto;
 import me.golf.blog.global.config.RedisPolicy;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,13 +26,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
 
-    public JoinResponse create(final Member member) {
+    public SimpleMemberResponse create(final Member member) {
         existEmail(member.getEmail());
         existNickname(member.getNickname());
 
         Member savedMember = memberRepository.save(member.encode(encoder));
 
-        return JoinResponse.of(savedMember);
+        return SimpleMemberResponse.of(savedMember);
     }
 
     @CachePut(key = "#memberId", value = RedisPolicy.MEMBER_KEY)

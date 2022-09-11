@@ -23,10 +23,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ReplyService {
     private final ReplyRepository replyRepository;
 
+    @Transactional
     public Long create(final ReplyCreateRequest request, final Long boardId, final Long memberId) {
         return replyRepository.save(Reply.createReply(request.getComment(), memberId, boardId)).getId();
     }
@@ -36,14 +36,16 @@ public class ReplyService {
         return replyRepository.findAllWithQuery(pageable, boardId);
     }
 
+    @Transactional
     public void update(final Comment comment, final Long replyId) {
         replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyNotFoundException(ErrorCode.REPLY_NOT_FOUND))
                 .updateComment(comment);
     }
 
+    @Transactional
     public void deleteById(final Long replyId, final Long memberId) {
-        Reply reply = replyRepository
+        replyRepository
                 .findByIdAndMemberId(replyId, memberId)
                 .orElseThrow(() -> new ReplyNotFoundException(ErrorCode.REPLY_NOT_FOUND))
                 .delete();
