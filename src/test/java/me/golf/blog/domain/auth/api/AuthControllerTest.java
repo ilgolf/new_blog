@@ -82,7 +82,8 @@ class AuthControllerTest {
                                 fieldWithPath("password").description("비밀 번호")
                         ),
                         responseFields(
-                                fieldWithPath("accessToken").description("엑세스 토큰")
+                                fieldWithPath("accessToken").description("엑세스 토큰"),
+                                fieldWithPath("result").description("응답 성공 여부")
                         )))
                 .andDo(print());
     }
@@ -106,7 +107,8 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("auth/reissue",
                         responseFields(
-                                fieldWithPath("accessToken").description("새로 발급된 엑세스 토큰")
+                                fieldWithPath("accessToken").description("새로 발급된 엑세스 토큰"),
+                                fieldWithPath("result").description("응답 성공 여부")
                         )))
                 .andDo(print());
     }
