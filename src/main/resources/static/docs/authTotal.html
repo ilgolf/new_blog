@@ -504,7 +504,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIyIiwiZXhwIjoxNjYwNjc4NTUzfQ.Uw51xnQmd-jMuB-2GQyYr2dn5L3K16fAbUDVkYeJp7ML39O_ivPIPkTNaC_kmve8TpSqxlcdjNdSVaF1zt89Mw; Path=/; Max-Age=18000; Expires=Tue, 16 Aug 2022 19:35:54 GMT; Secure; HttpOnly
+Set-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIyIiwiZXhwIjoxNjYyOTAwMTk1fQ.xqeCwRrbWS_GME28VK_CqT0klynSLpeUM13YCRX5AxqMoUtE-En4Bd2ETVo1gzvrLboLE5s6la26Be0hyTqtIQ; Path=/; Max-Age=18000; Expires=Sun, 11 Sep 2022 12:43:15 GMT; Secure; HttpOnly
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -512,9 +512,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 188
+Content-Length: 202
 
-{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTUzfQ.cQQ6vP41y1HXjorPBXJ0BZ2Qe_yYixOoNGf-WTwSMEHiidU2jxY53SOxa5lqnCDb0AU0pgg57iHIJT8fQruQ3Q&quot;}</code></pre>
+{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.3XVmlULyx8evHVtK51iQms_QHRNh9IAsrRFMeZDr-kYdnd1UwTVC8rpSjXPuZVl7h8JnglfZisvegYgQDeWY8A&quot;,&quot;result&quot;:true}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -530,7 +530,7 @@ Content-Length: 188
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTUzfQ.cQQ6vP41y1HXjorPBXJ0BZ2Qe_yYixOoNGf-WTwSMEHiidU2jxY53SOxa5lqnCDb0AU0pgg57iHIJT8fQruQ3Q&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.3XVmlULyx8evHVtK51iQms_QHRNh9IAsrRFMeZDr-kYdnd1UwTVC8rpSjXPuZVl7h8JnglfZisvegYgQDeWY8A&quot;,&quot;result&quot;:true}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -584,6 +584,11 @@ Content-Length: 188
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">엑세스 토큰</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 성공 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -600,7 +605,7 @@ Content-Length: 188
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">DELETE /api/v1/auth/logout HTTP/1.1
 Host: localhost:8080
-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIxIiwiZXhwIjoxNjYwNjc4NTUzfQ.GWeJZejMIXuiHJDcttrcymBqRTHfIJUZhNKq__fNw58oaU-ENP1VvcW764aHrurDiKyv0HInXUpAvL4A_bxVLA</code></pre>
+Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIxIiwiZXhwIjoxNjYyOTAwMTk1fQ.pVgaIkejxvrCPIc2l4__1-0YK0zzcCClbT7TtVxOVySozqwhcfybFQ67GmBaWap7nqgEujYZheTYRF7YaS4eyQ</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -632,7 +637,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/public/auth/reissue HTTP/1.1
 Host: localhost:8080
-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIzIiwiZXhwIjoxNjYwNjc4NTU0fQ.qYUHiDCPRnwqOhiYO5FCiRgvkohOmbbjUUfqWOZWZSEk7XnU8b0hjaAAlOzuqxaxfxOXc0xPBX6Jh50y5d8XAQ</code></pre>
+Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIzIiwiZXhwIjoxNjYyOTAwMTk1fQ.BpKHwIhOGmbOdHWoxx2sGQgnqpAHF5CF-jIKqn7dTzmjTz4nxrlNI6AL6FEc2bNomWAN1hPnCMbEORSYFWFW5g</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -648,9 +653,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 188
+Content-Length: 202
 
-{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTU0fQ.AAOWnWp0LjBHSiV_-ACCoI8T5U2vKp8RzYJ14QogEefR0o_hshU66kz5y1UahnpbJD9XPVv1vPcefBLf18zPaQ&quot;}</code></pre>
+{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.n-kl659IfLjlea0nCJravjYzAZ1l_35BfOV9klGGTi_GV9ySzuG85iBLztse-zupwT7mzxFeIKtI5lUlXw8F5Q&quot;,&quot;result&quot;:true}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -658,7 +663,7 @@ Content-Length: 188
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYwNjY0MTU0fQ.AAOWnWp0LjBHSiV_-ACCoI8T5U2vKp8RzYJ14QogEefR0o_hshU66kz5y1UahnpbJD9XPVv1vPcefBLf18zPaQ&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.n-kl659IfLjlea0nCJravjYzAZ1l_35BfOV9klGGTi_GV9ySzuG85iBLztse-zupwT7mzxFeIKtI5lUlXw8F5Q&quot;,&quot;result&quot;:true}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -682,6 +687,11 @@ Content-Length: 188
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>accessToken</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">새로 발급된 엑세스 토큰</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 성공 여부</p></td>
 </tr>
 </tbody>
 </table>

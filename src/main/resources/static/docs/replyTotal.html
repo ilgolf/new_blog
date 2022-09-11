@@ -586,9 +586,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 188
+Content-Length: 192
 
-{&quot;data&quot;:[{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;,&quot;createDate&quot;:&quot;2022-08-16T23:35:56.413049&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+{&quot;data&quot;:[{&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;,&quot;createDate&quot;:&quot;2022-09-11T16:43:06.675454&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -596,7 +596,7 @@ Content-Length: 188
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;,&quot;createDate&quot;:&quot;2022-08-16T23:35:56.413049&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;,&quot;createDate&quot;:&quot;2022-09-11T16:43:06.675454&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -617,14 +617,14 @@ Content-Length: 188
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이메일</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].comment</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">댓글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createdBy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].createDate</code></p></td>
