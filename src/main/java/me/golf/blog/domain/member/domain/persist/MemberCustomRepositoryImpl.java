@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.member.domain.vo.Email;
-import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.dto.MemberAllResponse;
 import me.golf.blog.domain.member.dto.MemberSearch;
 import me.golf.blog.global.common.PageCustomResponse;
@@ -71,22 +70,6 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 .from(member);
 
         return PageCustomResponse.of(PageableExecutionUtils.getPage(members, pageable, count::fetchFirst));
-    }
-
-    public Optional<Email> existByEmail(final Email email) {
-        return Optional.ofNullable(query.select(member.email)
-                .from(member)
-                .where(member.email.eq(email))
-                .limit(1)
-                .fetchOne());
-    }
-
-    public Optional<Nickname> existByNickname(final Nickname nickname) {
-        return Optional.ofNullable(query.select(member.nickname)
-                .from(member)
-                .where(member.nickname.eq(nickname))
-                .limit(1)
-                .fetchOne());
     }
 
     @Override

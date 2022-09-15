@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -17,6 +18,7 @@ import java.util.Objects;
 public final class Name implements Serializable {
     @Column(nullable = false, length = 13)
     @NotBlank(message = "필수 값입니다. - name")
+    @Length(max = 13)
     private String name;
 
     public static Name from(final String name) {

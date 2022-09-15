@@ -55,14 +55,14 @@ public class MemberService {
     }
 
     private void existEmail(final Email email) {
-        memberRepository.existByEmail(email).ifPresent(member -> {
+        if (memberRepository.existsByEmail(email)) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
-        });
+        }
     }
 
     private void existNickname(final Nickname nickname) {
-        memberRepository.existByNickname(nickname).ifPresent(member -> {
+        if (memberRepository.existsByNickname(nickname)) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
-        });
+        }
     }
 }

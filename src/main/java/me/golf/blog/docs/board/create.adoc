@@ -26,4 +26,8 @@ include::{snippets}/board/create/response-body.adoc[]
 
 include::{snippets}/board/create/request-fields.adoc[]
 
+== Response Body (Table)
+
+include::{snippets}/board/create/response-fields.adoc[]
+
 =======================================================
