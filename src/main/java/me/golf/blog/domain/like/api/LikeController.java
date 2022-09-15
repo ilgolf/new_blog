@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/likes")
 public class LikeController {
+
     private final LikeService likeService;
 
     @PostMapping("/{boardId}")

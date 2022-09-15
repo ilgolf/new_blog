@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import me.golf.blog.domain.member.error.PasswordNullException;
 import me.golf.blog.global.error.exception.ErrorCode;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Password {
     @NotBlank(message = "필수 값입니다. - password")
+    @Length(min = 8)
     @Column(nullable = false, length = 120)
     private String password;
 

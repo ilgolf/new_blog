@@ -58,6 +58,10 @@ class BoardControllerTest {
                         requestFields(
                                 fieldWithPath("title").description("게시물 제목"),
                                 fieldWithPath("content").description("게시물 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("boardId").description("게시물 식별자"),
+                                fieldWithPath("result").description("결과 flag")
                         )))
                 .andDo(print());
     }

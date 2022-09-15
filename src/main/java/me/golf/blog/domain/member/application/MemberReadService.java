@@ -3,8 +3,6 @@ package me.golf.blog.domain.member.application;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.domain.redisform.MemberRedisDto;
-import me.golf.blog.domain.member.domain.redisform.MemberRedisRepository;
 import me.golf.blog.domain.member.dto.MemberAllResponse;
 import me.golf.blog.domain.member.dto.MemberResponse;
 import me.golf.blog.domain.member.dto.MemberSearch;

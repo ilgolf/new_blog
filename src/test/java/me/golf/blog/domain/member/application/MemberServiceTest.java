@@ -132,7 +132,7 @@ class MemberServiceTest {
 
         // when
         memberService.update(updateRequest.toEntity(), memberId);
-        Member member = memberRepository.findByEmail(email).orElseThrow(
+        Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // then
