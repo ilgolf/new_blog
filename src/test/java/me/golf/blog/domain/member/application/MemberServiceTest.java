@@ -6,16 +6,13 @@ import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
-import me.golf.blog.domain.member.util.GivenMember;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.error.exception.ErrorCode;
+import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +32,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MemberServiceTest {
 
-    @Autowired MemberService memberService;
-    @Autowired MemberReadService memberReadService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    MemberReadService memberReadService;
     @Autowired MemberRepository memberRepository;
 
     static Email email;
@@ -44,7 +43,7 @@ class MemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        JoinResponse joinResponse = memberService.create(toEntityWithCount());
+        SimpleMemberResponse joinResponse = memberService.create(toEntityWithCount());
 
         email = joinResponse.getEmail();
         memberId = joinResponse.getMemberId();
@@ -54,7 +53,8 @@ class MemberServiceTest {
     @DisplayName("회원정보를 조회해온다.")
     void findOne() {
         // when
-        MemberResponse member = memberReadService.findByEmail(email);
+        CustomUserDetails userDetails = new CustomUserDetails(memberId, GIVEN_EMAIL, RoleType.USER);
+        MemberResponse member = memberReadService.getDetailBy(userDetails);
 
         // then
         assertThat(member.getEmail()).isEqualTo(GIVEN_EMAIL);
@@ -82,7 +82,7 @@ class MemberServiceTest {
         }
 
         // when
-        List<MemberAllResponse> members = memberReadService.findAll(memberSearch, pageable).getData();
+        List<MemberAllResponse> members = memberReadService.getMembers(memberSearch, pageable).getData();
 
         // then
         assertThat(members.size()).isEqualTo(10);
@@ -118,7 +118,7 @@ class MemberServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<MemberAllResponse> members = memberReadService.findAll(memberSearch, pageable).getData();
+        List<MemberAllResponse> members = memberReadService.getMembers(memberSearch, pageable).getData();
 
         // then
         assertThat(members.size()).isEqualTo(1);
@@ -132,7 +132,7 @@ class MemberServiceTest {
 
         // when
         memberService.update(updateRequest.toEntity(), memberId);
-        MemberDTO member = memberRepository.findByEmailWithMemberDTO(email).orElseThrow(
+        Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // then
@@ -147,6 +147,9 @@ class MemberServiceTest {
         memberService.delete(memberId);
 
         // then
-        assertThrows(MemberNotFoundException.class, () -> memberService.getMember(email));
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        assertThat(member.getActivated()).isFalse();
     }
 }

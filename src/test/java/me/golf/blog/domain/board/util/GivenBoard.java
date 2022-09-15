@@ -18,7 +18,7 @@ public class GivenBoard {
                 .build();
     }
 
-    public static Board toEntityWithBoardCount(final BoardCount boardCount) {
+    public static Board toEntityWithBoardCount() {
         return Board.builder()
                 .id(1L)
                 .title(GIVEN_TITLE)

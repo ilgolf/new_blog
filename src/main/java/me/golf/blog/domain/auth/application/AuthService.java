@@ -2,6 +2,7 @@ package me.golf.blog.domain.auth.application;
 
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.member.domain.persist.MemberCustomRepositoryImpl;
+import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.global.jwt.error.TokenNotFoundException;
 import me.golf.blog.global.jwt.vo.AccessToken;
 import me.golf.blog.global.security.principal.CustomUserDetails;
@@ -22,14 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class AuthService {
-    private final MemberCustomRepositoryImpl memberQueryRepository;
+    private final MemberRepository memberRepository;
     private final AuthenticationManagerBuilder managerBuilder;
     private final TokenProvider tokenProvider;
 
     public TokenDTO login(final Email email, final Password password) {
         final String userPw = password.password();
 
-        CustomUserDetails userDetails = memberQueryRepository.findByEmail(email)
+        CustomUserDetails userDetails = memberRepository.findUserDetailsByEmail(email)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         UsernamePasswordAuthenticationToken token

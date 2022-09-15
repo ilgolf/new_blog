@@ -8,7 +8,6 @@ import me.golf.blog.domain.member.domain.vo.Name;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,12 +20,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static me.golf.blog.domain.member.util.GivenMember.*;
@@ -62,7 +59,7 @@ class MemberControllerTest {
 
         String body = objectMapper.writeValueAsString(joinRequest);
 
-        JoinResponse response = JoinResponse.of(joinRequest.toEntity());
+        SimpleMemberResponse response = SimpleMemberResponse.of(joinRequest.toEntity());
 
         when(memberService.create(any())).thenReturn(response);
 
@@ -97,7 +94,7 @@ class MemberControllerTest {
 
         String body = objectMapper.writeValueAsString(joinRequest);
 
-        JoinResponse response = JoinResponse.of(joinRequest.toEntity());
+        SimpleMemberResponse response = SimpleMemberResponse.of(joinRequest.toEntity());
 
         when(memberService.create(any())).thenReturn(response);
 
@@ -106,19 +103,11 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("요청을 받아 정상적으로 조회 컨트롤러가 동작한다.")
+    @WithAuthUser
     void findMemberTest() throws Exception {
-        MemberDTO memberDTO = MemberDTO.builder()
-                .email(GIVEN_EMAIL)
-                .name(GIVEN_NAME)
-                .nickname(GIVEN_NICKNAME)
-                .birth(LocalDate.of(1996, 10, 25))
-                .followerCount(1)
-                .followingCount(1)
-                .boardCount(1)
-                .build();
-        when(memberReadService.findByEmail(any())).thenReturn(MemberResponse.of(memberDTO));
+        when(memberReadService.getDetailBy(any())).thenReturn(MemberResponse.of(toEntityWithCount()));
 
-        mockMvc.perform(get("/api/v1/public/members/" + GIVEN_EMAIL.email()).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/v1/members/detail").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("member/findById",
                         responseFields(
@@ -136,17 +125,19 @@ class MemberControllerTest {
     @Test
     @DisplayName("정상적으로 findAll 컨트롤러가 동작한다.")
     void findAllTest() throws Exception {
-        List<MemberAllResponse> members = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+        List<MemberAllResponse> members = List.of(new
+                MemberAllResponse(1L, GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
 
         PageCustomResponse<MemberAllResponse> response
                 = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
 
-        when(memberReadService.findAll(any(), any())).thenReturn(response);
+        when(memberReadService.getMembers(any(), any())).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/public/members").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("member/findAll",
                         responseFields(
+                                fieldWithPath("data.[].memberId").description("회원 고유식별자"),
                                 fieldWithPath("data.[].email").description("회원 이메일"),
                                 fieldWithPath("data.[].nickname").description("회원 별칭"),
                                 fieldWithPath("data.[].name").description("회원 이름"),
@@ -161,12 +152,13 @@ class MemberControllerTest {
     @Test
     @DisplayName("검색 조건이 걸릴 경우의 인수테스트")
     void findSearch() throws Exception {
-        List<MemberAllResponse> members = List.of(new MemberAllResponse(GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
+        List<MemberAllResponse> members = List.of(
+                new MemberAllResponse(1L, GIVEN_EMAIL, GIVEN_NICKNAME, GIVEN_NAME));
 
         PageCustomResponse<MemberAllResponse> response
                 = PageCustomResponse.of(new PageImpl<>(members, PageRequest.of(0, 10), 1));
 
-        when(memberReadService.findAll(any(), any())).thenReturn(response);
+        when(memberReadService.getMembers(any(), any())).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/public/members")
                         .param("nickname", GIVEN_NICKNAME.nickname())
@@ -178,6 +170,7 @@ class MemberControllerTest {
                                 parameterWithName("nickname").description("검색 회원 닉네임 키워드"),
                                 parameterWithName("email").description("검색 회원 이메일 키워드")),
                         responseFields(
+                                fieldWithPath("data.[].memberId").description("회원 고유식별자"),
                                 fieldWithPath("data.[].email").description("회원 이메일"),
                                 fieldWithPath("data.[].nickname").description("회원 별칭"),
                                 fieldWithPath("data.[].name").description("회원 이름"),

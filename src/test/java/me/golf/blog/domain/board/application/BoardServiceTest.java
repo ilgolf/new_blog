@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
-import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Content;
 import me.golf.blog.domain.board.domain.vo.Title;
@@ -13,7 +12,7 @@ import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.member.application.MemberService;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.dto.JoinResponse;
+import me.golf.blog.domain.member.dto.SimpleMemberResponse;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.error.exception.ErrorCode;
@@ -45,24 +44,23 @@ class BoardServiceTest {
     static Long boardId;
 
     @BeforeEach
-    void init() throws JsonProcessingException {
-        JoinResponse joinResponse = memberService.create(GivenMember.toEntityWithCount());
+    void init() {
+        SimpleMemberResponse joinResponse = memberService.create(GivenMember.toEntityWithCount());
         
         member = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        boardId = boardService.create(toEntityWithBoardCount(new BoardCount()), member.getId());
+        boardId = boardService.create(toEntityWithBoardCount(), member.getId());
     }
 
     @Test
     @DisplayName("boardId로 원하는 게시판 상세 조회")
     @Transactional(readOnly = true)
-    void findById() throws JsonProcessingException {
+    void findById() {
         BoardResponse boardResponse = boardReadService.findById(boardId);
 
         assertThat(boardResponse.getTitle()).isEqualTo(GIVEN_TITLE);
         assertThat(boardResponse.getContent()).isEqualTo(GIVEN_CONTENT);
-        assertThat(boardResponse.getView()).isEqualTo(1);
     }
 
     @Test
@@ -145,8 +143,8 @@ class BoardServiceTest {
         Long tempBoard = boardService.createTemp(request.toEntity(), member.getId());
 
         // then
-        Title title = boardRepository.findTempBoardById(tempBoard, member.getId()).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)).getTitle();
+        Title title = boardRepository.findByIdAndStatusAndMemberId(tempBoard, BoardStatus.TEMP, member.getId())
+                .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND)).getTitle();
 
         assertThat(title.title()).isEqualTo("임시 게시판 만드는 테스트입니다.");
     }

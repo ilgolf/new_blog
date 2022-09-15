@@ -1,0 +1,17 @@
+=======================================================
+
+== Spring REST Docs - Delete
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== REQUEST
+
+include::{snippets}/like/delete/http-request.adoc[]
+
+== RESPONSE
+
+include::{snippets}/like/delete/http-response.adoc[]
+
+=======================================================

@@ -36,7 +36,7 @@ public class JoinRequest {
     private Nickname nickname;
 
     @NotNull(message = "필수 값입니다. - birth")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birth;
 
     public Member toEntity() {

@@ -6,14 +6,14 @@ import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Nickname;
-import me.golf.blog.domain.member.dto.JoinResponse;
-import me.golf.blog.domain.member.dto.MemberDTO;
+import me.golf.blog.domain.member.dto.SimpleMemberResponse;
 import me.golf.blog.domain.member.error.DuplicateEmailException;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.global.config.RedisPolicy;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,24 +26,16 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
 
-    // create
-    public JoinResponse create(final Member member) {
+    public SimpleMemberResponse create(final Member member) {
         existEmail(member.getEmail());
         existNickname(member.getNickname());
 
-        return JoinResponse.of(memberRepository.save(member.encode(encoder)));
+        Member savedMember = memberRepository.save(member.encode(encoder));
+
+        return SimpleMemberResponse.of(savedMember);
     }
 
-    // find
-    @Cacheable(key = "#email.email()", value = "getMember")
-    @Transactional(readOnly = true)
-    public MemberDTO getMember(final Email email) {
-        log.debug("getMember");
-        return memberRepository.findByEmailWithMemberDTO(email).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-    }
-
-    // update
+    @CachePut(key = "#memberId", value = RedisPolicy.MEMBER_KEY)
     public void update(final Member updateMember, final Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -55,28 +47,22 @@ public class MemberService {
         member.update(updateMember, encoder);
     }
 
-    // delete
+    @CacheEvict(key = "#memberId", value = RedisPolicy.MEMBER_KEY)
     public void delete(final Long memberId) {
-        deleteCache(memberId);
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
                 .delete();
     }
 
     private void existEmail(final Email email) {
-        memberRepository.existByEmail(email).ifPresent(member -> {
+        if (memberRepository.existsByEmail(email)) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
-        });
+        }
     }
 
     private void existNickname(final Nickname nickname) {
-        memberRepository.existByNickname(nickname).ifPresent(member -> {
+        if (memberRepository.existsByNickname(nickname)) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
-        });
-    }
-
-    @CacheEvict(value = "getMember", key = "#memberId")
-    public void deleteCache(final Long memberId) {
-        log.debug("회원 캐시 삭제 : {}", memberId);
+        }
     }
 }

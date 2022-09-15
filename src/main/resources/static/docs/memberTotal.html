@@ -521,13 +521,7 @@ Content-Length: 58
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{
-    &quot;email&quot;: &quot;ilgolc@naver.com&quot;,
-    &quot;password&quot;: &quot;123456789&quot;,
-    &quot;name&quot;: &quot;kim3&quot;,
-    &quot;nickname&quot;: &quot;ssar&quot;,
-    &quot;birth&quot;: &quot;25-10-1999&quot;
-}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;password&quot;:&quot;123456789&quot;,&quot;name&quot;:&quot;kim3&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;birth&quot;:&quot;25-10-1999&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -535,11 +529,7 @@ Content-Length: 58
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{
-    &quot;memberId&quot;: 1,
-    &quot;email&quot;: &quot;ilgolc@naver.com&quot;,
-    &quot;name&quot;: &quot;kim3&quot;
-}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;memberId&quot;:null,&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;name&quot;:&quot;kim3&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -605,7 +595,7 @@ Content-Length: 58
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유 식별자</p></td>
 </tr>
 <tr>
@@ -632,7 +622,7 @@ Content-Length: 58
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/public/members/ilgolc@naver.com HTTP/1.1
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /api/v1/members/detail HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -643,7 +633,6 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Content-Disposition: inline;filename=f.txt
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -653,7 +642,7 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Length: 121
 
-{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;name&quot;:&quot;kim3&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;age&quot;:26,&quot;followerCount&quot;:0,&quot;followingCount&quot;:0,&quot;boardCount&quot;:0}</code></pre>
+{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;name&quot;:&quot;kim3&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;age&quot;:23,&quot;followerCount&quot;:0,&quot;followingCount&quot;:0,&quot;boardCount&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -661,15 +650,7 @@ Content-Length: 121
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{
-    &quot;email&quot;: &quot;ilgolc@naver.com&quot;,
-    &quot;name&quot;: &quot;kim3&quot;,
-    &quot;nickname&quot;: &quot;ssar&quot;,
-    &quot;age&quot;: 26,
-    &quot;followerCount&quot;: 0,
-    &quot;followingCount&quot;: 0,
-    &quot;boardCount&quot;: 0
-}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;name&quot;:&quot;kim3&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;age&quot;:23,&quot;followerCount&quot;:0,&quot;followingCount&quot;:0,&quot;boardCount&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -756,9 +737,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 128
+Content-Length: 141
 
-{&quot;data&quot;:[{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;name&quot;:&quot;kim3&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+{&quot;data&quot;:[{&quot;memberId&quot;:1,&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;name&quot;:&quot;kim3&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -766,7 +747,7 @@ Content-Length: 128
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;name&quot;:&quot;kim3&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;memberId&quot;:1,&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;name&quot;:&quot;kim3&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -786,6 +767,11 @@ Content-Length: 128
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유식별자</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
@@ -853,9 +839,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 128
+Content-Length: 141
 
-{&quot;data&quot;:[{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;name&quot;:&quot;kim3&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+{&quot;data&quot;:[{&quot;memberId&quot;:1,&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;name&quot;:&quot;kim3&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -863,19 +849,7 @@ Content-Length: 128
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{
-    &quot;data&quot;: [
-        {
-            &quot;email&quot;: &quot;ilgolc@naver.com&quot;,
-            &quot;nickname&quot;: &quot;ssar&quot;,
-            &quot;name&quot;: &quot;kim3&quot;
-        }
-    ],
-    &quot;totalPage&quot;: 1,
-    &quot;pageSize&quot;: 10,
-    &quot;totalElements&quot;: 1,
-    &quot;number&quot;: 0
-}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;memberId&quot;:1,&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;nickname&quot;:&quot;ssar&quot;,&quot;name&quot;:&quot;kim3&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -895,6 +869,11 @@ Content-Length: 128
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 고유식별자</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>

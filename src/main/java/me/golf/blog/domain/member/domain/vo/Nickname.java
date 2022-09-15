@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,6 +19,8 @@ import java.util.Objects;
 public final class Nickname implements Serializable {
     @Column(name = "nickname", nullable = false, unique = true)
     @NotBlank(message = "필수 값입니다. - nickname")
+    @Length(max = 15)
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "영어만 입력이 가능합니다.")
     private String nickname;
 
     @JsonValue

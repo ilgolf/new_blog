@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -14,6 +16,8 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class Comment {
     @NotBlank(message = "필수 값입니다.")
+    @Length(min = 4, max = 400)
+    @Column(columnDefinition = "TEXT")
     private String comment;
 
     public static Comment from(final String comment) {

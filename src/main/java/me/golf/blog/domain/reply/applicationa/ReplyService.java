@@ -23,20 +23,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ReplyService {
     private final ReplyRepository replyRepository;
-    private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
 
+    @Transactional
     public Long create(final ReplyCreateRequest request, final Long boardId, final Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-        Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
-        Reply reply = replyRepository.save(Reply.createReply(request.getComment(), member, board));
-
-        return reply.getId();
+        return replyRepository.save(Reply.createReply(request.getComment(), memberId, boardId)).getId();
     }
 
     @Transactional(readOnly = true)
@@ -44,14 +36,16 @@ public class ReplyService {
         return replyRepository.findAllWithQuery(pageable, boardId);
     }
 
+    @Transactional
     public void update(final Comment comment, final Long replyId) {
         replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyNotFoundException(ErrorCode.REPLY_NOT_FOUND))
                 .updateComment(comment);
     }
 
+    @Transactional
     public void deleteById(final Long replyId, final Long memberId) {
-        Reply reply = replyRepository
+        replyRepository
                 .findByIdAndMemberId(replyId, memberId)
                 .orElseThrow(() -> new ReplyNotFoundException(ErrorCode.REPLY_NOT_FOUND))
                 .delete();

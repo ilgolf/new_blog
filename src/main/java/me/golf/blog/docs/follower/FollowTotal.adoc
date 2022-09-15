@@ -1,0 +1,29 @@
+= Follower
+
+email : ilgolc@naver.com
+
+version : 1.0.0
+
+releaseDate : 2022.06.25
+
+|===
+| Method | Content
+
+| `GET`
+| 읽기
+
+| `POST`
+| 추가
+
+| `PATCH`
+| 수정
+
+| `DELETE`
+| 삭제
+|===
+
+include::{docdir}/follow.adoc[]
+
+include::{docdir}/followerList.adoc[]
+
+include::{docdir}/unfollow.adoc[]

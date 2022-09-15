@@ -2,6 +2,7 @@ package me.golf.blog.domain.reply.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.member.WithAuthUser;
+import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.domain.reply.applicationa.ReplyService;
 import me.golf.blog.domain.reply.domain.vo.Comment;
 import me.golf.blog.domain.reply.dto.ReplyAllResponse;
@@ -64,8 +65,9 @@ class ReplyControllerTest {
     @Test
     @DisplayName("reply 전체 조회 테스트")
     void findAll() throws Exception {
-        ReplyAllResponse replies = new ReplyAllResponse
-                ("ilgolc@naver.com", Comment.from("안녕하세요, 테스트 입니다."), LocalDateTime.now());
+        ReplyAllResponse replies =
+                new ReplyAllResponse(Comment.from("안녕하세요, 테스트 입니다."),
+                        LocalDateTime.now(), GivenMember.GIVEN_EMAIL);
 
         Page<ReplyAllResponse> responses =
                 new PageImpl<>(List.of(replies), PageRequest.of(0, 10), 1);
@@ -76,8 +78,8 @@ class ReplyControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("reply/findAll",
                         responseFields(
-                                fieldWithPath("data.[].email").description("회원 이메일"),
                                 fieldWithPath("data.[].comment").description("댓글 내용"),
+                                fieldWithPath("data.[].createdBy").description("작성자"),
                                 fieldWithPath("data.[].createDate").description("생성 시간"),
                                 fieldWithPath("totalPage").description("목록 총 페이지"),
                                 fieldWithPath("pageSize").description("페이지 사이즈"),

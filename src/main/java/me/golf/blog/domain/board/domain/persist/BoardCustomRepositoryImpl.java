@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
+import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
 import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.global.common.PageCustomResponse;
@@ -29,9 +30,10 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
     public PageCustomResponse<BoardAllResponse> findAllWithQuery(final SearchKeywordRequest searchKeyword, final Pageable pageable) {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
+                        board.id,
                         board.title,
                         board.content,
-                        member.email,
+                        member.email.as("createdBy"),
                         board.createTime.as("createdAt"))
                 )
                 .from(board)
@@ -49,17 +51,9 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
         return getPageResponse(pageable, boards);
     }
 
-    public Optional<Title> existByTitle(Title title) {
-        return Optional.ofNullable(
-                query.select(board.title)
-                        .from(board)
-                        .where(board.title.eq(title))
-                        .limit(1)
-                        .fetchOne());
-    }
-
     public PageCustomResponse<BoardAllResponse> findByEmail(Email email, Pageable pageable) {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
+                        board.id,
                         board.title,
                         board.content,
                         member.email,
@@ -90,30 +84,24 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
             return PageCustomResponse.of(Page.empty());
         }
 
-        JPAQuery<Board> count = query.select(board)
+        JPAQuery<Long> count = query.select(board.count())
                 .from(board)
                 .where(board.status.eq(BoardStatus.TEMP));
 
-        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable,
-                () -> count.fetch().size()));
+        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable, count::fetchFirst));
     }
 
-    @Override
-    public Optional<Board> findByIdWithBoardCount(Long boardId) {
-        return Optional.ofNullable(
-                query.select(board)
-                        .from(board)
-                        .where(board.id.eq(boardId))
-                        .fetchOne());
-    }
+    public Optional<BoardResponse> getBoardDetail(final Long boardId) {
 
-    @Override
-    public Optional<Integer> increaseViewCount(Long boardId) {
-        query.update(board).set(board.boardCount.viewCount, board.boardCount.viewCount.add(1))
-                .where(board.id.eq(boardId)).execute();
-
-        return Optional.ofNullable(query.select(board.boardCount.viewCount).from(board)
-                .where(board.id.eq(boardId)).fetchOne());
+        return Optional.ofNullable(query.select(Projections.constructor(BoardResponse.class,
+                        board.title,
+                        board.content,
+                        board.lastModifiedTime.as("lastModifiedAt"),
+                        member.nickname))
+                .from(board)
+                .innerJoin(member).on(member.id.eq(board.memberId))
+                .where(board.id.eq(boardId))
+                .fetchOne());
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {
@@ -121,11 +109,10 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
             return PageCustomResponse.of(Page.empty());
         }
 
-        JPAQuery<Board> count = query.select(board)
+        JPAQuery<Long> count = query.select(board.count())
                 .from(board)
                 .where(board.status.eq(BoardStatus.SAVE));
 
-        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable,
-                () -> count.fetch().size()));
+        return PageCustomResponse.of(PageableExecutionUtils.getPage(boards, pageable, count::fetchFirst));
     }
 }

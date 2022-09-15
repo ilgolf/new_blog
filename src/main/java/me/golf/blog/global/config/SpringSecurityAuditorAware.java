@@ -14,9 +14,9 @@ import java.util.Optional;
 
 @Slf4j
 @Configuration
-public class SpringSecurityAuditorAware implements AuditorAware<String> {
+public class SpringSecurityAuditorAware implements AuditorAware<Long> {
     @Override
-    public Optional<String> getCurrentAuditor() {
+    public Optional<Long> getCurrentAuditor() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .map(authentication -> {
@@ -24,7 +24,7 @@ public class SpringSecurityAuditorAware implements AuditorAware<String> {
                     boolean isUser = authorities.contains(new SimpleGrantedAuthority("ROLE_USER"));
                     if (isUser) {
                         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
-                        return principal.getUsername();
+                        return principal.getId();
                     }
                     return null;
                 });

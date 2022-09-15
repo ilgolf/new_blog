@@ -3,12 +3,7 @@ package me.golf.blog.domain.board.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.board.application.BoardReadService;
 import me.golf.blog.domain.board.application.BoardService;
-import me.golf.blog.domain.board.domain.persist.Board;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
-import me.golf.blog.domain.board.domain.vo.BoardCount;
 import me.golf.blog.domain.board.dto.*;
-import me.golf.blog.domain.board.util.GivenBoard;
-import me.golf.blog.domain.board.util.GivenBoardCount;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.PageCustomResponse;
@@ -63,6 +58,10 @@ class BoardControllerTest {
                         requestFields(
                                 fieldWithPath("title").description("게시물 제목"),
                                 fieldWithPath("content").description("게시물 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("boardId").description("게시물 식별자"),
+                                fieldWithPath("result").description("결과 flag")
                         )))
                 .andDo(print());
     }
@@ -71,8 +70,7 @@ class BoardControllerTest {
     @DisplayName("id 값을 이용해 게시판을 상세히 조회해온다.")
     @WithAuthUser
     void findById() throws Exception {
-        BoardRedisEntity boardRedisEntity = new BoardRedisEntity(toEntityWithBoardCount(new BoardCount()));
-        BoardResponse boardResponse = BoardResponse.of(boardRedisEntity, 0);
+        BoardResponse boardResponse = BoardResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_NICKNAME);
 
         when(boardReadService.findById(any())).thenReturn(boardResponse);
 
@@ -84,8 +82,7 @@ class BoardControllerTest {
                                 fieldWithPath("title").description("게시물 제목"),
                                 fieldWithPath("content").description("게시물 내용"),
                                 fieldWithPath("lastModifiedAt").description("게시물 수정 이력"),
-                                fieldWithPath("createdBy").description("게시물 생성시간"),
-                                fieldWithPath("view").description("게시물 조회 수")
+                                fieldWithPath("createdBy").description("게시물 생성시간")
                         )))
                 .andDo(print());
     }
@@ -93,8 +90,7 @@ class BoardControllerTest {
     @Test
     @DisplayName("전체 조회 테스트")
     void findAll() throws Exception {
-        BoardCount boardCount = new BoardCount();
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(boardCount)));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
         Pageable pageable = PageRequest.of(0, 10);
 
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));
@@ -106,6 +102,7 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("board/findAll",
                         responseFields(
+                                fieldWithPath("data.[].boardId").description("게시판 고유식별자"),
                                 fieldWithPath("data.[].title").description("게시물 제목"),
                                 fieldWithPath("data.[].content").description("게시물 내용"),
                                 fieldWithPath("data.[].createdBy").description("게시물 작성자"),
@@ -121,8 +118,7 @@ class BoardControllerTest {
     @Test
     @DisplayName("검색 조회 테스트")
     void findSearch() throws Exception {
-        BoardCount boardCount = GivenBoardCount.toEntityWithId();
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(boardCount)));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
 
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -142,6 +138,7 @@ class BoardControllerTest {
                                 parameterWithName("content").description("검색 내용 키워드"),
                                 parameterWithName("email").description("검색 이메일 키워드")),
                         responseFields(
+                                fieldWithPath("data.[].boardId").description("게시물 고유식별자"),
                                 fieldWithPath("data.[].title").description("게시물 제목"),
                                 fieldWithPath("data.[].content").description("게시물 내용"),
                                 fieldWithPath("data.[].createdBy").description("게시물 작성자"),
@@ -156,7 +153,7 @@ class BoardControllerTest {
 
     @Test
     void findByEmail() throws Exception {
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(new BoardCount())));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
         Pageable pageable = PageRequest.of(0, 10);
 
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));
@@ -169,6 +166,7 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("board/findByEmail",
                         responseFields(
+                                fieldWithPath("data.[].boardId").description("게시물 고유식별자"),
                                 fieldWithPath("data.[].title").description("게시물 제목"),
                                 fieldWithPath("data.[].content").description("게시물 내용"),
                                 fieldWithPath("data.[].createdBy").description("게시물 작성자"),

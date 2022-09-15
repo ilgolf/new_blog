@@ -2,7 +2,6 @@ package me.golf.blog.domain.member.domain.persist;
 
 import lombok.*;
 import me.golf.blog.domain.member.domain.vo.*;
-import me.golf.blog.domain.memberCount.domain.persist.MemberCount;
 import me.golf.blog.global.common.BaseTimeEntity;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -27,13 +26,13 @@ public class Member extends BaseTimeEntity {
     private Long id;
 
     @Embedded
-    private Email email; // prefix : ex) ilgolc, suffix : ex) naver.com
+    private Email email;
 
     @Embedded
     private Password password;
 
     @Embedded
-    private Name name; // firstName LastName
+    private Name name;
 
     @Embedded
     private Nickname nickname;
@@ -78,6 +77,11 @@ public class Member extends BaseTimeEntity {
         return this;
     }
 
+    public void delete() {
+        activated = false;
+        recordDeleteTime();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,10 +93,5 @@ public class Member extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void delete() {
-        activated = false;
-        recordDeleteTime();
     }
 }

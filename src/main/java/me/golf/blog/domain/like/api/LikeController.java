@@ -17,14 +17,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/likes")
 public class LikeController {
+
     private final LikeService likeService;
 
     @PostMapping("/{boardId}")
     public ResponseEntity<Long> likeBoard(@PathVariable Long boardId) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.likeBoard(boardId, getPrincipal().getId()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.likeBoard(boardId, getMemberId()));
     }
 
-    @GetMapping("/boards/{boardId}/likes")
+    @GetMapping("/boards/{boardId}")
     public ResponseEntity<SliceCustomResponse<LikeAllResponse>> getBoardLikeList(
             @PathVariable Long boardId,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -37,7 +38,10 @@ public class LikeController {
         return ResponseEntity.noContent().build();
     }
 
-    private CustomUserDetails getPrincipal() {
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private Long getMemberId() {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        return principal.getId();
     }
 }

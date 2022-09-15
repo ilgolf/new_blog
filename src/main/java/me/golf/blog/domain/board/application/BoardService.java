@@ -1,19 +1,19 @@
 package me.golf.blog.domain.board.application;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.persist.Board;
 import me.golf.blog.domain.board.domain.persist.BoardRepository;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisEntity;
-import me.golf.blog.domain.board.domain.redisForm.BoardRedisRepository;
+import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.error.BoardMissMatchException;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
 import me.golf.blog.domain.board.error.TitleDuplicationException;
-import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
-import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.global.config.RedisPolicy;
 import me.golf.blog.global.error.exception.ErrorCode;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,20 +24,20 @@ import java.util.Objects;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    private final BoardRedisRepository boardRedisRepository;
 
     @Transactional
-    public Long create(final Board board, final Long memberId) throws JsonProcessingException {
+    public Long create(final Board board, final Long memberId) {
+
         existTitle(board.getTitle());
         Board savedBoard = boardRepository.save(board.addMember(memberId));
         memberRepository.increaseBoardCount(memberId);
-        boardRedisRepository.save(new BoardRedisEntity(savedBoard));
         return savedBoard.getId();
     }
 
     @Transactional
+    @CachePut(key = "#boardId", value = RedisPolicy.BOARD_KEY)
     public void update(final Board updateBoard,
-                       final Long boardId, final Long memberId) throws JsonProcessingException {
+                       final Long boardId, final Long memberId) {
         Board board = getBoardEntity(boardId);
 
         if (!Objects.equals(board.getMemberId(), memberId)) {
@@ -49,7 +49,6 @@ public class BoardService {
         }
 
         board.updateBoard(updateBoard);
-        boardRedisRepository.save(new BoardRedisEntity(board));
     }
 
     @Transactional
@@ -59,40 +58,33 @@ public class BoardService {
     }
 
     @Transactional
-    public void delete(final Long boardsId, final Long memberId) {
-        Board board = getBoardEntity(boardsId);
+    @CacheEvict(key = "#boardId", value = RedisPolicy.BOARD_KEY)
+    public void delete(final Long boardId, final Long memberId) {
+        Board board = getBoardEntity(boardId);
 
         if (!Objects.equals(board.getMemberId(), memberId)) {
             throw new BoardMissMatchException(ErrorCode.BOARD_MISS_MATCH);
         }
-
-        boardRedisRepository.delete(new BoardRedisEntity(board));
 
         board.delete();
     }
 
     @Transactional
     public void deleteTempBoard(final Long boardId, final Long memberId) {
-        // todo
-        Board board = boardRepository.findTempBoardById(boardId, memberId).orElseThrow(
+        Board board = boardRepository.findByIdAndStatusAndMemberId(boardId, BoardStatus.TEMP, memberId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         board.delete();
     }
 
-    private Board getBoardEntity(Long boardsId) {
-        return boardRepository.findWithMemberById(boardsId).orElseThrow(
+    private Board getBoardEntity(final Long boardsId) {
+        return boardRepository.findById(boardsId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 
     private void existTitle(final Title title) {
-        if (boardRepository.existByTitle(title).isPresent()) {
+        if (boardRepository.existsByTitle(title)) {
             throw new TitleDuplicationException(ErrorCode.DUPLICATE_TITLE);
         }
-    }
-
-    private Member getMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 }
