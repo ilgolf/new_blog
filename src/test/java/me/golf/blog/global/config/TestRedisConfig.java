@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 @Configuration
 public class TestRedisConfig {
 
-    public static final String MAX_MEMORY_REDIS = "maxmemory 128M";
+    public static final String MAX_MEMORY_REDIS = "maxmemory 256M";
     private final RedisServer redisServer;
 
     public TestRedisConfig(@Value("${spring.redis.port}") int redisPort) {
