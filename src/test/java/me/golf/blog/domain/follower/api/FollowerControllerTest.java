@@ -52,8 +52,6 @@ class FollowerControllerTest {
     @DisplayName("팔로우한 회원을 조회한다.")
     void getFollowersTest() {
         // given
-        FollowerAllResponse response = new FollowerAllResponse(1L, 1L, GIVEN_NICKNAME,
-                LocalDateTime.now());
 
         // when
         followerController.getFollowers(PageRequest.of(0, 7), customUserDetails);

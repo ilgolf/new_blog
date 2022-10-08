@@ -46,6 +46,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(board.status.eq(BoardStatus.SAVE))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.id.desc())
                 .fetch();
 
         return getPageResponse(pageable, boards);
@@ -64,6 +65,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(board.status.eq(BoardStatus.SAVE))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.id.desc())
                 .fetch();
 
         return getPageResponse(pageable, boards);
@@ -78,6 +80,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(board.status.eq(BoardStatus.TEMP))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.id.desc())
                 .fetch();
 
         if (boards.size() == 0) {
@@ -101,7 +104,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .from(board)
                 .innerJoin(member).on(member.id.eq(board.memberId))
                 .where(board.id.eq(boardId))
-                .fetchOne());
+                .fetchFirst());
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {

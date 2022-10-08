@@ -45,7 +45,7 @@ public class BoardController {
         return ResponseEntity.ok(boardReadService.findAll(keyword, pageable));
     }
 
-    @GetMapping("/public/boards/email/{email}")
+    @GetMapping("/public/boards/{email}")
     public ResponseEntity<PageCustomResponse<BoardAllResponse>> findByEmail(
             @PathVariable String email,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {

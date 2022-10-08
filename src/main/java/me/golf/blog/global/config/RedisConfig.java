@@ -1,6 +1,5 @@
 package me.golf.blog.global.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -9,10 +8,9 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.embedded.RedisServer;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -22,20 +20,17 @@ import static me.golf.blog.global.config.RedisPolicy.*;
 
 @Configuration
 @EnableCaching
-@EnableRedisRepositories
 public class RedisConfig {
 
     private final String host;
 
     private final int port;
+    private final RedisServer redisServer;
 
-    private final ObjectMapper objectMapper;
-
-    public RedisConfig(@Value("${spring.redis.host}") String host, @Value("${spring.redis.port}") int port,
-                       ObjectMapper objectMapper) {
+    public RedisConfig(@Value("${spring.redis.host}") String host, @Value("${spring.redis.port}") int port) {
         this.host = host;
         this.port = port;
-        this.objectMapper = objectMapper;
+        this.redisServer = new RedisServer(port);
     }
 
     @Bean
