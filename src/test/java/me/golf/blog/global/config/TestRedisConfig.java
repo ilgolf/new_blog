@@ -15,12 +15,18 @@ import java.io.InputStreamReader;
 @Configuration
 public class TestRedisConfig {
 
+    public static final String MAX_MEMORY_REDIS = "maxmemory 128M";
     private final RedisServer redisServer;
     private final int port;
 
     public TestRedisConfig(@Value("${spring.redis.port}") int redisPort) throws IOException {
+
         port = redisPort;
-        redisServer = new RedisServer(isRedisRunning()? findAvailablePort() : this.port);
+        redisServer = RedisServer.builder()
+                .port(isRedisRunning() ? findAvailablePort() : this.port)
+                .setting(MAX_MEMORY_REDIS)
+                .build();
+
         redisServer.start();
     }
 
