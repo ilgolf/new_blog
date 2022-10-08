@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * 한개 씩 단위테스트 해볼 땐 1L로 테스트하세요.
  */
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 class MemberServiceTest {
 

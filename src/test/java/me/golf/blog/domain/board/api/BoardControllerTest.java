@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@ActiveProfiles("test")
 @SpringBootTest
 class BoardControllerTest {
     @Autowired MockMvc mockMvc;
@@ -161,7 +163,7 @@ class BoardControllerTest {
 
         when(boardReadService.findByEmail(any(), any())).thenReturn(response);
 
-        mockMvc.perform(get("/api/v1/public/boards/email/ilgolc@naver.com")
+        mockMvc.perform(get("/api/v1/public/boards/ilgolc@naver.com")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("board/findByEmail",
