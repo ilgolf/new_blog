@@ -20,7 +20,10 @@ public class TestRedisConfig {
 
     public TestRedisConfig(@Value("${spring.redis.port}") int redisPort) throws IOException {
         port = redisPort;
-        redisServer = new RedisServer(isRedisRunning()? findAvailablePort() : this.port);
+        redisServer = RedisServer.builder()
+                .port(isRedisRunning() ? findAvailablePort() : this.port)
+                .setting("maxmemory 128M")
+                .build();
         redisServer.start();
     }
 
