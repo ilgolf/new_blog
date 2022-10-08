@@ -1,0 +1,35 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  redis:
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 10
+        min-idle: 2
+    port: 6379
+    host: 172.31.44.204
+
+  datasource:
+    url: jdbc:mysql://blog-dev.ca1w3w2goaww.ap-northeast-2.rds.amazonaws.com:3306/new_blog
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root1234
+    hikari:
+      maximum-pool-size: 100
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+server:
+  port: 8083
+
+jwt:
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  accessToken-validity-in-seconds: 3600 # 1시간
+  refreshToken-validity-in-seconds: 18000 # 5시간
