@@ -8,6 +8,7 @@ import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.util.GivenMember;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class BoardQueryRepositoryTest {
+class BoardQueryRepositoryTest extends AbstractContainerBaseTest {
 
     @Autowired BoardRepository boardRepository;
     @Autowired MemberRepository memberRepository;

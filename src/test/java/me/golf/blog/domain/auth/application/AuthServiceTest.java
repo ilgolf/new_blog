@@ -1,6 +1,7 @@
 package me.golf.blog.domain.auth.application;
 
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.jwt.TokenProvider;
 import me.golf.blog.global.jwt.dto.TokenDTO;
 import me.golf.blog.global.jwt.vo.AccessToken;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class AuthServiceTest {
+class AuthServiceTest extends AbstractContainerBaseTest {
 
     @Autowired
     AuthService authService;

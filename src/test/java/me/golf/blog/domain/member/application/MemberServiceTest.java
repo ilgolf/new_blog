@@ -6,6 +6,7 @@ import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.error.exception.ErrorCode;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class MemberServiceTest {
+class MemberServiceTest extends AbstractContainerBaseTest {
 
     @Autowired
     MemberService memberService;

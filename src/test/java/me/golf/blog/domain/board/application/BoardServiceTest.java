@@ -15,6 +15,7 @@ import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.dto.SimpleMemberResponse;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.util.GivenMember;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +36,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class BoardServiceTest {
+class BoardServiceTest extends AbstractContainerBaseTest {
     @Autowired BoardService boardService;
     @Autowired BoardRepository boardRepository;
     @Autowired MemberRepository memberRepository;

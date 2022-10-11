@@ -9,6 +9,7 @@ import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.domain.reply.dto.ReplyCreateRequest;
 import me.golf.blog.domain.reply.dto.ReplyUpdateRequest;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,8 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class ReplyControllerTest {
-    ObjectMapper objectMapper = new ObjectMapper();
+class ReplyControllerTest extends AbstractContainerBaseTest {
+
+    @Autowired ObjectMapper objectMapper;
     @MockBean ReplyService replyService;
     @Autowired MockMvc mockMvc;
 

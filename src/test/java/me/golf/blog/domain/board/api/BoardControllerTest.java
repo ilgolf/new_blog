@@ -7,6 +7,7 @@ import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureRestDocs
 @ActiveProfiles("test")
 @SpringBootTest
-class BoardControllerTest {
+class BoardControllerTest extends AbstractContainerBaseTest {
     @Autowired MockMvc mockMvc;
     @MockBean BoardService boardService;
     @MockBean BoardReadService boardReadService;
