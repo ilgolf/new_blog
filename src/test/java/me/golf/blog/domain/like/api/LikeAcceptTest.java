@@ -2,6 +2,7 @@ package me.golf.blog.domain.like.api;
 
 import me.golf.blog.domain.like.application.LikeService;
 import me.golf.blog.domain.member.WithAuthUser;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class LikeAcceptTest {
+public class LikeAcceptTest extends AbstractContainerBaseTest {
     @Autowired MockMvc mockMvc;
     @MockBean
     LikeService likeService;
