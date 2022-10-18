@@ -35,7 +35,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     container_name: blog
     ports:
       - "8083:8083"
