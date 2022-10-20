@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/js/**", "/favicon.ico/**", "/css/**", "/", "/docs/**");
+                .antMatchers("/js/**", "/favicon.ico/**", "/css/**", "/index", "/docs/**");
     }
 
     @Override
@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authenticationProvider(customAuthenticationProvider())
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers(PUBLIC).permitAll()
                 .anyRequest().authenticated();
         http
