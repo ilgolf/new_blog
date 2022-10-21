@@ -1,6 +1,8 @@
 package me.golf.blog.domain.member.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.application.MemberReadService;
 import me.golf.blog.domain.member.application.MemberService;
@@ -10,10 +12,9 @@ import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.config.AbstractContainerBaseTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -45,8 +46,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 class MemberControllerTest extends AbstractContainerBaseTest {
     @Autowired MockMvc mockMvc;
     @MockBean MemberService memberService;
-    @Autowired ObjectMapper objectMapper;
+    ObjectMapper objectMapper;
     @MockBean MemberReadService memberReadService;
+
+    @BeforeEach
+    public void init() {
+        objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
 
     @Test
     @DisplayName("요청을 받아 정상적으로 생성 컨트롤러가 동작한다.")

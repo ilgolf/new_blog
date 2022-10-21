@@ -500,6 +500,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -543,6 +546,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -550,9 +556,16 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 68
+Content-Length: 103
 
-{&quot;data&quot;:[{&quot;memberId&quot;:1,&quot;nickname&quot;:&quot;ssar&quot;}],&quot;pageSize&quot;:10,&quot;number&quot;:0}</code></pre>
+{
+  &quot;data&quot; : [ {
+    &quot;memberId&quot; : 1,
+    &quot;nickname&quot; : &quot;ssar&quot;
+  } ],
+  &quot;pageSize&quot; : 10,
+  &quot;number&quot; : 0
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -560,7 +573,14 @@ Content-Length: 68
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;memberId&quot;:1,&quot;nickname&quot;:&quot;ssar&quot;}],&quot;pageSize&quot;:10,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;data&quot; : [ {
+    &quot;memberId&quot; : 1,
+    &quot;nickname&quot; : &quot;ssar&quot;
+  } ],
+  &quot;pageSize&quot; : 10,
+  &quot;number&quot; : 0
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -624,6 +644,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate

@@ -492,10 +492,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/replies/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 51
+Content-Length: 57
 Host: localhost:8080
 
-{&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;}</code></pre>
+{
+  &quot;comment&quot; : &quot;안녕하세요, 테스트 입니다.&quot;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -504,6 +506,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -521,7 +526,9 @@ Content-Length: 1
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;comment&quot; : &quot;안녕하세요, 테스트 입니다.&quot;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -579,6 +586,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -586,9 +596,19 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 192
+Content-Length: 244
 
-{&quot;data&quot;:[{&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;,&quot;createDate&quot;:&quot;2022-09-11T16:43:06.675454&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+{
+  &quot;data&quot; : [ {
+    &quot;comment&quot; : &quot;안녕하세요, 테스트 입니다.&quot;,
+    &quot;createDate&quot; : &quot;2022-10-21T15:53:10.671525&quot;,
+    &quot;createdBy&quot; : &quot;ilgolc@naver.com&quot;
+  } ],
+  &quot;totalPage&quot; : 1,
+  &quot;pageSize&quot; : 10,
+  &quot;totalElements&quot; : 1,
+  &quot;number&quot; : 0
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -596,7 +616,17 @@ Content-Length: 192
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;comment&quot;:&quot;안녕하세요, 테스트 입니다.&quot;,&quot;createDate&quot;:&quot;2022-09-11T16:43:06.675454&quot;,&quot;createdBy&quot;:&quot;ilgolc@naver.com&quot;}],&quot;totalPage&quot;:1,&quot;pageSize&quot;:10,&quot;totalElements&quot;:1,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;data&quot; : [ {
+    &quot;comment&quot; : &quot;안녕하세요, 테스트 입니다.&quot;,
+    &quot;createDate&quot; : &quot;2022-10-21T15:53:10.671525&quot;,
+    &quot;createdBy&quot; : &quot;ilgolc@naver.com&quot;
+  } ],
+  &quot;totalPage&quot; : 1,
+  &quot;pageSize&quot; : 10,
+  &quot;totalElements&quot; : 1,
+  &quot;number&quot; : 0
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -667,10 +697,12 @@ Content-Length: 192
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">PATCH /api/v1/replies/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 51
+Content-Length: 57
 Host: localhost:8080
 
-{&quot;comment&quot;:&quot;안녕하세요, 테스츠 입니다.&quot;}</code></pre>
+{
+  &quot;comment&quot; : &quot;안녕하세요, 테스츠 입니다.&quot;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -679,6 +711,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -692,7 +727,9 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;comment&quot;:&quot;안녕하세요, 테스츠 입니다.&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;comment&quot; : &quot;안녕하세요, 테스츠 입니다.&quot;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -741,6 +778,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate

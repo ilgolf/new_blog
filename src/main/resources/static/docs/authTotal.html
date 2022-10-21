@@ -492,10 +492,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/public/auth/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 51
+Content-Length: 62
 Host: localhost:8080
 
-{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;password&quot;:&quot;123456789&quot;}</code></pre>
+{
+  &quot;email&quot; : &quot;ilgolc@naver.com&quot;,
+  &quot;password&quot; : &quot;123456789&quot;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -504,7 +507,10 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
-Set-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIyIiwiZXhwIjoxNjYyOTAwMTk1fQ.xqeCwRrbWS_GME28VK_CqT0klynSLpeUM13YCRX5AxqMoUtE-En4Bd2ETVo1gzvrLboLE5s6la26Be0hyTqtIQ; Path=/; Max-Age=18000; Expires=Sun, 11 Sep 2022 12:43:15 GMT; Secure; HttpOnly
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIyIiwiZXhwIjoxNjY2MzUzMTk5fQ.kROhg2Oaj4Pm2MSZOCR0xR8Tt9-O8sCHnulUiE6tIIC8zoxM8LQ_auoD7wJzg4OWiyhqno1E-AuNQjJe8vWqHQ; Path=/; Max-Age=18000; Expires=Fri, 21 Oct 2022 11:53:19 GMT; Secure; HttpOnly
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -512,9 +518,12 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 202
+Content-Length: 213
 
-{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.3XVmlULyx8evHVtK51iQms_QHRNh9IAsrRFMeZDr-kYdnd1UwTVC8rpSjXPuZVl7h8JnglfZisvegYgQDeWY8A&quot;,&quot;result&quot;:true}</code></pre>
+{
+  &quot;accessToken&quot; : &quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY2MzM4Nzk5fQ.Ldk7b-QpfQmzHj83VsjDdrPHAX1c_BSKhvLdAB-Bq6QNVoaOoFkk-pQmMvOdUpmV8-Z0Xunc_rETXDw4TA-qUw&quot;,
+  &quot;result&quot; : true
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -522,7 +531,10 @@ Content-Length: 202
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;email&quot;:&quot;ilgolc@naver.com&quot;,&quot;password&quot;:&quot;123456789&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;email&quot; : &quot;ilgolc@naver.com&quot;,
+  &quot;password&quot; : &quot;123456789&quot;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -530,7 +542,10 @@ Content-Length: 202
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.3XVmlULyx8evHVtK51iQms_QHRNh9IAsrRFMeZDr-kYdnd1UwTVC8rpSjXPuZVl7h8JnglfZisvegYgQDeWY8A&quot;,&quot;result&quot;:true}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;accessToken&quot; : &quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY2MzM4Nzk5fQ.Ldk7b-QpfQmzHj83VsjDdrPHAX1c_BSKhvLdAB-Bq6QNVoaOoFkk-pQmMvOdUpmV8-Z0Xunc_rETXDw4TA-qUw&quot;,
+  &quot;result&quot; : true
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -605,7 +620,7 @@ Content-Length: 202
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">DELETE /api/v1/auth/logout HTTP/1.1
 Host: localhost:8080
-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIxIiwiZXhwIjoxNjYyOTAwMTk1fQ.pVgaIkejxvrCPIc2l4__1-0YK0zzcCClbT7TtVxOVySozqwhcfybFQ67GmBaWap7nqgEujYZheTYRF7YaS4eyQ</code></pre>
+Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIxIiwiZXhwIjoxNjY2MzUzMTk5fQ.6l2VkUcFmXi-NtjXSXKY83mI7rrLbMFvKpNBjDY5Tf1r05xv8TzU6jwCGrQ02dyhlfU8S_tbphvAPuaYS3z0Zg</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -614,6 +629,9 @@ Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIxIi
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Set-Cookie: refreshToken=; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -637,7 +655,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /api/v1/public/auth/reissue HTTP/1.1
 Host: localhost:8080
-Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIzIiwiZXhwIjoxNjYyOTAwMTk1fQ.BpKHwIhOGmbOdHWoxx2sGQgnqpAHF5CF-jIKqn7dTzmjTz4nxrlNI6AL6FEc2bNomWAN1hPnCMbEORSYFWFW5g</code></pre>
+Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIzIiwiZXhwIjoxNjY2MzUzMTk5fQ.ZuEkudrOXH-bmIAZAuctaXcLzmYK2me_MeDYiGVM0Xyta9FTkf0xvTcoU9eZL2bYTzoMeZA_wnwUe-Ft36zyIw</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -646,6 +664,9 @@ Cookie: refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOiIzIi
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -653,9 +674,12 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 202
+Content-Length: 213
 
-{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.n-kl659IfLjlea0nCJravjYzAZ1l_35BfOV9klGGTi_GV9ySzuG85iBLztse-zupwT7mzxFeIKtI5lUlXw8F5Q&quot;,&quot;result&quot;:true}</code></pre>
+{
+  &quot;accessToken&quot; : &quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY2MzM4Nzk5fQ.ZuwzCCAdBrqPnjQiq9i7uuDUN35f0MXDtKng_qax0W584tZnyywuUVJV3f0s1Qlfrr5bQHdlar3-hHMHM54iEQ&quot;,
+  &quot;result&quot; : true
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -663,7 +687,10 @@ Content-Length: 202
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjYyODg1Nzk1fQ.n-kl659IfLjlea0nCJravjYzAZ1l_35BfOV9klGGTi_GV9ySzuG85iBLztse-zupwT7mzxFeIKtI5lUlXw8F5Q&quot;,&quot;result&quot;:true}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;accessToken&quot; : &quot;eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjMiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY2MzM4Nzk5fQ.ZuwzCCAdBrqPnjQiq9i7uuDUN35f0MXDtKng_qax0W584tZnyywuUVJV3f0s1Qlfrr5bQHdlar3-hHMHM54iEQ&quot;,
+  &quot;result&quot; : true
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">

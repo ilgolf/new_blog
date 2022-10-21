@@ -1,6 +1,5 @@
 package me.golf.blog.domain.follower.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.follower.application.FollowerService;
 import me.golf.blog.domain.follower.dto.FollowerAllResponse;
 import me.golf.blog.domain.follower.dto.SimpleFollowerResponse;
@@ -42,9 +41,6 @@ class FollowerAcceptanceTest extends AbstractContainerBaseTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @MockBean
     FollowerService followerService;
