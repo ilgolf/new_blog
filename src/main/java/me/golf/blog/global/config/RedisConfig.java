@@ -10,7 +10,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import redis.embedded.RedisServer;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -25,12 +24,10 @@ public class RedisConfig {
     private final String host;
 
     private final int port;
-    private final RedisServer redisServer;
 
     public RedisConfig(@Value("${spring.redis.host}") String host, @Value("${spring.redis.port}") int port) {
         this.host = host;
         this.port = port;
-        this.redisServer = new RedisServer(port);
     }
 
     @Bean

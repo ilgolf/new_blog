@@ -59,7 +59,6 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "org.testcontainers:testcontainers:1.17.5"
     testImplementation "org.testcontainers:junit-jupiter:1.17.5"
-    implementation ('it.ozimov:embedded-redis:0.7.3') { exclude group: "org.slf4j", module: "slf4j-simple" }
 }
 
 tasks.named('test') {
