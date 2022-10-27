@@ -8,7 +8,8 @@
 
 ## ERD
 
-![blog_advanced](https://user-images.githubusercontent.com/77387861/163565275-1fd81c8b-372e-47aa-ae50-e64a048665b6.png)
+![스크린샷 2022-10-27 오후 12 39 25](https://user-images.githubusercontent.com/77387861/198185754-4a102fe8-86aa-43cd-8469-7fb9bc344d84.png)
+
 
 ## Wiki
 
