@@ -162,7 +162,7 @@ class BoardControllerTest extends AbstractContainerBaseTest {
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));
 
 
-        when(boardReadService.findByEmail(any(), any())).thenReturn(response);
+        when(boardReadService.getByNickname(any(), any())).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/public/boards/ilgolc@naver.com")
                 .accept(MediaType.APPLICATION_JSON))

@@ -155,4 +155,29 @@ class MemberServiceTest extends AbstractContainerBaseTest {
 
         assertThat(member.getActivated()).isFalse();
     }
+
+    @Test
+    @DisplayName("닉네임으로 회원의 정보를 검색해볼 수 있다.")
+    void getByNickname() {
+        // given
+
+        // when
+        MemberResponse member = memberReadService.getDetailByNickname(GIVEN_NICKNAME.nickname());
+
+        // then
+        assertThat(member.getMemberId()).isEqualTo(memberId);
+    }
+
+    @Test
+    @DisplayName("없는 닉네임이면 조회할 수 없다.")
+    void getByNicknameFailByUnknownNickname() {
+        // given
+        String unknownNickname = "fdsajfdas";
+
+        // when
+        Throwable exception = catchThrowable(() -> memberReadService.getDetailByNickname(unknownNickname));
+
+        // then
+        assertThat(exception).isInstanceOf(MemberNotFoundException.class);
+    }
 }

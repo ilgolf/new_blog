@@ -119,7 +119,7 @@ class BoardServiceTest extends AbstractContainerBaseTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<BoardAllResponse> responses = boardReadService.findByEmail(GivenMember.GIVEN_EMAIL, pageable).getData();
+        List<BoardAllResponse> responses = boardReadService.getByNickname(GivenMember.GIVEN_NICKNAME, pageable).getData();
 
         // then
         assertThat(responses.get(0).getTitle()).isEqualTo(GIVEN_TITLE);

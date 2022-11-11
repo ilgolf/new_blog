@@ -16,6 +16,8 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberResponse implements Serializable {
+
+    private Long memberId;
     private Email email;
     private Name name;
     private Nickname nickname;
@@ -29,7 +31,9 @@ public class MemberResponse implements Serializable {
         int now = LocalDate.now().getYear();
         int age = now - memberYear;
 
-        return new MemberResponse(member.getEmail(),
+        return new MemberResponse(
+                member.getId(),
+                member.getEmail(),
                 member.getName(),
                 member.getNickname(),
                 age,

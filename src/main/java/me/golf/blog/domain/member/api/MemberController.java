@@ -37,6 +37,11 @@ public class MemberController {
         return ResponseEntity.ok().body(memberReadService.getDetailBy(this.getPrincipal()));
     }
 
+    @GetMapping("/public/members/{nickname}")
+    public ResponseEntity<MemberResponse> getDetailByNickname(@PathVariable String nickname) {
+        return ResponseEntity.ok(memberReadService.getDetailByNickname(nickname));
+    }
+
     // findAll
     @GetMapping("/public/members")
     public ResponseEntity<PageCustomResponse<MemberAllResponse>> getMembers(
