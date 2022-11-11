@@ -46,15 +46,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 class MemberControllerTest extends AbstractContainerBaseTest {
     @Autowired MockMvc mockMvc;
     @MockBean MemberService memberService;
-    ObjectMapper objectMapper;
+    @Autowired ObjectMapper objectMapper;
     @MockBean MemberReadService memberReadService;
-
-    @BeforeEach
-    public void init() {
-        objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    }
 
     @Test
     @DisplayName("요청을 받아 정상적으로 생성 컨트롤러가 동작한다.")
@@ -121,6 +114,7 @@ class MemberControllerTest extends AbstractContainerBaseTest {
                 .andExpect(status().isOk())
                 .andDo(document("member/findById",
                         responseFields(
+                                fieldWithPath("memberId").description("회원 식별자"),
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
                                 fieldWithPath("nickname").description("닉네임"),
@@ -220,6 +214,18 @@ class MemberControllerTest extends AbstractContainerBaseTest {
                 .andExpect(status().isNoContent())
                 .andDo(document("member/delete"))
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원 조회 시 200 ok 상태코드 반환")
+    void getMemberTest() {
+        // given
+        String nickname = GIVEN_NICKNAME.nickname();
+
+        // when
+
+        // then
+
     }
 
     private ResultActions getCreate(String body) throws Exception {
