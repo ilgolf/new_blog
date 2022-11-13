@@ -13,6 +13,7 @@ import me.golf.blog.domain.reply.domain.vo.Comment;
 import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.domain.reply.dto.ReplyCreateRequest;
 import me.golf.blog.domain.reply.error.ReplyNotFoundException;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -28,8 +30,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
-class ReplyServiceTest {
+class ReplyServiceTest extends AbstractContainerBaseTest {
     @Autowired MemberService memberService;
     @Autowired BoardService boardService;
     @Autowired ReplyService replyService;

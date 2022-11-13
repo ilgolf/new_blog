@@ -501,6 +501,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -508,9 +511,12 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 28
+Content-Length: 39
 
-{&quot;followId&quot;:1,&quot;result&quot;:true}</code></pre>
+{
+  &quot;followId&quot; : 1,
+  &quot;result&quot; : true
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -518,7 +524,10 @@ Content-Length: 28
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;followId&quot;:1,&quot;result&quot;:true}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;followId&quot; : 1,
+  &quot;result&quot; : true
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -573,6 +582,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -580,9 +592,18 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 107
+Content-Length: 156
 
-{&quot;data&quot;:[{&quot;followerId&quot;:1,&quot;memberId&quot;:1,&quot;nickname&quot;:&quot;ssar&quot;,&quot;createAt&quot;:&quot;2022-09-11&quot;}],&quot;pageSize&quot;:10,&quot;number&quot;:0}</code></pre>
+{
+  &quot;data&quot; : [ {
+    &quot;followerId&quot; : 1,
+    &quot;memberId&quot; : 1,
+    &quot;nickname&quot; : &quot;ssar&quot;,
+    &quot;createAt&quot; : &quot;2022-11-11&quot;
+  } ],
+  &quot;pageSize&quot; : 10,
+  &quot;number&quot; : 0
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -590,7 +611,16 @@ Content-Length: 107
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;data&quot;:[{&quot;followerId&quot;:1,&quot;memberId&quot;:1,&quot;nickname&quot;:&quot;ssar&quot;,&quot;createAt&quot;:&quot;2022-09-11&quot;}],&quot;pageSize&quot;:10,&quot;number&quot;:0}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;data&quot; : [ {
+    &quot;followerId&quot; : 1,
+    &quot;memberId&quot; : 1,
+    &quot;nickname&quot; : &quot;ssar&quot;,
+    &quot;createAt&quot; : &quot;2022-11-11&quot;
+  } ],
+  &quot;pageSize&quot; : 10,
+  &quot;number&quot; : 0
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -664,6 +694,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate

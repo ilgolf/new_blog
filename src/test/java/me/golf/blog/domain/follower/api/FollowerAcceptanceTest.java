@@ -1,12 +1,12 @@
 package me.golf.blog.domain.follower.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.follower.application.FollowerService;
 import me.golf.blog.domain.follower.dto.FollowerAllResponse;
 import me.golf.blog.domain.follower.dto.SimpleFollowerResponse;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.SliceCustomResponse;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -34,14 +35,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@ActiveProfiles("test")
 @SpringBootTest
-class FollowerAcceptanceTest {
+class FollowerAcceptanceTest extends AbstractContainerBaseTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @MockBean
     FollowerService followerService;

@@ -6,6 +6,7 @@ import me.golf.blog.domain.auth.dto.LoginRequest;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.domain.vo.RoleType;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.jwt.TokenProvider;
 import me.golf.blog.global.jwt.dto.TokenDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
-class AuthControllerTest {
+class AuthControllerTest extends AbstractContainerBaseTest {
     @Autowired MemberRepository memberRepository;
 
     @MockBean AuthService authService;

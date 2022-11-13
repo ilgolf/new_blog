@@ -6,6 +6,7 @@ import me.golf.blog.domain.board.application.BoardService;
 import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
@@ -45,11 +46,11 @@ public class BoardController {
         return ResponseEntity.ok(boardReadService.findAll(keyword, pageable));
     }
 
-    @GetMapping("/public/boards/email/{email}")
+    @GetMapping("/public/boards/{nickname}")
     public ResponseEntity<PageCustomResponse<BoardAllResponse>> findByEmail(
-            @PathVariable String email,
+            @PathVariable String nickname,
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok().body(boardReadService.findByEmail(Email.from(email), pageable));
+        return ResponseEntity.ok().body(boardReadService.getByNickname(Nickname.from(nickname), pageable));
     }
 
     @PatchMapping("/boards/{boardId}")

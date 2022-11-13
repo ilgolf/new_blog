@@ -1,6 +1,8 @@
 package me.golf.blog.domain.member.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.application.MemberReadService;
 import me.golf.blog.domain.member.application.MemberService;
@@ -9,10 +11,10 @@ import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +23,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -36,11 +39,11 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class MemberControllerTest {
+class MemberControllerTest extends AbstractContainerBaseTest {
     @Autowired MockMvc mockMvc;
     @MockBean MemberService memberService;
     @Autowired ObjectMapper objectMapper;
@@ -111,6 +114,7 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("member/findById",
                         responseFields(
+                                fieldWithPath("memberId").description("회원 식별자"),
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
                                 fieldWithPath("nickname").description("닉네임"),
@@ -210,6 +214,18 @@ class MemberControllerTest {
                 .andExpect(status().isNoContent())
                 .andDo(document("member/delete"))
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원 조회 시 200 ok 상태코드 반환")
+    void getMemberTest() {
+        // given
+        String nickname = GIVEN_NICKNAME.nickname();
+
+        // when
+
+        // then
+
     }
 
     private ResultActions getCreate(String body) throws Exception {

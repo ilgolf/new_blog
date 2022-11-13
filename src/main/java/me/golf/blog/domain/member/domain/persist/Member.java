@@ -17,7 +17,10 @@ import java.util.Objects;
 @DynamicUpdate
 @DynamicInsert
 @Where(clause = "activated = true")
-@Table(indexes = @Index(name = "i_email", columnList = "email"))
+@Table(indexes = {
+        @Index(name = "i_email", columnList = "email"),
+        @Index(name = "i_nickname", columnList = "nickname")
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 

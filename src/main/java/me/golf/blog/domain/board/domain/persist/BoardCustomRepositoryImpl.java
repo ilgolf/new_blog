@@ -10,6 +10,7 @@ import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
 import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,12 +47,13 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(board.status.eq(BoardStatus.SAVE))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.id.desc())
                 .fetch();
 
         return getPageResponse(pageable, boards);
     }
 
-    public PageCustomResponse<BoardAllResponse> findByEmail(Email email, Pageable pageable) {
+    public PageCustomResponse<BoardAllResponse> findByNickname(Nickname nickname, Pageable pageable) {
         List<BoardAllResponse> boards = query.select(Projections.constructor(BoardAllResponse.class,
                         board.id,
                         board.title,
@@ -60,10 +62,11 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                         board.createTime.as("createdAt"))
                 )
                 .from(board)
-                .innerJoin(member).on(member.id.eq(board.memberId))
+                .innerJoin(member).on(member.nickname.eq(nickname))
                 .where(board.status.eq(BoardStatus.SAVE))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.id.desc())
                 .fetch();
 
         return getPageResponse(pageable, boards);
@@ -78,6 +81,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .where(board.status.eq(BoardStatus.TEMP))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.id.desc())
                 .fetch();
 
         if (boards.size() == 0) {
@@ -101,7 +105,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .from(board)
                 .innerJoin(member).on(member.id.eq(board.memberId))
                 .where(board.id.eq(boardId))
-                .fetchOne());
+                .fetchFirst());
     }
 
     private PageCustomResponse<BoardAllResponse> getPageResponse(Pageable pageable, List<BoardAllResponse> boards) {

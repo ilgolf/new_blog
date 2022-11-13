@@ -25,7 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/public/auth/login")
-    public ResponseEntity<SimpleAuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<SimpleAuthResponse> login(@RequestBody LoginRequest request) {
         TokenDTO token = authService.login(request.getEmail(), request.getPassword());
         RefreshToken refreshToken = token.getRefreshToken();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, getCookie(refreshToken).toString())

@@ -15,6 +15,7 @@ import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.dto.SimpleMemberResponse;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
 import me.golf.blog.domain.member.util.GivenMember;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -32,8 +34,9 @@ import static me.golf.blog.domain.board.util.GivenBoard.*;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
-class BoardServiceTest {
+class BoardServiceTest extends AbstractContainerBaseTest {
     @Autowired BoardService boardService;
     @Autowired BoardRepository boardRepository;
     @Autowired MemberRepository memberRepository;
@@ -116,7 +119,7 @@ class BoardServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<BoardAllResponse> responses = boardReadService.findByEmail(GivenMember.GIVEN_EMAIL, pageable).getData();
+        List<BoardAllResponse> responses = boardReadService.getByNickname(GivenMember.GIVEN_NICKNAME, pageable).getData();
 
         // then
         assertThat(responses.get(0).getTitle()).isEqualTo(GIVEN_TITLE);

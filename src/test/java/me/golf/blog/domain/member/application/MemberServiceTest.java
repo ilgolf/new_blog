@@ -6,6 +6,7 @@ import me.golf.blog.domain.member.domain.vo.*;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.domain.member.error.DuplicateNicknameException;
 import me.golf.blog.domain.member.error.MemberNotFoundException;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.error.exception.ErrorCode;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -29,8 +31,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * 한개 씩 단위테스트 해볼 땐 1L로 테스트하세요.
  */
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
-class MemberServiceTest {
+class MemberServiceTest extends AbstractContainerBaseTest {
 
     @Autowired
     MemberService memberService;
@@ -151,5 +154,30 @@ class MemberServiceTest {
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         assertThat(member.getActivated()).isFalse();
+    }
+
+    @Test
+    @DisplayName("닉네임으로 회원의 정보를 검색해볼 수 있다.")
+    void getByNickname() {
+        // given
+
+        // when
+        MemberResponse member = memberReadService.getDetailByNickname(GIVEN_NICKNAME.nickname());
+
+        // then
+        assertThat(member.getMemberId()).isEqualTo(memberId);
+    }
+
+    @Test
+    @DisplayName("없는 닉네임이면 조회할 수 없다.")
+    void getByNicknameFailByUnknownNickname() {
+        // given
+        String unknownNickname = "fdsajfdas";
+
+        // when
+        Throwable exception = catchThrowable(() -> memberReadService.getDetailByNickname(unknownNickname));
+
+        // then
+        assertThat(exception).isInstanceOf(MemberNotFoundException.class);
     }
 }

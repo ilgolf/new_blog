@@ -1,6 +1,7 @@
 package me.golf.blog.domain.auth.application;
 
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.jwt.TokenProvider;
 import me.golf.blog.global.jwt.dto.TokenDTO;
 import me.golf.blog.global.jwt.vo.AccessToken;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.TestPropertySources;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +20,9 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
-class AuthServiceTest {
+class AuthServiceTest extends AbstractContainerBaseTest {
 
     @Autowired
     AuthService authService;

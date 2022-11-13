@@ -8,7 +8,7 @@ import me.golf.blog.domain.board.domain.persist.SearchKeywordRequest;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
 import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.board.error.BoardNotFoundException;
-import me.golf.blog.domain.member.domain.vo.Email;
+import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.global.common.PageCustomResponse;
 import me.golf.blog.global.config.RedisPolicy;
 import me.golf.blog.global.error.exception.ErrorCode;
@@ -38,9 +38,9 @@ public class BoardReadService {
     }
 
     @Transactional(readOnly = true)
-    public PageCustomResponse<BoardAllResponse> findByEmail(final Email email, final Pageable pageable) {
+    public PageCustomResponse<BoardAllResponse> getByNickname(final Nickname nickname, final Pageable pageable) {
 
-        return boardRepository.findByEmail(email, pageable);
+        return boardRepository.findByNickname(nickname, pageable);
     }
 
     @Transactional(readOnly = true)

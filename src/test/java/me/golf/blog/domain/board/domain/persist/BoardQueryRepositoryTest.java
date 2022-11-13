@@ -8,12 +8,14 @@ import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.util.GivenMember;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,7 +23,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-class BoardQueryRepositoryTest {
+@ActiveProfiles("test")
+class BoardQueryRepositoryTest extends AbstractContainerBaseTest {
 
     @Autowired BoardRepository boardRepository;
     @Autowired MemberRepository memberRepository;

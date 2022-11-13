@@ -7,6 +7,7 @@ import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.PageCustomResponse;
+import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -33,8 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@ActiveProfiles("test")
 @SpringBootTest
-class BoardControllerTest {
+class BoardControllerTest extends AbstractContainerBaseTest {
     @Autowired MockMvc mockMvc;
     @MockBean BoardService boardService;
     @MockBean BoardReadService boardReadService;
@@ -159,9 +162,9 @@ class BoardControllerTest {
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));
 
 
-        when(boardReadService.findByEmail(any(), any())).thenReturn(response);
+        when(boardReadService.getByNickname(any(), any())).thenReturn(response);
 
-        mockMvc.perform(get("/api/v1/public/boards/email/ilgolc@naver.com")
+        mockMvc.perform(get("/api/v1/public/boards/ilgolc@naver.com")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("board/findByEmail",

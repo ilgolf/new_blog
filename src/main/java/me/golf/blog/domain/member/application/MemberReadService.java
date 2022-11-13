@@ -3,6 +3,7 @@ package me.golf.blog.domain.member.application;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.member.domain.persist.Member;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
+import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.dto.MemberAllResponse;
 import me.golf.blog.domain.member.dto.MemberResponse;
 import me.golf.blog.domain.member.dto.MemberSearch;
@@ -22,18 +23,32 @@ public class MemberReadService {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    @Cacheable(key = "#userDetails.getId()", value = RedisPolicy.MEMBER_KEY)
     public MemberResponse getDetailBy(final CustomUserDetails userDetails) {
 
-        Member member = memberRepository.findById(userDetails.getId()).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+        MemberResponse memberResponse = memberRepository.findById(userDetails.getId())
+                .map(MemberResponse::of)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        return MemberResponse.of(member);
+        return saveCache(memberResponse);
     }
 
     @Transactional(readOnly = true)
     public PageCustomResponse<MemberAllResponse> getMembers(final MemberSearch memberSearch, final Pageable pageable) {
-
         return memberRepository.findAllWithSearch(memberSearch, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponse getDetailByNickname(final String nickname) {
+
+        MemberResponse memberResponse = memberRepository.findByNickname(Nickname.from(nickname))
+                .map(MemberResponse::of)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        return saveCache(memberResponse);
+    }
+
+    @Cacheable(key = "#member.memberId", value = RedisPolicy.MEMBER_KEY)
+    public MemberResponse saveCache(final MemberResponse member) {
+        return member;
     }
 }
