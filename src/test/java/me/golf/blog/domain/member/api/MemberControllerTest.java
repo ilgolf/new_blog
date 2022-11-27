@@ -101,7 +101,8 @@ class MemberControllerTest extends AbstractContainerBaseTest {
 
         when(memberService.create(any())).thenReturn(response);
 
-        getCreate(body).andExpect(status().isBadRequest());
+        getCreate(body).andExpect(status().isBadRequest())
+                .andDo(print());
     }
 
     @Test

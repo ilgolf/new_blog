@@ -27,9 +27,7 @@ public class GlobalException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException", e);
-
-        final String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        final ErrorResponse response = ErrorResponse.createBinding(message, 400, "V001");
+        final ErrorResponse response = ErrorResponse.createBinding(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -48,13 +46,16 @@ public class GlobalException {
 
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = ErrorResponse.of(errorCode);
+
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("handleEntityNotFoundException", e);
+
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
