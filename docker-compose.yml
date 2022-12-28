@@ -27,7 +27,7 @@ services:
       - "name=redis"
       - "mode=standalone"
     ports:
-      - "6379:6379"
+      - "26379:6379"
 
     volumes:
       - /Users/nogyeongtae/Shared/data/golf-mysql:/var/lib/mysql
