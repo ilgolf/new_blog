@@ -9,7 +9,7 @@ spring:
         max-idle: 10
         min-idle: 2
     port: 26379
-    host: 172.31.44.204
+    host: localhost
 
   datasource:
     url: jdbc:mysql://localhost:23306/newblog
