@@ -6,7 +6,6 @@ import me.golf.blog.domain.auth.dto.LoginRequest;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.domain.persist.MemberRepository;
 import me.golf.blog.domain.member.domain.vo.RoleType;
-import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.jwt.TokenProvider;
 import me.golf.blog.global.jwt.dto.TokenDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class AuthControllerTest extends AbstractContainerBaseTest {
+class AuthControllerTest {
     @Autowired MemberRepository memberRepository;
 
     @MockBean AuthService authService;

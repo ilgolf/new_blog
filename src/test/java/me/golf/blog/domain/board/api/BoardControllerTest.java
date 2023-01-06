@@ -7,7 +7,6 @@ import me.golf.blog.domain.board.dto.*;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.PageCustomResponse;
-import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureRestDocs
 @ActiveProfiles("test")
 @SpringBootTest
-class BoardControllerTest extends AbstractContainerBaseTest {
+class BoardControllerTest {
     @Autowired MockMvc mockMvc;
     @MockBean BoardService boardService;
     @MockBean BoardReadService boardReadService;
@@ -93,7 +92,7 @@ class BoardControllerTest extends AbstractContainerBaseTest {
     @Test
     @DisplayName("전체 조회 테스트")
     void findAll() throws Exception {
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_NICKNAME));
         Pageable pageable = PageRequest.of(0, 10);
 
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));
@@ -121,7 +120,7 @@ class BoardControllerTest extends AbstractContainerBaseTest {
     @Test
     @DisplayName("검색 조회 테스트")
     void findSearch() throws Exception {
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_NICKNAME));
 
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -156,7 +155,7 @@ class BoardControllerTest extends AbstractContainerBaseTest {
 
     @Test
     void findByEmail() throws Exception {
-        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_EMAIL));
+        List<BoardAllResponse> boards = List.of(BoardAllResponse.of(toEntityWithBoardCount(), GivenMember.GIVEN_NICKNAME));
         Pageable pageable = PageRequest.of(0, 10);
 
         PageCustomResponse<BoardAllResponse> response = PageCustomResponse.of(new PageImpl<>(boards, pageable, 1));

@@ -11,8 +11,6 @@ import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.domain.member.domain.vo.Password;
 import me.golf.blog.domain.member.dto.*;
 import me.golf.blog.global.common.PageCustomResponse;
-import me.golf.blog.global.config.AbstractContainerBaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class MemberControllerTest extends AbstractContainerBaseTest {
+class MemberControllerTest {
     @Autowired MockMvc mockMvc;
     @MockBean MemberService memberService;
     @Autowired ObjectMapper objectMapper;

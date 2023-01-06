@@ -9,7 +9,6 @@ import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.domain.reply.dto.ReplyCreateRequest;
 import me.golf.blog.domain.reply.dto.ReplyUpdateRequest;
 import me.golf.blog.global.common.PageCustomResponse;
-import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class ReplyControllerTest extends AbstractContainerBaseTest {
+class ReplyControllerTest {
 
     @Autowired ObjectMapper objectMapper;
     @MockBean ReplyService replyService;
@@ -71,7 +70,7 @@ class ReplyControllerTest extends AbstractContainerBaseTest {
     void findAll() throws Exception {
         ReplyAllResponse replies =
                 new ReplyAllResponse(Comment.from("안녕하세요, 테스트 입니다."),
-                        LocalDateTime.now(), GivenMember.GIVEN_EMAIL);
+                        LocalDateTime.now(), GivenMember.GIVEN_NICKNAME);
 
         Page<ReplyAllResponse> responses =
                 new PageImpl<>(List.of(replies), PageRequest.of(0, 10), 1);
@@ -97,7 +96,7 @@ class ReplyControllerTest extends AbstractContainerBaseTest {
     @WithAuthUser
     void update() throws Exception {
         // given
-        ReplyUpdateRequest request = new ReplyUpdateRequest(Comment.from("안녕하세요, 테스츠 입니다."));
+        ReplyUpdateRequest request = new ReplyUpdateRequest(Comment.from("안녕하세요, 테스트 입니다."));
         String body = objectMapper.writeValueAsString(request);
 
         // when

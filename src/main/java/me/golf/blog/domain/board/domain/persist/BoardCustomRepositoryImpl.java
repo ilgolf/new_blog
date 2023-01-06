@@ -5,11 +5,9 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.domain.vo.BoardStatus;
-import me.golf.blog.domain.board.domain.vo.Title;
 import me.golf.blog.domain.board.dto.BoardAllResponse;
 import me.golf.blog.domain.board.dto.BoardResponse;
 import me.golf.blog.domain.board.dto.TempBoardListResponse;
-import me.golf.blog.domain.member.domain.vo.Email;
 import me.golf.blog.domain.member.domain.vo.Nickname;
 import me.golf.blog.global.common.PageCustomResponse;
 import org.springframework.data.domain.Page;
@@ -34,7 +32,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                         board.id,
                         board.title,
                         board.content,
-                        member.email.as("createdBy"),
+                        member.nickname.as("createdBy"),
                         board.createTime.as("createdAt"))
                 )
                 .from(board)
@@ -58,7 +56,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                         board.id,
                         board.title,
                         board.content,
-                        member.email,
+                        member.nickname,
                         board.createTime.as("createdAt"))
                 )
                 .from(board)

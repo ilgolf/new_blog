@@ -13,7 +13,6 @@ import me.golf.blog.domain.reply.domain.vo.Comment;
 import me.golf.blog.domain.reply.dto.ReplyAllResponse;
 import me.golf.blog.domain.reply.dto.ReplyCreateRequest;
 import me.golf.blog.domain.reply.error.ReplyNotFoundException;
-import me.golf.blog.global.config.AbstractContainerBaseTest;
 import me.golf.blog.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +31,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class ReplyServiceTest extends AbstractContainerBaseTest {
+class ReplyServiceTest {
     @Autowired MemberService memberService;
     @Autowired BoardService boardService;
     @Autowired ReplyService replyService;
