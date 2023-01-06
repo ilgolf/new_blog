@@ -12,7 +12,7 @@ spring:
     host: redis
 
   datasource:
-    url: jdbc:mysql://mysql_blog:3306/newblog
+    url: jdbc:mysql://mysql-blog:3306/newblog
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: golf
     password: 1234
