@@ -19,11 +19,11 @@ public class BoardAllResponse {
     private Long boardId;
     private Title title;
     private Content content;
-    private Email createdBy;
+    private Nickname createdBy;
     private LocalDateTime createdAt;
 
-    public static BoardAllResponse of(final Board board, final Email email) {
+    public static BoardAllResponse of(final Board board, final Nickname nickname) {
         return new BoardAllResponse(board.getId(),
-                board.getTitle(), board.getContent(), email, board.getCreateTime());
+                board.getTitle(), board.getContent(), nickname, board.getCreateTime());
     }
 }

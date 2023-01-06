@@ -6,7 +6,6 @@ import me.golf.blog.domain.like.application.LikeService;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
 import me.golf.blog.global.common.SliceCustomResponse;
-import me.golf.blog.global.config.AbstractContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureRestDocs
 @SpringBootTest
-class LikeControllerTest extends AbstractContainerBaseTest {
+class LikeControllerTest {
 
     @Autowired
     MockMvc mockMvc;

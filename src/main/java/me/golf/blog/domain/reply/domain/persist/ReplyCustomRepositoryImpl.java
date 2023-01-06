@@ -26,7 +26,7 @@ public class ReplyCustomRepositoryImpl implements ReplyCustomRepository {
         List<ReplyAllResponse> replies = query.select(Projections.constructor(ReplyAllResponse.class,
                         reply.comment,
                         reply.createTime,
-                        member.email.as("createdBy")
+                        member.nickname.as("createdBy")
                         ))
                 .from(reply)
                 .innerJoin(member).on(member.id.eq(reply.memberId))

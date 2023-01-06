@@ -9,13 +9,13 @@ spring:
         max-idle: 10
         min-idle: 2
     port: 6379
-    host: 172.31.44.204
+    host: redis
 
   datasource:
-    url: jdbc:mysql://blog-dev.ca1w3w2goaww.ap-northeast-2.rds.amazonaws.com:3306/new_blog
+    url: jdbc:mysql://mysql_blog:3306/newblog
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root1234
+    username: golf
+    password: 1234
     hikari:
       maximum-pool-size: 100
 
@@ -24,6 +24,8 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+    hibernate:
+      ddl-auto: validate
 
 jwt:
   header: Authorization
