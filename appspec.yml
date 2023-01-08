@@ -1,0 +1,19 @@
+version: 0.0
+
+os: linux
+
+files:
+  - source:  / # 현재 프로젝트의 루트 경로
+    destination: /home/ec2-user  # EC2 내부 배포 할 위치
+    overwrite: yes # 덮어쓰기
+
+hooks:
+  AfterInstall: # 배포가 끝나면 아래 명령어를 실행
+    - location: deploy.sh
+      timeout: 60
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user

@@ -12,7 +12,7 @@ services:
 
     container_name: mysql_blog
     ports:
-      - "13306:3306"
+      - "3306:3306"
     environment:
       - MYSQL_DATABASE=golf
       - MYSQL_ROOT_PASSWORD=1234
