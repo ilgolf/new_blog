@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 
 @Getter
 @Embeddable
@@ -18,5 +17,12 @@ public class BoardCount {
 
     public void plusLike() {
         this.likeCount ++;
+    }
+
+    /**
+     * todo : 부모 rollback 처리
+     */
+    public void minusLike() {
+        this.likeCount --;
     }
 }
