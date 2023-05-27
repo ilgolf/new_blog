@@ -20,7 +20,7 @@ public class LikeCountService {
     private final TransactionTemplate transactionTemplate;
 
     @Async("likeCountExecutor")
-    public void increaseLikeCount(final Long boardId, final Long memberId, final Long likeId) {
+    public void increaseLikeCount(final Long boardId, final Long likeId) {
 
         Board boardResult = transactionTemplate.execute(s -> {
             Board board = boardReadService.getBoardOne(boardId);

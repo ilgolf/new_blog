@@ -20,7 +20,7 @@ public class LikeService {
     @Transactional
     public Long likeBoard(final Long boardId, final Long memberId) {
         Long likeId = likeRepository.save(Like.createLike(memberId, boardId)).getId();
-        likeCountService.increaseLikeCount(boardId, memberId, likeId);
+        likeCountService.increaseLikeCount(boardId, likeId);
         return likeId;
     }
 
