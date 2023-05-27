@@ -59,8 +59,8 @@ public class BoardReadService {
     }
 
     @Transactional(readOnly = true)
-    public Board getBoardOne(final Long boardId, final Long memberId) {
-        return boardRepository.findByIdAndMemberId(boardId, memberId).orElseThrow(
+    public Board getBoardOne(final Long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(
                 () -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
     }
 }

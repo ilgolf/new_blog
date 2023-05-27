@@ -23,7 +23,7 @@ public class LikeCountService {
     public void increaseLikeCount(final Long boardId, final Long memberId, final Long likeId) {
 
         Board boardResult = transactionTemplate.execute(s -> {
-            Board board = boardReadService.getBoardOne(boardId, memberId);
+            Board board = boardReadService.getBoardOne(boardId);
 
             try {
                 board.getBoardCount().plusLike();
