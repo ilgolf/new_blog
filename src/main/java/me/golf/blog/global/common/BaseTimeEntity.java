@@ -29,4 +29,8 @@ public class BaseTimeEntity {
     public void recordDeleteTime() {
         this.deleteTime = LocalDateTime.now();
     }
+
+    public void rollbackDeleteTime() {
+        this.deleteTime = null;
+    }
 }

@@ -2,7 +2,9 @@ package me.golf.blog.domain.like.api;
 
 import lombok.RequiredArgsConstructor;
 import me.golf.blog.domain.board.dto.LikeAllResponse;
+import me.golf.blog.domain.like.application.LikeCountService;
 import me.golf.blog.domain.like.application.LikeService;
+import me.golf.blog.domain.like.domain.persist.Like;
 import me.golf.blog.global.common.SliceCustomResponse;
 import me.golf.blog.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class LikeController {
 
     private final LikeService likeService;
+    private final LikeCountService likeCountService;
 
     @PostMapping("/{boardId}")
     public ResponseEntity<Long> likeBoard(@PathVariable Long boardId) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.likeBoard(boardId, getMemberId()));
+        Long likeId = likeService.likeBoard(boardId, getMemberId());
+        likeCountService.increaseLikeCount(boardId, likeId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(likeId);
     }
 
     @GetMapping("/boards/{boardId}")
@@ -32,9 +37,11 @@ public class LikeController {
         return ResponseEntity.ok().body(likeService.getBoardLikeList(boardId, pageable));
     }
 
-    @DeleteMapping("/{likeId}")
-    public ResponseEntity<Void> unLikeBoard(@PathVariable Long likeId) {
+    @DeleteMapping("/{boardId}/{likeId}")
+    public ResponseEntity<Void> unLikeBoard(@PathVariable Long boardId, @PathVariable Long likeId) {
         likeService.unLikeBoard(likeId);
+        likeCountService.decreaseLikeCount(boardId, likeId);
+
         return ResponseEntity.noContent().build();
     }
 

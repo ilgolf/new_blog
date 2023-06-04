@@ -15,13 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LikeService {
     private final LikeRepository likeRepository;
-    private final LikeCountService likeCountService;
 
     @Transactional
     public Long likeBoard(final Long boardId, final Long memberId) {
-        Long likeId = likeRepository.save(Like.createLike(memberId, boardId)).getId();
-        likeCountService.increaseLikeCount(boardId, likeId);
-        return likeId;
+        return likeRepository.save(Like.createLike(memberId, boardId)).getId();
     }
 
     @Transactional

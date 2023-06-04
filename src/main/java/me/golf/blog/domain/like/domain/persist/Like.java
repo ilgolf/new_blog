@@ -44,4 +44,10 @@ public class Like extends BaseTimeEntity {
         recordDeleteTime();
         return this;
     }
+
+    public Like deleteRollback() {
+        this.deleted = false;
+        rollbackDeleteTime();
+        return this;
+    }
 }

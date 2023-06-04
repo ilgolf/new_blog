@@ -2,6 +2,7 @@ package me.golf.blog.domain.like.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.golf.blog.domain.board.dto.LikeAllResponse;
+import me.golf.blog.domain.like.application.LikeCountService;
 import me.golf.blog.domain.like.application.LikeService;
 import me.golf.blog.domain.member.WithAuthUser;
 import me.golf.blog.domain.member.util.GivenMember;
@@ -43,6 +44,9 @@ class LikeControllerTest {
 
     @MockBean
     LikeService likeService;
+
+    @MockBean
+    LikeCountService likeCountService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -97,7 +101,7 @@ class LikeControllerTest {
     void unLikeBoard() throws Exception {
 
         // when
-        mockMvc.perform(delete("/api/v1/likes/1"))
+        mockMvc.perform(delete("/api/v1/likes/1/1"))
                 .andDo(document("like/delete"))
                 .andExpect(status().isNoContent())
 
